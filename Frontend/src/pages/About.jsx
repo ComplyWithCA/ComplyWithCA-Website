@@ -1,73 +1,130 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowRight, 
   MessageCircle, 
   X, 
   Globe, 
   Mail, 
-  FileText 
+  FileText,
+  Search,
+  FileCheck,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  Phone
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
-
+import { useNavigate, Link } from 'react-router-dom';
+import Footer from '../components/footer';
 // ==========================================
 // 1. DATA ARRAYS
 // ==========================================
 const processSteps = [
   { 
     id: "01", 
-    title: "Consultation", 
-    desc: "Understanding your business structure and compliance requirements through in-depth analysis." 
+    title: "Deep-Dive Consultation", 
+    desc: "Understanding your business structure and compliance requirements through an in-depth, tailored analysis.",
+    icon: Search,
+    color: "from-blue-400 to-blue-600"
   },
   { 
     id: "02", 
-    title: "Documentation", 
-    desc: "Meticulous collection and multi-stage verification of all required regulatory documents." 
+    title: "Document Verification", 
+    desc: "Meticulous collection and multi-stage verification of all required regulatory documents to ensure zero-error submissions.",
+    icon: FileCheck,
+    color: "from-indigo-400 to-indigo-600"
   },
   { 
     id: "03", 
     title: "Filing & Processing", 
-    desc: "Accurate submission through secure channels and timely execution of all filing procedures." 
+    desc: "Accurate submission through secure government channels and swift execution of all statutory filing procedures.",
+    icon: Send,
+    color: "from-sky-400 to-sky-600"
   },
   { 
     id: "04", 
     title: "Confirmation & Support", 
-    desc: "Final confirmation of compliance status and continuous proactive advisory assistance." 
+    desc: "Final confirmation of your compliance status backed by our continuous, proactive advisory assistance.",
+    icon: ShieldCheck,
+    color: "from-teal-400 to-teal-600"
   }
 ];
 
 const highlights = [
-  { title: "Startup-Focused Advisory", desc: "Tailored strategies for emerging ventures." },
-  { title: "Transparent Compliance Process", desc: "Clear visibility into every regulatory step." },
-  { title: "Reliable & Timely Execution", desc: "Zero-lag delivery on critical filings." }
+  { title: "Startup-Focused Advisory", desc: "Tailored financial strategies for emerging ventures." },
+  { title: "Transparent Process", desc: "Real-time visibility into every regulatory step." },
+  { title: "Timely Execution", desc: "Zero-lag delivery on critical, time-sensitive filings." }
 ];
 
 // ==========================================
 // 2. ANIMATION VARIANTS
 // ==========================================
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 40, damping: 15 } }
 };
 
-const fadeLeft = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
-};
-
-const fadeRight = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
 };
 
 // ==========================================
 // 3. MAIN COMPONENT
 // ==========================================
 export default function About() {
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [hasTriggeredPopup, setHasTriggeredPopup] = useState(false);
+  
+  // For the timeline line animation
+  const { scrollYProgress } = useScroll();
+  const lineHeight = useTransform(scrollYProgress, [0.2, 0.8], ["0%", "100%"]);
 
-  // Auto-hide popup after 12 seconds to not annoy the user
+  // ==========================================
+  // ADVANCED IDLE TRACKER LOGIC
+  // ==========================================
+  useEffect(() => {
+    // If we already showed it once, stop tracking to avoid annoying the user
+    if (hasTriggeredPopup) return;
+
+    let idleTimer;
+
+    const resetIdleTimer = () => {
+      clearTimeout(idleTimer);
+      // If the user stops scrolling/moving for 4 seconds, show the popup
+      idleTimer = setTimeout(() => {
+        if (!hasTriggeredPopup) {
+          setShowPopup(true);
+          setHasTriggeredPopup(true);
+        }
+      }, 4000); // 4000ms = 4 seconds of idle time
+    };
+
+    // Start the timer when the component mounts
+    resetIdleTimer();
+
+    // Listeners: If the user scrolls, moves mouse, or clicks, reset the 4-second delay.
+    window.addEventListener('scroll', resetIdleTimer);
+    window.addEventListener('mousemove', resetIdleTimer);
+    window.addEventListener('mousedown', resetIdleTimer);
+    window.addEventListener('touchstart', resetIdleTimer);
+
+    // Cleanup listeners when component unmounts
+    return () => {
+      clearTimeout(idleTimer);
+      window.removeEventListener('scroll', resetIdleTimer);
+      window.removeEventListener('mousemove', resetIdleTimer);
+      window.removeEventListener('mousedown', resetIdleTimer);
+      window.removeEventListener('touchstart', resetIdleTimer);
+    };
+  }, [hasTriggeredPopup]);
+
+  // Auto-close popup logic (closes 12 seconds AFTER it appears)
   useEffect(() => {
     let timer;
     if (showPopup) {
@@ -76,10 +133,16 @@ export default function About() {
     return () => clearTimeout(timer);
   }, [showPopup]);
 
+  // WhatsApp click handler
+  const handlePopupWhatsAppClick = () => {
+    const phoneNumber = "919311702025";
+    const message = "Hi! I would like to chat with an expert regarding compliance and advisory services for my business.";
+    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    setShowPopup(false);
+  };
+
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800 overflow-x-hidden selection:bg-blue-100 selection:text-blue-900">
-      
-      {/* --- NAVBAR --- */}
+    <div className="min-h-screen bg-[#fafcff] font-sans text-slate-800 overflow-x-hidden selection:bg-blue-200 selection:text-blue-900 relative">
       <Navbar />
 
       <main className="pt-24 pb-20">
@@ -87,65 +150,77 @@ export default function About() {
         {/* ==========================================
             HERO / INTRO SECTION 
             ========================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 md:pt-24 md:pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-24 md:pt-28 md:pb-32 overflow-hidden">
+          {/* Subtle Background Glows */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-400/10 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
             
             {/* Left Column */}
             <motion.div 
               initial="hidden" 
               animate="visible" 
-              variants={fadeUp}
-              className="max-w-xl"
+              variants={staggerContainer}
+              className="max-w-2xl"
             >
-              <h1 className="text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.05] mb-8 tracking-tight">
-                Right <br />Compliance. <br />
-                <span className="text-blue-600">Right Way.</span>
-              </h1>
-              <p className="text-base md:text-lg text-slate-600 mb-8 leading-relaxed font-medium">
-                ComplyWithCA is a Delhi-based Chartered Accountant firm dedicated to delivering structured GST, tax filing, registration, and advisory solutions for startups and growing businesses. We focus on clarity, accuracy, and long-term compliance support.
-              </p>
+              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-sm font-semibold text-slate-700 mb-6">
+                <Sparkles size={16} className="text-blue-500" />
+                <span>Next-Gen CA Firm</span>
+              </motion.div>
+              
+              <motion.h1 variants={fadeUp} className="text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-8 tracking-tight">
+                Right Compliance.<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                  Right Way.
+                </span>
+              </motion.h1>
+              
+              <motion.p variants={fadeUp} className="text-lg text-slate-600 mb-10 leading-relaxed max-w-lg">
+                ComplyWithCA is a Delhi-based Chartered Accountant firm dedicated to delivering structured GST, tax filing, registration, and advisory solutions. We focus on absolute clarity and long-term compliance support.
+              </motion.p>
             </motion.div>
 
             {/* Right Column (Highlights) */}
             <motion.div 
               initial="hidden"
               animate="visible"
-              variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } }
-              }}
-              className="flex flex-col gap-8 lg:pl-16 border-l border-slate-100"
+              variants={staggerContainer}
+              className="flex flex-col gap-8 lg:pl-16 relative"
             >
-              <div className="flex flex-col gap-8">
-                {highlights.map((item, idx) => (
-                  <motion.div key={idx} variants={fadeRight} className="relative pl-6 group">
-                    {/* Animated Blue vertical line */}
-                    <div className="absolute left-[-1px] top-1 bottom-1 w-[3px] bg-blue-600 rounded-full scale-y-75 group-hover:scale-y-100 transition-transform origin-top"></div>
-                    <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
-                    <p className="text-sm text-slate-500 mt-1.5 leading-relaxed">{item.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
+              {/* Vertical connecting line */}
+              <div className="absolute left-0 lg:left-8 top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-slate-200 to-transparent hidden lg:block" />
+
+              {highlights.map((item, idx) => (
+                <motion.div key={idx} variants={fadeUp} className="relative pl-6 lg:pl-10 group">
+                  <div className="absolute left-0 top-2 w-1.5 h-1.5 bg-blue-600 rounded-full ring-4 ring-blue-50 group-hover:scale-150 group-hover:ring-blue-100 transition-all duration-300" />
+                  <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
+                  <p className="text-slate-500 mt-2 leading-relaxed">{item.desc}</p>
+                </motion.div>
+              ))}
               
-              <motion.div variants={fadeUp} className="pt-6 pl-6">
-                <button className="bg-slate-900 hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-blue-500/20 text-sm tracking-wide">
-                  Explore Our Services
+              <motion.div variants={fadeUp} className="pt-6 pl-6 lg:pl-10">
+               <button
+                  onClick={() => navigate("/services")}
+                  className="group relative inline-flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all overflow-hidden shadow-[0_8px_30px_rgb(15,23,42,0.2)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.3)] hover:-translate-y-0.5"
+                >
+                  <span className="relative z-10">Explore Our Services</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <ArrowRight
+                    size={18}
+                    className="relative z-10 group-hover:translate-x-1 transition-transform"
+                  />
                 </button>
               </motion.div>
             </motion.div>
-
           </div>
         </section>
-
-        {/* Subtle separator */}
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-
 
         {/* ==========================================
             PROCESS TIMELINE SECTION 
             ========================================== */}
-        <section className="py-24 bg-slate-50/50 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <section className="py-32 relative">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             
             {/* Section Header */}
             <motion.div 
@@ -153,77 +228,79 @@ export default function About() {
               whileInView="visible" 
               viewport={{ once: true, margin: "-100px" }} 
               variants={fadeUp}
-              className="text-center mb-24"
+              className="text-center mb-24 lg:mb-32"
             >
-              <h4 className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-blue-500 uppercase mb-4">Workflow Architecture</h4>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-                Our <span className="underline decoration-slate-900 decoration-[3px] underline-offset-8">Pro</span>cess
+              <h4 className="text-sm font-bold tracking-[0.2em] text-blue-600 uppercase mb-4">Workflow Architecture</h4>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+                How We Operate
               </h2>
-              <p className="text-slate-600 font-medium text-lg">A Structured Approach to Compliance & Advisory</p>
             </motion.div>
 
             {/* Timeline Container */}
-            <div className="relative max-w-4xl mx-auto">
+            <div className="relative max-w-5xl mx-auto">
               
-              {/* Central Vertical Line (Animated on scroll) */}
-              <motion.div 
-                initial={{ height: 0 }}
-                whileInView={{ height: "100%" }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-blue-100 -translate-x-1/2 rounded-full"
-              ></motion.div>
+              {/* Dynamic Center Line (Draws on Scroll) */}
+              <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-1 bg-slate-100 -translate-x-1/2 rounded-full overflow-hidden">
+                <motion.div 
+                  style={{ height: lineHeight }}
+                  className="w-full bg-gradient-to-b from-blue-500 via-indigo-500 to-teal-500 rounded-full"
+                />
+              </div>
 
               {/* Process Steps */}
-              <div className="flex flex-col gap-12 md:gap-20">
+              <div className="flex flex-col gap-16 lg:gap-24">
                 {processSteps.map((step, index) => {
                   const isEven = index % 2 === 0;
 
                   return (
                     <div 
                       key={step.id} 
-                      className={`relative flex flex-col md:flex-row items-center justify-between w-full group ${isEven ? 'md:flex-row-reverse' : ''}`}
+                      className={`relative flex flex-col lg:flex-row items-center justify-between w-full group ${isEven ? 'lg:flex-row-reverse' : ''}`}
                     >
-                      
                       {/* Empty space for alternating layout on desktop */}
-                      <div className="hidden md:block md:w-[45%]"></div>
+                      <div className="hidden lg:block lg:w-[45%]" />
 
-                      {/* Center Animated Dot */}
-                      <div className="absolute left-6 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-20">
+                      {/* Center Animated Node */}
+                      <div className="absolute left-8 lg:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-20">
                         <motion.div 
-                          initial={{ scale: 0 }} 
-                          whileInView={{ scale: 1 }} 
+                          initial={{ scale: 0, opacity: 0 }} 
+                          whileInView={{ scale: 1, opacity: 1 }} 
                           viewport={{ once: true, margin: "-100px" }} 
-                          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                          className="w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_0_6px_rgba(255,255,255,1),_0_0_0_8px_rgba(219,234,254,1)] group-hover:scale-150 group-hover:bg-blue-600 transition-all duration-300"
-                        />
+                          transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+                          className="w-12 h-12 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center shadow-lg group-hover:border-blue-100 transition-colors duration-300"
+                        >
+                          <div className={`w-4 h-4 rounded-full bg-gradient-to-br ${step.color} group-hover:scale-150 transition-transform duration-500`} />
+                        </motion.div>
                       </div>
 
                       {/* Content Card */}
                       <motion.div 
-                        initial="hidden" 
-                        whileInView="visible" 
+                        initial={{ opacity: 0, x: isEven ? 50 : -50 }} 
+                        whileInView={{ opacity: 1, x: 0 }} 
                         viewport={{ once: true, margin: "-100px" }} 
-                        variants={isEven ? fadeLeft : fadeRight} // Slides from the respective side
-                        className="w-full md:w-[45%] pl-20 md:pl-0"
+                        transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+                        className="w-full lg:w-[45%] pl-24 lg:pl-0"
                       >
-                        <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                        <div className="relative bg-white/60 backdrop-blur-xl p-8 lg:p-10 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white hover:border-blue-100 hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] hover:-translate-y-2 transition-all duration-500 overflow-hidden group/card">
                           
-                          {/* Accent Line */}
-                          <div className="absolute top-10 left-8 w-1 h-8 bg-blue-500 rounded-full"></div>
-                          
-                          {/* Giant Background Number */}
-                          <div className="absolute -right-4 -top-8 text-[120px] font-black text-slate-50 select-none pointer-events-none transition-transform group-hover:scale-110 duration-500">
-                            {step.id}
+                          {/* Card Hover Glow */}
+                          <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${step.color} opacity-0 group-hover/card:opacity-10 rounded-full blur-3xl transition-opacity duration-500`} />
+
+                          <div className="flex items-center gap-6 mb-6">
+                            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} p-0.5 shadow-md`}>
+                              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+                                <step.icon size={24} className="text-slate-800" />
+                              </div>
+                            </div>
+                            <span className="text-5xl font-black text-slate-100 tracking-tighter select-none">
+                              {step.id}
+                            </span>
                           </div>
                           
-                          <div className="relative z-10 pl-6">
-                            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                            <p className="text-slate-600 text-sm md:text-base leading-relaxed">{step.desc}</p>
-                          </div>
+                          <h3 className="text-2xl font-bold text-slate-900 mb-4">{step.title}</h3>
+                          <p className="text-slate-600 text-base leading-relaxed">{step.desc}</p>
                         </div>
                       </motion.div>
-
                     </div>
                   );
                 })}
@@ -232,40 +309,37 @@ export default function About() {
           </div>
         </section>
 
-
         {/* ==========================================
-            CTA SECTION & POPUP TRIGGER
+            CTA SECTION
             ========================================== */}
-        
-        {/* Invisible target to trigger the popup when user reaches the bottom CTA */}
-        <motion.div 
-          onViewportEnter={() => {
-            if (!hasTriggeredPopup) {
-              setShowPopup(true);
-              setHasTriggeredPopup(true);
-            }
-          }} 
-          className="h-1 w-full" 
-        />
-
-        <section className="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-24 max-w-6xl mx-auto px-6 lg:px-8">
           <motion.div 
             initial="hidden" 
             whileInView="visible" 
             viewport={{ once: true }} 
             variants={fadeUp}
-            className="bg-[#0f172a] rounded-[2.5rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden"
+            className="bg-slate-900 rounded-[3rem] p-10 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl relative overflow-hidden"
           >
-            {/* Subtle glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+            {/* Mesh Gradient Background */}
+            <div className="absolute inset-0 opacity-40 pointer-events-none">
+              <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[100px]" />
+              <div className="absolute top-1/2 right-0 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-[100px]" />
+            </div>
 
-            <div className="relative z-10 max-w-xl text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">Ready to streamline your compliance?</h2>
-              <p className="text-slate-400 text-base md:text-lg">Connect with our chartered accountants for a professional consultation tailored to your business.</p>
+            <div className="relative z-10 max-w-2xl text-center lg:text-left">
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
+                Ready to streamline your compliance?
+              </h2>
+              <p className="text-slate-300 text-lg leading-relaxed">
+                Connect with our chartered accountants for a professional consultation tailored specifically to your business architecture.
+              </p>
             </div>
             
-            <div className="relative z-10 shrink-0">
-              <button className="bg-blue-500 hover:bg-blue-400 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20 whitespace-nowrap border border-blue-400/50 hover:scale-105 active:scale-95">
+            <div className="relative z-10 shrink-0 w-full lg:w-auto">
+              <button 
+                onClick={() => navigate("/contact")}
+                className="w-full lg:w-auto bg-white text-slate-900 px-10 py-5 rounded-2xl font-bold text-lg transition-all shadow-[0_0_40px_rgb(255,255,255,0.2)] hover:shadow-[0_0_60px_rgb(255,255,255,0.4)] hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              >
                 Book a Consultation
               </button>
             </div>
@@ -277,65 +351,69 @@ export default function About() {
       {/* ==========================================
           FOOTER
           ========================================== */}
-      <footer className="w-full bg-white border-t border-slate-100 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          
-          <div className="flex items-center gap-2 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
-            <div className="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-bold text-[10px]">CA</div>
-            <span className="font-bold text-sm tracking-tight text-slate-800">ComplyWith<span className="text-blue-600">CA</span></span>
-          </div>
-
-          <p className="text-xs text-slate-400 font-medium text-center">
-            © 2026 ComplyWithCA. All rights reserved. Professional Chartered Accountants.
-          </p>
-
-          <div className="flex items-center gap-5 text-slate-400">
-            <Globe className="w-4 h-4 cursor-pointer hover:text-blue-600 transition-colors" />
-            <Mail className="w-4 h-4 cursor-pointer hover:text-blue-600 transition-colors" />
-            <FileText className="w-4 h-4 cursor-pointer hover:text-blue-600 transition-colors" />
-          </div>
-
-        </div>
-      </footer>
-
+   <Footer/>
 
       {/* ==========================================
-          INNOVATIVE END-OF-PAGE POPUP
+          CENTERED WHATSAPP GREEN POPUP
           ========================================== */}
       <AnimatePresence>
         {showPopup && (
-          <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.9, rotate: 2 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9, filter: "blur(10px)" }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] max-w-[340px] w-[calc(100%-3rem)] bg-white/95 backdrop-blur-xl p-6 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 ring-1 ring-slate-100"
-          >
-            {/* Close Button */}
-            <button 
+          <>
+            {/* Background Blur Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setShowPopup(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-800 hover:bg-slate-100 p-1.5 rounded-full transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+              className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-[90]"
+            />
 
-            <div className="flex flex-col gap-4">
-              <div className="w-12 h-12 bg-blue-50 border border-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
-                <MessageCircle className="w-6 h-6" />
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, x: "-50%", y: "-50%" }}
+              animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+              exit={{ opacity: 0, scale: 0.9, x: "-50%", y: "-50%", filter: "blur(8px)" }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              style={{ top: "50%", left: "50%" }}
+              className="fixed z-[100] max-w-[420px] w-[calc(100%-2rem)] bg-white p-10 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(37,211,102,0.3)] border border-[#25D366]/20 ring-1 ring-slate-900/5 overflow-hidden"
+            >
+              {/* Animated Green Timer Bar at Top */}
+              <motion.div 
+                initial={{ width: "100%" }}
+                animate={{ width: "0%" }}
+                transition={{ duration: 12, ease: "linear" }}
+                className="absolute top-0 left-0 h-1.5 bg-[#25D366]"
+              />
+
+              <button 
+                onClick={() => setShowPopup(false)}
+                className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 p-2.5 rounded-full transition-colors z-10"
+              >
+                <X size={18} strokeWidth={3} />
+              </button>
+
+              <div className="flex flex-col items-center text-center gap-6 relative z-0">
+                <div className="w-20 h-20 bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-[1.5rem] flex items-center justify-center shadow-xl shadow-[#25D366]/40 mb-2">
+                  <MessageCircle size={36} strokeWidth={2} />
+                </div>
+                
+                <div>
+                  <h4 className="text-slate-900 font-black text-3xl mb-4 tracking-tight">Need Expert Clarity?</h4>
+                  <p className="text-slate-600 text-base mb-8 leading-relaxed font-medium">
+                    Compliance architecture can be complex. Let our CA team map out the exact workflow for your startup's technical and financial needs.
+                  </p>
+                  
+                  <button 
+                    onClick={handlePopupWhatsAppClick}
+                    className="w-full flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#128C7E] text-white text-lg font-bold py-4 rounded-2xl transition-all shadow-lg shadow-[#25D366]/30 group active:scale-[0.98]"
+                  >
+                    Chat on WhatsApp 
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
               </div>
-              
-              <div>
-                <h4 className="text-slate-900 font-extrabold text-lg mb-2">Need Expert Clarity?</h4>
-                <p className="text-slate-600 text-sm mb-5 leading-relaxed font-medium">
-                  Compliance can be complex. Let our CA team map out the exact workflow for your startup's needs.
-                </p>
-                <button className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-blue-600 text-white text-sm font-bold py-3 rounded-xl transition-colors group">
-                  Chat with an Expert 
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
