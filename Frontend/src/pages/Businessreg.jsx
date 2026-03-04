@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Building2, 
-  Briefcase, 
-  User, 
-  Rocket, 
-  Scale, 
-  TrendingUp, 
-  ShieldCheck, 
+import {
+  Building2,
+  Briefcase,
+  User,
+  Rocket,
+  Scale,
+  TrendingUp,
+  ShieldCheck,
   FileCheck,
   CheckCircle2,
   Award,
@@ -25,6 +25,11 @@ import Navbar from '../components/Navbar';
 import expertImage from "../assets/image8.png"; // Imported your 3D image
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
+import emailjs from "@emailjs/browser";
+import { useEffect } from "react";
+
+
+
 // ==========================================
 // 1. DATA ARRAYS
 // ==========================================
@@ -101,6 +106,152 @@ const fadeUp = {
 export default function BusinessRegistration() {
   const [openFaq, setOpenFaq] = useState(0);
 
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const calculateLeadScore = () => {
+  let score = 30; // base score
+
+  if (regForm.structure === "Private Limited") score += 20;
+  if (regForm.structure === "Startup India") score += 25;
+  if (regForm.directors === "3+") score += 15;
+  if (regForm.gstRequired === "Yes") score += 15;
+  if (regForm.capital && Number(regForm.capital) > 1000000) score += 25;
+  if (regForm.timeline === "Immediate") score += 10;
+
+  return score;
+};
+
+  useEffect(() => {
+    if (isPanelOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isPanelOpen]);
+
+  const [regForm, setRegForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    contactMode: "",   // ✅ ADD THIS
+    directors: "",
+    structure: "",
+    proposedName: "",
+    businessActivity: "",
+    state: "",
+    capital: "",
+    gstRequired: "",
+    timeline: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRegForm((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validateStep = () => {
+    if (step === 1)
+      return regForm.name && regForm.email && regForm.phone && regForm.contactMode; 
+
+    if (step === 2)
+      return regForm.structure && regForm.proposedName && regForm.state;
+
+    if (step === 3)
+      return regForm.directors && regForm.capital;
+
+    if (step === 4)
+      return regForm.timeline;
+
+    return true;
+  };
+
+  const getServiceDynamicFields = () => {
+    return `
+Structure: ${regForm.structure || "-"}
+Proposed Name: ${regForm.proposedName || "-"}
+State: ${regForm.state || "-"}
+Directors: ${regForm.directors || "-"}
+Authorized Capital: ₹${regForm.capital || "-"}
+Business Activity: ${regForm.businessActivity || "-"}
+`;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateStep()) {
+      alert("Please complete required fields.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const leadScore = calculateLeadScore();
+      const priority = leadScore >= 60 ? "HIGH PRIORITY" : "STANDARD";
+
+      const dynamicFields = getServiceDynamicFields();
+
+      const templateParams = {
+  serviceName: "Business Registration",
+
+  name: regForm.name,
+  email: regForm.email,
+  phone: regForm.phone,
+  contactMode: regForm.contactMode,  // ✅ ADD THIS
+
+  timeline: regForm.timeline,
+  message: regForm.message || "-",
+
+  dynamicFields,
+  leadScore,
+  priority
+};
+
+      await emailjs.send(
+        "service_ghj2doe",
+        "template_qkg4m4s",
+        templateParams,
+        "KJ9IR47xK9gNAOEYd"
+      );
+
+      alert("Registration request submitted successfully!");
+
+      setRegForm({
+        name: "",
+        email: "",
+        phone: "",
+        contactMode: "",  
+        directors: "",
+        structure: "",
+        proposedName: "",
+        businessActivity: "",
+        state: "",
+        capital: "",
+        gstRequired: "",
+        timeline: "",
+        message: ""
+      });
+
+      setStep(1);
+      setIsPanelOpen(false);
+
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleWhatsAppChat = (e, serviceName = "Business Registration") => {
     if (e) e.stopPropagation();
     const phoneNumber = "9311702025";
@@ -109,12 +260,73 @@ export default function BusinessRegistration() {
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
   };
 
+  const stepsConfig = [
+    {
+      title: "Founder Details",
+      fields: [
+        { name: "name", placeholder: "Full Name" },
+        { name: "email", placeholder: "Email Address" },
+        { name: "phone", placeholder: "Phone Number" },
+        {
+          name: "contactMode",
+          type: "select",
+          placeholder: "Preferred Contact Mode",
+          options: ["Phone Call", "WhatsApp", "Email"]
+        }
+      ]
+    },
+    {
+      title: "Business Structure",
+      fields: [
+        {
+          name: "structure",
+          type: "select",
+          placeholder: "Select Structure",
+          options: ["Private Limited", "LLP", "OPC", "Startup India"]
+        },
+        { name: "proposedName", placeholder: "Proposed Company Name" },
+        { name: "state", placeholder: "Registered State" }
+      ]
+    },
+    {
+      title: "Directors & Capital",
+      fields: [
+        {
+          name: "directors",
+          type: "select",
+          placeholder: "Number of Directors",
+          options: ["1", "2", "3+"]
+        },
+        { name: "capital", placeholder: "Authorized Capital (₹)" },
+        { name: "businessActivity", placeholder: "Nature of Business Activity" }
+      ]
+    },
+    {
+      title: "Final Details",
+      fields: [
+        {
+          name: "timeline",
+          type: "select",
+          placeholder: "Expected Timeline",
+          options: ["Immediate", "Within 7 Days", "This Month"]
+        },
+        {
+          name: "message",
+          type: "textarea",
+          placeholder: "Additional notes (optional)"
+        }
+      ]
+    }
+  ];
+
+  const serviceName = "Business Registration";
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden">
       <Navbar />
 
       <main className="pt-24 pb-20">
-        
+
         {/* ==========================================
             HERO SECTION
             ========================================== */}
@@ -127,23 +339,23 @@ export default function BusinessRegistration() {
             <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-orange-200/50 shadow-sm text-orange-600 text-xs font-bold tracking-wider uppercase mb-6">
               <Sparkles className="w-4 h-4 text-orange-500" /> Chartered Accountant Advisory
             </motion.div>
-            
+
             <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl xl:text-7xl font-black text-slate-900 leading-[1.05] mb-6 tracking-tight">
               Business <br />Registration
             </motion.h1>
-            
+
             <motion.p variants={fadeUp} className="text-lg xl:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
               Complete business incorporation support for startups and growing enterprises in Delhi. We provide the structural foundation for your vision.
             </motion.p>
-            
+
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
-              <button 
-                onClick={(e) => handleWhatsAppChat(e)}
+              <button
+                onClick={() => setIsPanelOpen(true)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-[0_8px_30px_rgb(37,99,235,0.3)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.5)] hover:-translate-y-0.5 group"
               >
                 Start Your Registration <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button 
+              <button
                 onClick={(e) => handleWhatsAppChat(e)}
                 className="bg-white/50 backdrop-blur-sm border border-green-200 hover:bg-green-50 text-green-700 px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-sm"
               >
@@ -155,36 +367,36 @@ export default function BusinessRegistration() {
           {/* ==========================================
               PURE CONTAINER-LESS 3D IMAGE RENDER
               ========================================== */}
-       
-            {/* Animated Glow Effect Added Behind Image */}
+
+          {/* Animated Glow Effect Added Behind Image */}
           <motion.div
-  initial={{ opacity: 0, scale: 0.85, rotateY: 10 }}
-  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-  transition={{ duration: 1.2, ease: "easeOut" }}
-  className="w-full mt-16 lg:mt-0 relative flex items-center justify-center perspective-[1200px] z-20 overflow-visible"
->
-  
-  {/* Premium Rotating Aurora Background */}
-  <motion.div
-    animate={{ rotate: 360 }}
-    transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-    className="absolute w-[100%] h-[100%] 
+            initial={{ opacity: 0, scale: 0.85, rotateY: 10 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full mt-16 lg:mt-0 relative flex items-center justify-center perspective-[1200px] z-20 overflow-visible"
+          >
+
+            {/* Premium Rotating Aurora Background */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+              className="absolute w-[100%] h-[100%] 
                max-w-[900px] max-h-[900px]
                bg-gradient-to-tr 
               from-blue-600 via-indigo-500 to-cyan-400
                rounded-full blur-[140px] opacity-40 -z-10"
-  />
+            />
 
-  {/* Floating Image Wrapper */}
-  <motion.div
-    animate={{ y: [-20, 20, -20] }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-    className="relative flex justify-center items-center w-full"
-  >
-    <img
-      src={expertImage}
-      alt="ComplyWithCA Registration Expert"
-      className="relative z-30 
+            {/* Floating Image Wrapper */}
+            <motion.div
+              animate={{ y: [-20, 20, -20] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative flex justify-center items-center w-full"
+            >
+              <img
+                src={expertImage}
+                alt="ComplyWithCA Registration Expert"
+                className="relative z-30 
                  w-[110%] 
                  lg:w-[135%] 
                  xl:w-[122%]
@@ -193,10 +405,10 @@ export default function BusinessRegistration() {
                  drop-shadow-[0_35px_70px_rgba(15,23,42,0.3)]
                  transition-all duration-700 ease-out
                  hover:scale-[1.08] hover:-rotate-1 origin-bottom"
-    />
-  </motion.div>
+              />
+            </motion.div>
 
-</motion.div>
+          </motion.div>
         </section>
 
         {/* ==========================================
@@ -209,7 +421,7 @@ export default function BusinessRegistration() {
               <p className="text-slate-500">Expert-led frameworks for every stage of your growth.</p>
             </div>
 
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
               className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
             >
@@ -218,11 +430,11 @@ export default function BusinessRegistration() {
                   <div className="text-[10px] font-bold text-orange-500 tracking-wider uppercase mb-4">{s.tag}</div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{s.title}</h3>
                   <p className="text-slate-500 text-sm mb-8 leading-relaxed flex-grow">{s.desc}</p>
-                  
+
                   <div className="pt-6 border-t border-slate-200/80 mt-auto">
                     <div className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">Starting from</div>
                     <div className="text-lg font-bold text-slate-900 mb-4">{s.price}</div>
-                    <button 
+                    <button
                       onClick={(e) => handleWhatsAppChat(e, `${s.title} Structure`)}
                       className="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors"
                     >
@@ -241,7 +453,7 @@ export default function BusinessRegistration() {
         <section className="py-24 bg-slate-50 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              
+
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="max-w-lg">
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
                   Build on a Structured Legal Foundation
@@ -274,7 +486,7 @@ export default function BusinessRegistration() {
         <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white relative overflow-hidden">
           {/* Abstract background shapes */}
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-200/30 rounded-full blur-[100px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
-          
+
           <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 border border-blue-200/50 text-blue-700 text-xs font-bold tracking-wider uppercase mb-6">
@@ -286,7 +498,7 @@ export default function BusinessRegistration() {
               <p className="text-slate-600 text-lg mb-10 leading-relaxed max-w-md">
                 Unlock government benefits and investor trust through official DPIIT recognition. Position your startup for rapid scaling with elite compliance status.
               </p>
-              <button 
+              <button
                 onClick={(e) => handleWhatsAppChat(e, "Startup India Registration")}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20"
               >
@@ -294,7 +506,7 @@ export default function BusinessRegistration() {
               </button>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
               className="bg-white p-10 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)] border border-white relative"
             >
@@ -329,12 +541,12 @@ export default function BusinessRegistration() {
               <div className="w-12 h-1 bg-orange-400 mx-auto rounded-full" />
             </div>
 
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
               className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center"
             >
               {packages.map((pkg, idx) => (
-                <motion.div 
+                <motion.div
                   key={idx} variants={fadeUp}
                   className={`relative bg-white rounded-3xl p-8 border ${pkg.isPopular ? 'border-orange-400 shadow-[0_20px_60px_-15px_rgba(249,115,22,0.15)] md:scale-105 z-10' : 'border-slate-200 shadow-sm'}`}
                 >
@@ -343,7 +555,7 @@ export default function BusinessRegistration() {
                       Recommended
                     </div>
                   )}
-                  
+
                   <h3 className="text-lg font-bold text-slate-900 mb-4">{pkg.tier}</h3>
                   <div className="flex items-baseline gap-1 mb-8">
                     <span className="text-4xl font-black text-slate-900">{pkg.price}</span>
@@ -359,7 +571,7 @@ export default function BusinessRegistration() {
                     ))}
                   </ul>
 
-                  <button 
+                  <button
                     onClick={(e) => handleWhatsAppChat(e, `${pkg.tier} Package`)}
                     className={`w-full py-4 rounded-xl font-bold transition-all ${pkg.isPopular ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-1' : 'bg-slate-50 text-slate-900 border border-slate-200 hover:bg-slate-100'}`}
                   >
@@ -391,7 +603,7 @@ export default function BusinessRegistration() {
                   const isEven = index % 2 === 0;
                   return (
                     <div key={step.id} className={`relative flex flex-col md:flex-row items-center w-full group ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                      
+
                       <div className="hidden md:block md:w-1/2" />
 
                       {/* Animated Center Dot */}
@@ -402,7 +614,7 @@ export default function BusinessRegistration() {
                       </div>
 
                       {/* Content Card */}
-                      <motion.div 
+                      <motion.div
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
                         className={`w-full md:w-1/2 pl-20 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}
                       >
@@ -430,11 +642,11 @@ export default function BusinessRegistration() {
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white">
-                  <button 
+                  <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                   >
@@ -443,7 +655,7 @@ export default function BusinessRegistration() {
                   </button>
                   <AnimatePresence>
                     {openFaq === idx && (
-                      <motion.div 
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
@@ -466,7 +678,7 @@ export default function BusinessRegistration() {
             ========================================== */}
         <section className="py-24 px-6 lg:px-8 bg-slate-50">
           <div className="max-w-5xl mx-auto">
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
               className="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl"
             >
@@ -475,7 +687,7 @@ export default function BusinessRegistration() {
                 <p className="text-slate-400 text-lg">Connect with our senior partners for a zero-cost initial consultation.</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-                <button 
+                <button
                   onClick={(e) => handleWhatsAppChat(e, "Starting my business registration")}
                   className="bg-blue-500 hover:bg-blue-400 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20 whitespace-nowrap hover:-translate-y-1"
                 >
@@ -488,10 +700,181 @@ export default function BusinessRegistration() {
 
       </main>
 
+      <AnimatePresence>
+        {isPanelOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998]"
+              onClick={() => setIsPanelOpen(false)}
+            />
+
+            {/* Slide Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 100, damping: 22 }}
+              className="fixed inset-y-0 right-0 w-full sm:w-[520px] bg-white z-[9999] shadow-2xl border-l border-slate-200 flex flex-col"
+            >
+
+              {/* Sticky Header */}
+              <div className="sticky top-0 bg-white z-20 px-8 pt-8 pb-6 border-b border-slate-100">
+
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">
+                      {serviceName} Intake
+                    </h2>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Structured onboarding for {serviceName}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setIsPanelOpen(false)}
+                    className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center text-slate-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Dynamic Progress Bar */}
+                <div className="flex gap-2 mt-6">
+                  {stepsConfig.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`h-2 flex-1 rounded-full transition-all duration-300 ${step >= index + 1 ? "bg-orange-500" : "bg-slate-200"
+                        }`}
+                    />
+                  ))}
+                </div>
+
+              </div>
+
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-8 py-8">
+
+                <div className="space-y-5">
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    {stepsConfig[step - 1].title}
+                  </h3>
+
+                  {stepsConfig[step - 1].fields.map((field) => {
+
+                    // Select Field
+                    if (field.type === "select") {
+                      return (
+                        <select
+                          key={field.name}
+                          name={field.name}
+                          value={regForm[field.name] || ""}
+                          onChange={(e) =>
+                            setRegForm(prev => ({
+                              ...prev,
+                              [field.name]: e.target.value
+                            }))
+                          }
+                          className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none bg-white"
+                        >
+                          <option value="">{field.placeholder}</option>
+                          {field.options.map((opt, i) => (
+                            <option key={i} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      );
+                    }
+
+                    // Textarea Field
+                    if (field.type === "textarea") {
+                      return (
+                        <textarea
+                          key={field.name}
+                          name={field.name}
+                          placeholder={field.placeholder}
+                          rows="4"
+                          value={regForm[field.name] || ""}
+                          onChange={(e) =>
+                            setRegForm(prev => ({
+                              ...prev,
+                              [field.name]: e.target.value
+                            }))
+                          }
+                          className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                        />
+                      );
+                    }
+
+                    // Default Input Field
+                    return (
+                      <input
+                        key={field.name}
+                        name={field.name}
+                        type="text"
+                        placeholder={field.placeholder}
+                        value={regForm[field.name] || ""}
+                        onChange={(e) =>
+                          setRegForm(prev => ({
+                            ...prev,
+                            [field.name]: e.target.value
+                          }))
+                        }
+                        className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                      />
+                    );
+                  })}
+
+                </div>
+              </div>
+
+              {/* Footer Navigation */}
+              <div className="px-8 py-6 border-t border-slate-100 bg-white flex justify-between items-center">
+
+                {step > 1 ? (
+                  <button
+                    onClick={() => setStep(step - 1)}
+                    className="px-5 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition"
+                  >
+                    Back
+                  </button>
+                ) : (
+                  <div />
+                )}
+
+                {step < stepsConfig.length ? (
+                  <button
+                    onClick={() => {
+                      if (validateStep()) setStep(step + 1);
+                      else alert("Please complete required fields.");
+                    }}
+                    className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold transition shadow-md"
+                  >
+                    Next →
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold transition shadow-md disabled:opacity-60"
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
+                  </button>
+                )}
+
+              </div>
+
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       {/* ==========================================
           FOOTER
           ========================================== */}
-  <Footer/>
+      <Footer />
     </div>
   );
 }

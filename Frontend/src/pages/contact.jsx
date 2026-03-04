@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar'; // Update path if needed
 import Footer from '../components/footer';
+import ConsultationForm from '../components/ConsultationForm';
 // ==========================================
 // 1. ANIMATION VARIANTS
 // ==========================================
@@ -189,114 +190,7 @@ export default function Contact() {
               {/* Form Glow Underlay */}
               <div className="absolute -inset-4 bg-gradient-to-br from-blue-100 to-indigo-50 rounded-[3rem] blur-2xl opacity-50 -z-10" />
 
-              <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(37,99,235,0.08)] border border-slate-100 relative overflow-hidden">
-                
-                <div className="mb-10">
-                  <h2 className="text-3xl font-black text-slate-900 mb-3">Request a Consultation</h2>
-                  <p className="text-slate-500 font-medium">Fill out the form below and our senior advisory team will reach out within 2 business hours.</p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6 relative">
-                  
-                  {/* Success Overlay - Shown dynamically when submitted */}
-                  <AnimatePresence>
-                    {isSubmitted && (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        className="absolute inset-0 z-50 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center text-center rounded-[2rem] border border-green-100"
-                      >
-                        <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                          <CheckCircle2 size={40} strokeWidth={3} />
-                        </div>
-                        <h3 className="text-2xl font-black text-slate-900 mb-2">Message Sent!</h3>
-                        <p className="text-slate-500 font-medium max-w-xs mx-auto">Thank you, {formState.name || 'there'}. Our CA team will review your request and contact you shortly.</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Form Grid */}
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-bold text-slate-700 ml-1">Full Name</label>
-                      <input 
-                        type="text" name="name" required
-                        value={formState.name} onChange={handleInputChange}
-                        placeholder="John Doe"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
-                      <input 
-                        type="email" name="email" required
-                        value={formState.email} onChange={handleInputChange}
-                        placeholder="john@company.com"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-bold text-slate-700 ml-1">Phone Number</label>
-                      <input 
-                        type="tel" name="phone" required
-                        value={formState.phone} onChange={handleInputChange}
-                        placeholder="+91 98765 43210"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-bold text-slate-700 ml-1">Service Required</label>
-                      <div className="relative">
-                        <select 
-                          name="service" required
-                          value={formState.service} onChange={handleInputChange}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 appearance-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium cursor-pointer"
-                        >
-                          <option value="" disabled>Select a service...</option>
-                          <option value="Business Registration">Business / Firm Registration</option>
-                          <option value="GST Services">GST Registration & Filing</option>
-                          <option value="Income Tax">Income Tax Filing</option>
-                          <option value="Bookkeeping">Bookkeeping & Advisory</option>
-                          <option value="Certificates">MSME / ISO / Trademarks</option>
-                          <option value="Other">Other Query</option>
-                        </select>
-                        <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">Your Message (Optional)</label>
-                    <textarea 
-                      name="message" rows="4"
-                      value={formState.message} onChange={handleInputChange}
-                      placeholder="Briefly describe your business requirements..."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium resize-none"
-                    ></textarea>
-                  </div>
-
-                  <button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-8 py-5 font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-[0_8px_30px_rgb(37,99,235,0.25)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.4)] disabled:opacity-70 disabled:cursor-not-allowed group overflow-hidden relative"
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      {isSubmitting ? 'Processing Request...' : 'Send Request'}
-                      {!isSubmitting && <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                    </span>
-                    {/* Animated button background gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  </button>
-                  
-                  <p className="text-center text-xs font-bold text-slate-400 mt-4 flex items-center justify-center gap-1.5">
-                    <Lock size={12} /> Your information is protected by 256-bit encryption.
-                  </p>
-                </form>
-              </div>
+              <ConsultationForm />
             </motion.div>
 
           </div>

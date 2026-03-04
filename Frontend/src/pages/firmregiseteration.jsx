@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate,Link } from 'react-router-dom';
-import { 
-  Users, 
-  Handshake, 
-  Scale, 
-  FileText, 
-  ShieldCheck, 
-  Building2, 
-  CheckCircle2, 
-  ArrowRight, 
-  MessageCircle, 
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Users,
+  Handshake,
+  Scale,
+  FileText,
+  ShieldCheck,
+  Building2,
+  CheckCircle2,
+  ArrowRight,
+  MessageCircle,
   ChevronDown,
   FileSignature,
   Briefcase,
@@ -25,6 +25,8 @@ import {
 import Navbar from '../components/Navbar';
 import expertImage from "../assets/image12.png"; // Imported your 3D image
 import Footer from '../components/footer';
+import emailjs from "@emailjs/browser";
+
 // ==========================================
 // 1. DATA ARRAYS
 // ==========================================
@@ -118,12 +120,139 @@ export default function FirmRegistration() {
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
+  // ===============================
+  // FORM STATE
+  // ===============================
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const serviceName = "Firm / LLP Registration";
+
+  const [firmForm, setFirmForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    contactMode: "",   // ✅ ADD THIS
+    firmType: "",
+    partners: "",
+    capital: "",
+    registeredState: "",
+    needGST: "",
+    timeline: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFirmForm((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validateStep = () => {
+    if (step === 1)
+      return firmForm.name && firmForm.email && firmForm.phone;
+
+    if (step === 2)
+      return firmForm.firmType && firmForm.partners;
+
+    if (step === 3)
+      return firmForm.registeredState && firmForm.timeline;
+
+    return true;
+  };
+
+  const calculateLeadScore = () => {
+    let score = 20;
+
+    if (firmForm.firmType === "LLP") score += 25;
+    if (firmForm.partners && Number(firmForm.partners) >= 3) score += 15;
+    if (firmForm.needGST === "Yes") score += 15;
+    if (firmForm.capital && Number(firmForm.capital) > 500000) score += 25;
+
+    return score;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateStep()) {
+      alert("Please complete required fields.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const dynamicFields = `
+Firm Type: ${firmForm.firmType || "-"}
+Number of Partners: ${firmForm.partners || "-"}
+Capital Contribution: ₹${firmForm.capital || "-"}
+Registered State: ${firmForm.registeredState || "-"}
+GST Required: ${firmForm.needGST || "-"}
+`;
+
+      const leadScore = calculateLeadScore();
+      const priority = leadScore >= 60 ? "HIGH PRIORITY" : "STANDARD";
+
+      const templateParams = {
+        serviceName: "Firm / LLP Registration",
+
+        // Common Fields
+        name: firmForm.name,
+        email: firmForm.email,
+        phone: firmForm.phone,
+        contactMode: firmForm.contactMode || "-", // ✅ ADD THIS
+
+        timeline: firmForm.timeline || "-",
+        message: firmForm.message || "-",
+
+        dynamicFields,
+
+        leadScore,
+        priority
+      };
+
+      await emailjs.send(
+        "service_ghj2doe",     // Your Service ID
+        "template_qkg4m4s",    // Your Template ID
+        templateParams,
+        "KJ9IR47xK9gNAOEYd"     // Your Public Key
+      );
+
+      alert("Firm registration request submitted successfully!");
+
+      // Reset form
+      setFirmForm({
+        name: "",
+        email: "",
+        phone: "",
+        firmType: "",
+        partners: "",
+        capital: "",
+        registeredState: "",
+        needGST: "",
+        timeline: "",
+        message: ""
+      });
+
+      setStep(1);
+      setIsPanelOpen(false);
+
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#fafcff] font-sans text-slate-800 selection:bg-indigo-200 selection:text-indigo-900 overflow-x-hidden">
       <Navbar />
 
       <main className="pt-24 pb-20">
-        
+
         {/* ==========================================
             HERO SECTION 
             ========================================== */}
@@ -132,35 +261,35 @@ export default function FirmRegistration() {
           <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-gradient-to-br from-blue-100/50 via-indigo-100/40 to-purple-100/30 rounded-full blur-[120px] pointer-events-none -z-10 translate-x-1/4 -translate-y-1/4" />
 
           {/* Left Content Area */}
-          <motion.div 
-            initial="hidden" 
-            animate="visible" 
-            variants={staggerContainer} 
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
             className="w-full lg:pr-8 xl:pr-12 z-10"
           >
             <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-indigo-700 text-xs font-bold tracking-wider uppercase mb-8 mt-8 lg:mt-0">
               <Handshake className="w-4 h-4 text-indigo-600" /> Co-Founder Legal Frameworks
             </motion.div>
-            
+
             <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl lg:text-7xl font-black text-slate-900 leading-[1.05] mb-6 tracking-tight">
               Firm & LLP <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Registration</span>
             </motion.h1>
-            
+
             <motion.p variants={fadeUp} className="text-lg xl:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
               Build your business on a legally binding, structurally sound foundation. We draft ironclad agreements and manage end-to-end ROF & MCA compliance.
             </motion.p>
-            
+
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
-              <button 
-                onClick={(e) => handleWhatsAppChat(e, "Registering a Partnership/LLP")}
+              <button
+                onClick={() => setIsPanelOpen(true)}
                 className="relative group overflow-hidden bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-[0_8px_30px_rgb(15,23,42,0.2)] hover:shadow-[0_8px_30px_rgb(79,70,229,0.4)] hover:-translate-y-0.5"
               >
                 <span className="relative z-10">Start Incorporation</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button 
+              <button
                 onClick={(e) => handleWhatsAppChat(e, "Choosing between Partnership and LLP")}
                 className="bg-white/50 backdrop-blur-sm border border-slate-200 hover:bg-white text-slate-800 px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-sm"
               >
@@ -172,40 +301,40 @@ export default function FirmRegistration() {
           {/* ==========================================
               PURE CONTAINER-LESS 3D IMAGE RENDER
               ========================================== */}
-          <motion.div 
-  initial={{ opacity: 0, scale: 0.85, rotateY: 10 }}
-  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-  transition={{ duration: 1.2, ease: "easeOut" }}
-  className="w-full lg:w-1/2 mt-16 lg:mt-0 relative flex items-center justify-center z-20 overflow-visible perspective-[1200px]"
->
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85, rotateY: 10 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full lg:w-1/2 mt-16 lg:mt-0 relative flex items-center justify-center z-20 overflow-visible perspective-[1200px]"
+          >
 
-  {/* Premium Rotating Indigo Glow */}
-  <motion.div 
-    animate={{ rotate: 360 }}
-    transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-    className="absolute w-[100%] h-[100%] 
+            {/* Premium Rotating Indigo Glow */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+              className="absolute w-[100%] h-[100%] 
                max-w-[850px] max-h-[850px]
                bg-gradient-to-tr 
                from-indigo-600 via-purple-500 to-blue-400
                rounded-full blur-[140px] opacity-40 -z-10"
-  />
+            />
 
-  {/* Soft Background Blend Mask */}
-  <div className="absolute inset-0 w-full h-full flex justify-center items-center pointer-events-none -z-10 
+            {/* Soft Background Blend Mask */}
+            <div className="absolute inset-0 w-full h-full flex justify-center items-center pointer-events-none -z-10 
                   [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
-    <div className="w-[90%] h-[90%] bg-white/30 blur-[120px] rounded-full" />
-  </div>
+              <div className="w-[90%] h-[90%] bg-white/30 blur-[120px] rounded-full" />
+            </div>
 
-  {/* Floating Image Wrapper */}
-  <motion.div
-    animate={{ y: [-20, 20, -20] }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-    className="relative flex justify-center items-center w-full overflow-visible"
-  >
-    <img
-      src={expertImage}
-      alt="ComplyWithCA Firm Expert"
-      className="ml-30 relative z-30 
+            {/* Floating Image Wrapper */}
+            <motion.div
+              animate={{ y: [-20, 20, -20] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative flex justify-center items-center w-full overflow-visible"
+            >
+              <img
+                src={expertImage}
+                alt="ComplyWithCA Firm Expert"
+                className="ml-30 relative z-30 
                  w-[110%] 
                  lg:w-[185%] 
                  xl:w-[255%]
@@ -214,10 +343,10 @@ export default function FirmRegistration() {
                  drop-shadow-[0_40px_80px_rgba(15,23,42,0.3)]
                  transition-all duration-700 ease-out
                  hover:scale-[1.08] hover:-rotate-1 origin-bottom"
-    />
-  </motion.div>
+              />
+            </motion.div>
 
-</motion.div>
+          </motion.div>
         </section>
 
         {/* ==========================================
@@ -237,12 +366,12 @@ export default function FirmRegistration() {
                 VS
               </div>
 
-              <motion.div 
+              <motion.div
                 initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
                 className="grid lg:grid-cols-2 gap-8 lg:gap-0"
               >
                 {firmTypes.map((firm, idx) => (
-                  <motion.div 
+                  <motion.div
                     key={idx} variants={fadeUp}
                     className={`relative p-8 md:p-12 ${idx === 0 ? 'bg-slate-50 lg:rounded-l-[3rem] lg:rounded-r-none rounded-[2rem] border border-slate-200' : 'bg-gradient-to-br from-indigo-600 to-blue-700 text-white lg:rounded-r-[3rem] lg:rounded-l-none rounded-[2rem] shadow-2xl z-10'}`}
                   >
@@ -251,7 +380,7 @@ export default function FirmRegistration() {
                     </div>
                     <h3 className={`text-3xl font-black mb-4 ${idx === 0 ? 'text-slate-900' : 'text-white'}`}>{firm.type}</h3>
                     <p className={`mb-8 leading-relaxed ${idx === 0 ? 'text-slate-600' : 'text-indigo-100'}`}>{firm.desc}</p>
-                    
+
                     <div className="space-y-6">
                       <div>
                         <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 ${idx === 0 ? 'text-green-600' : 'text-emerald-300'}`}>Advantages</h4>
@@ -264,7 +393,7 @@ export default function FirmRegistration() {
                           ))}
                         </ul>
                       </div>
-                      
+
                       <div className={`pt-6 border-t ${idx === 0 ? 'border-slate-200' : 'border-indigo-500/50'}`}>
                         <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 ${idx === 0 ? 'text-red-500' : 'text-rose-300'}`}>Limitations</h4>
                         <ul className="space-y-3">
@@ -290,7 +419,7 @@ export default function FirmRegistration() {
         <section className="py-24 bg-slate-50 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
-              
+
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="lg:w-1/3">
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-[1.1] tracking-tight">
                   Beyond <br />Paperwork.
@@ -329,12 +458,12 @@ export default function FirmRegistration() {
               <p className="text-slate-500">Transparent pricing for premium legal structuring.</p>
             </div>
 
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
               className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center relative"
             >
               {pricingTiers.map((tier, idx) => (
-                <motion.div 
+                <motion.div
                   key={idx} variants={fadeUp}
                   className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-indigo-500 shadow-[0_20px_60px_-15px_rgba(79,70,229,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-indigo-200'}`}
                 >
@@ -343,7 +472,7 @@ export default function FirmRegistration() {
                       {tier.badge}
                     </div>
                   )}
-                  
+
                   <h3 className="text-lg font-bold text-slate-900 mb-2 text-center">{tier.name}</h3>
                   <div className="flex justify-center items-baseline gap-1 mb-8 border-b border-slate-100 pb-8">
                     <span className="text-sm font-medium text-slate-400">Starting from</span>
@@ -359,7 +488,7 @@ export default function FirmRegistration() {
                     ))}
                   </ul>
 
-                  <button 
+                  <button
                     onClick={(e) => handleWhatsAppChat(e, `${tier.name} Package`)}
                     className={`w-full py-4 rounded-xl font-bold transition-all ${tier.buttonStyle}`}
                   >
@@ -391,7 +520,7 @@ export default function FirmRegistration() {
                   const isEven = index % 2 === 0;
                   return (
                     <div key={step.id} className={`relative flex flex-col md:flex-row items-center w-full group ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                      
+
                       <div className="hidden md:block md:w-1/2" />
 
                       {/* Animated Center Dot */}
@@ -402,7 +531,7 @@ export default function FirmRegistration() {
                       </div>
 
                       {/* Content Card */}
-                      <motion.div 
+                      <motion.div
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
                         className={`w-full md:w-1/2 pl-20 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}
                       >
@@ -430,11 +559,11 @@ export default function FirmRegistration() {
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-                  <button 
+                  <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                   >
@@ -443,7 +572,7 @@ export default function FirmRegistration() {
                   </button>
                   <AnimatePresence>
                     {openFaq === idx && (
-                      <motion.div 
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
                         <div className="p-6 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-50">
@@ -464,7 +593,7 @@ export default function FirmRegistration() {
         <section className="py-28 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
           {/* Subtle Ambient Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none" />
-          
+
           <div className="max-w-3xl mx-auto relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Solidify Your Partnership.</h2>
@@ -472,7 +601,7 @@ export default function FirmRegistration() {
                 Connect with our senior legal and CA team to structure an agreement that protects your interests and enables scalable growth.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button 
+                <button
                   onClick={(e) => handleWhatsAppChat(e, "Firm/LLP Registration Consultation")}
                   className="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-600/30 hover:-translate-y-1"
                 >
@@ -485,10 +614,154 @@ export default function FirmRegistration() {
 
       </main>
 
+      <AnimatePresence>
+        {isPanelOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998]"
+              onClick={() => setIsPanelOpen(false)}
+            />
+
+            {/* Slide Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 100, damping: 22 }}
+              className="fixed inset-y-0 right-0 w-full sm:w-[520px] bg-white z-[9999] shadow-2xl border-l border-slate-200 flex flex-col"
+            >
+              {/* HEADER */}
+              <div className="sticky top-0 bg-white z-20 px-8 pt-8 pb-6 border-b border-slate-100">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">
+                      {serviceName} Intake
+                    </h2>
+                    <p className="text-sm text-slate-500">
+                      Structured onboarding for firm formation
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setIsPanelOpen(false)}
+                    className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Progress */}
+                <div className="flex gap-2 mt-6">
+                  {[1, 2, 3].map((s) => (
+                    <div
+                      key={s}
+                      className={`h-2 flex-1 rounded-full ${step >= s ? "bg-indigo-600" : "bg-slate-200"
+                        }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* BODY */}
+              <div className="flex-1 overflow-y-auto px-8 py-8 space-y-5">
+
+                {step === 1 && (
+                  <>
+                    <h3 className="text-lg font-semibold">Contact Details</h3>
+                    <input name="name" placeholder="Full Name" value={firmForm.name} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                    <input name="email" placeholder="Email Address" value={firmForm.email} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                    <input name="phone" placeholder="Phone Number" value={firmForm.phone} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                    <select
+                      name="contactMode"
+                      value={firmForm.contactMode}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                    >
+                      <option value="">Preferred Contact Mode</option>
+                      <option>Phone Call</option>
+                      <option>WhatsApp</option>
+                      <option>Email</option>
+                    </select>
+                  </>
+                )}
+
+                {step === 2 && (
+                  <>
+                    <h3 className="text-lg font-semibold">Firm Details</h3>
+                    <select name="firmType" value={firmForm.firmType} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                      <option value="">Select Firm Type</option>
+                      <option>Partnership Firm</option>
+                      <option>Registered Partnership</option>
+                      <option>LLP</option>
+                    </select>
+
+                    <input name="partners" placeholder="Number of Partners" value={firmForm.partners} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                    <input name="capital" placeholder="Capital Contribution (₹)" value={firmForm.capital} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                  </>
+                )}
+
+                {step === 3 && (
+                  <>
+                    <h3 className="text-lg font-semibold">Registration Preferences</h3>
+
+                    <input name="registeredState" placeholder="Registered State" value={firmForm.registeredState} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+
+                    <select name="needGST" value={firmForm.needGST} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                      <option value="">Need GST?</option>
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
+
+                    <select name="timeline" value={firmForm.timeline} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                      <option value="">Expected Timeline</option>
+                      <option>Immediate</option>
+                      <option>Within 7 Days</option>
+                      <option>This Month</option>
+                    </select>
+
+                    <textarea name="message" placeholder="Additional Notes" value={firmForm.message} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
+                  </>
+                )}
+              </div>
+
+              {/* FOOTER */}
+              <div className="px-8 py-6 border-t border-slate-100 flex justify-between">
+                {step > 1 ? (
+                  <button onClick={() => setStep(step - 1)} className="px-5 py-2 bg-slate-100 rounded-lg">
+                    Back
+                  </button>
+                ) : <div />}
+
+                {step < 3 ? (
+                  <button
+                    onClick={() => validateStep() ? setStep(step + 1) : alert("Complete required fields")}
+                    className="px-6 py-3 bg-indigo-600 text-white rounded-xl"
+                  >
+                    Next →
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="px-6 py-3 bg-indigo-600 text-white rounded-xl disabled:opacity-60"
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* ==========================================
           FOOTER
           ========================================== */}
-<Footer/>
+      <Footer />
     </div>
   );
 }

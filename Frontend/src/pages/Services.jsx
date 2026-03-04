@@ -1,13 +1,13 @@
 import React from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { motion } from 'framer-motion';
-import { 
-  Calculator, 
-  Briefcase, 
-  Building2, 
-  FileText, 
-  BookOpen, 
+import {
+  Calculator,
+  Briefcase,
+  Building2,
+  FileText,
+  BookOpen,
   ShieldCheck,
   MessageCircle,
   ArrowRight,
@@ -40,16 +40,16 @@ export default function ServicesPage() {
   // Helper function to handle WhatsApp redirects dynamically
   const handleWhatsAppChat = (e, serviceName = null) => {
     // Prevent the click from bubbling up to the card's onClick
-    if (e) e.stopPropagation(); 
-    
+    if (e) e.stopPropagation();
+
     // Using 91 (India country code) + the number provided
-    const phoneNumber = "9311702025"; 
-    
+    const phoneNumber = "9311702025";
+
     // Dynamic message based on where they clicked
-    const message = serviceName 
+    const message = serviceName
       ? `Hi! I would like to know more about your ${serviceName} service.`
       : `Hi! I would like to book a consultation and explore your CA services.`;
-      
+
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
   };
@@ -129,12 +129,12 @@ export default function ServicesPage() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center min-h-[85vh]">
-        
+
         {/* Subtle Background Elements */}
         <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-[100px] -z-10 -translate-x-1/3 -translate-y-1/4" />
 
         <div className="w-full lg:w-1/2 lg:pr-8 xl:pr-12 z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="show"
             variants={staggerContainer}
@@ -143,25 +143,25 @@ export default function ServicesPage() {
             <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-sm font-bold text-slate-700 mb-8 mt-8 lg:mt-0">
               <Sparkles className="w-4 h-4 text-blue-500" /> Premium Advisory
             </motion.div>
-            
+
             <motion.h1 variants={fadeUp} className="text-5xl sm:text-6xl xl:text-7xl font-black tracking-tight text-slate-900 leading-[1.05]">
               Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Services</span>
             </motion.h1>
-            
+
             <motion.p variants={fadeUp} className="text-lg xl:text-xl text-slate-600 leading-relaxed max-w-lg font-medium">
               Comprehensive Compliance & Advisory Solutions for Startups and Growing Businesses. Partner with experts who understand your scale.
             </motion.p>
-            
+
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 pt-4">
-              <button 
-                onClick={(e) => handleWhatsAppChat(e)}
+              <button
+                onClick={() => navigate('/services/book-consultancy')}
                 className="relative group overflow-hidden bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-[0_8px_30px_rgb(37,99,235,0.3)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.5)] hover:-translate-y-0.5"
               >
                 <span className="relative z-10">Book Consultation</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button 
+              <button
                 onClick={(e) => handleWhatsAppChat(e)}
                 className="bg-white/50 backdrop-blur-sm border border-green-200 hover:bg-green-50 text-green-700 px-8 py-4 rounded-2xl font-bold transition-all flex items-center gap-2 shadow-sm"
               >
@@ -175,14 +175,14 @@ export default function ServicesPage() {
         {/* ==========================================
             2026 PREMIUM 3D RESPONSIVE IMAGE RENDER
             ========================================== */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.85, rotateY: 10 }}
           animate={{ opacity: 1, scale: 1, rotateY: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="w-full lg:w-1/2 mt-16 lg:mt-0 relative flex items-center justify-center perspective-[1200px] z-20"
         >
           {/* Animated Background Aurora that dynamically fits behind the image */}
-          <motion.div 
+          <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
             className="absolute w-[80%] h-[80%] max-w-[500px] max-h-[500px] bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 rounded-full blur-[80px] opacity-30 -z-10"
@@ -220,7 +220,7 @@ export default function ServicesPage() {
             <p className="text-slate-500 text-lg font-medium">Industry-leading solutions tailored for modern enterprises, ensuring your business stays compliant while you focus on growth.</p>
           </div>
 
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
@@ -228,7 +228,7 @@ export default function ServicesPage() {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           >
             {services.map((service) => (
-              <motion.div 
+              <motion.div
                 key={service.id}
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
@@ -237,21 +237,21 @@ export default function ServicesPage() {
               >
                 {/* Subtle hover gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
+
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-slate-100 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-500">
                     <service.icon size={26} strokeWidth={1.5} />
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
                   <p className="text-slate-500 mb-8 flex-grow leading-relaxed">{service.desc}</p>
-                  
+
                   <div className="flex items-center justify-between pt-6 border-t border-slate-200/60 mt-auto">
                     <div>
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Starting from</span>
                       <span className="text-blue-600 font-black text-lg">{service.price}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/services/${service.slug}`);
@@ -260,9 +260,9 @@ export default function ServicesPage() {
                       >
                         View <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                       </button>
-                      
+
                       {/* WhatsApp Button inside Card */}
-                      <button 
+                      <button
                         onClick={(e) => handleWhatsAppChat(e, service.title)}
                         className="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors shadow-sm"
                         title="Chat on WhatsApp"
@@ -281,7 +281,7 @@ export default function ServicesPage() {
       {/* Features Split Section */}
       <section className="py-24 bg-slate-50 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -289,8 +289,8 @@ export default function ServicesPage() {
           >
             <div className="w-16 h-1 bg-blue-500 mb-6 rounded-full" />
             <h2 className="text-4xl md:text-5xl font-black leading-tight text-slate-900">
-              Structured Compliance.<br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Transparent Process.</span><br/>
+              Structured Compliance.<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Transparent Process.</span><br />
               Reliable Execution.
             </h2>
             <p className="text-lg text-slate-600 max-w-md leading-relaxed font-medium">
@@ -298,7 +298,7 @@ export default function ServicesPage() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
@@ -306,7 +306,7 @@ export default function ServicesPage() {
             className="space-y-4"
           >
             {features.map((feature, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 variants={fadeUp}
                 className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex gap-5 items-start hover:shadow-md transition-shadow"
@@ -327,13 +327,13 @@ export default function ServicesPage() {
       {/* CTA Section */}
       <section className="py-24 bg-slate-900 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none"></div>
-        
+
         <div className="relative max-w-3xl mx-auto text-center px-6">
           <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">Need Help Choosing the Right Service?</h2>
           <p className="text-slate-300 text-lg mb-10 font-medium">
             Speak with our senior partners for a personalized roadmap of your business's legal and financial requirements.
           </p>
-          <motion.button 
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={(e) => handleWhatsAppChat(e)}
@@ -345,7 +345,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Simplified Footer */}
-<Footer/>
+      <Footer />
     </div>
   );
 }
