@@ -26,7 +26,7 @@ import Navbar from '../components/Navbar';
 import expertImage from "../assets/image6.png"; // Imported your 3D image
 import Footer from '../components/footer';
 import emailjs from '@emailjs/browser';
-
+import { FaWhatsapp } from "react-icons/fa";
 // ==========================================
 // 1. DATA ARRAYS
 // ==========================================
@@ -47,31 +47,42 @@ const ecosystemServices = [
 
 const pricingPackages = [
   {
-    tier: "Registration",
+    tier: "GST Registration",
     price: "₹2,499",
-    features: ["Professional Document & Form Support", "Government Fee Extra", "Trackable Application Status"],
-    buttonText: "Get Started",
+    features: [
+      "Professional Document & Form Assistance",
+      "Government Fee Charged Separately",
+      "Trackable GST Application Status"
+    ],
+    buttonText: "Register via WhatsApp",
     isPopular: false
   },
   {
-    tier: "Monthly Plan",
-    badge: "POPULAR CHOICE",
+    tier: "Monthly GST Filing",
+    badge: "MOST POPULAR",
     price: "₹4,999",
     period: "/ month",
-    features: ["GSTR-1 & GSTR-3B Management", "ITC Reconciliation (Zero Error)", "24/7 Priority CA Consultation Support"],
-    buttonText: "Start Monthly",
+    features: [
+      "GSTR-1 & GSTR-3B Filing",
+      "Accurate ITC Reconciliation",
+      "Priority CA Support on WhatsApp"
+    ],
+    buttonText: "Start Plan on WhatsApp",
     isPopular: true
   },
   {
-    tier: "Corporate Package",
+    tier: "Corporate Compliance",
     price: "₹9,999",
     period: "/ month",
-    features: ["Full Audit & Representation Support", "Dedicated Tax Consultant", "Quarterly Performance Syncs"],
-    buttonText: "Go Corporate",
+    features: [
+      "Full GST Audit & Representation",
+      "Dedicated Tax Consultant",
+      "Quarterly Business Compliance Review"
+    ],
+    buttonText: "Discuss Corporate Plan",
     isPopular: false
   }
 ];
-
 const processSteps = [
   { id: "01", title: "Consultation", desc: "Evaluation of your business model, turnover, and ITC requirements.", icon: Search },
   { id: "02", title: "Documentation", desc: "Seamless digital collection of KYC and verification of all legal documents.", icon: FileCheck },
@@ -503,12 +514,17 @@ const getDynamicFieldsString = () => {
                     ))}
                   </ul>
 
-                  <button
-                    onClick={(e) => handleWhatsAppChat(e, `${pkg.tier} Package`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all ${pkg.isPopular ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 hover:bg-blue-700 hover:-translate-y-1' : 'bg-blue-50 text-blue-600 hover:bg-blue-100'}`}
-                  >
-                    {pkg.buttonText}
-                  </button>
+                 <button
+  onClick={(e) => handleWhatsAppChat(e, `${pkg.tier} Package`)}
+  className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+    pkg.isPopular
+      ? "bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600 hover:-translate-y-1"
+      : "bg-green-50 text-green-600 hover:bg-green-100"
+  }`}
+>
+  <FaWhatsapp className="text-lg" />
+  {pkg.buttonText}
+</button>
                   <div className="text-center mt-4 text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Taxes Applicable Extra</div>
                 </motion.div>
               ))}
@@ -608,25 +624,42 @@ const getDynamicFieldsString = () => {
         {/* ==========================================
             BOTTOM CTA
             ========================================== */}
-        <section className="py-24 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
-          {/* Subtle Ambient Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+       <section className="py-24 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
 
-          <div className="max-w-3xl mx-auto relative z-10">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Stay GST Compliant the Right Way.</h2>
-              <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
-                Join 500+ Delhi NCR startups who trust ComplyWithCA for their high-stakes tax compliance and advisory needs.
-              </p>
-              <button
-                onClick={(e) => handleWhatsAppChat(e, "GST Corporate Packages")}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-500/50 hover:-translate-y-1 text-lg"
-              >
-                Book GST Consultation Now
-              </button>
-            </motion.div>
-          </div>
-        </section>
+  {/* Ambient Glow */}
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+
+  <div className="max-w-3xl mx-auto relative z-10">
+
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={fadeUp}
+    >
+
+      <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+        Stay GST Compliant the Right Way.
+      </h2>
+
+      <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
+        Join 500+ Delhi NCR startups who trust ComplyWithCA for their high-stakes
+        tax compliance and advisory needs.
+      </p>
+
+      {/* WhatsApp CTA Button */}
+      <button
+        onClick={(e) => handleWhatsAppChat(e, "GST Corporate Packages")}
+        className="group bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-green-500/30 hover:-translate-y-1 text-lg flex items-center gap-3 mx-auto"
+      >
+        <FaWhatsapp className="text-2xl group-hover:scale-110 transition-transform" />
+        Book GST Consultation on WhatsApp
+      </button>
+
+    </motion.div>
+
+  </div>
+</section>
 
       </main>
 

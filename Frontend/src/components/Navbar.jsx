@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { ChevronRight } from "lucide-react";
+import logo from "../assets/image15.png"; // <-- import logo
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,15 +34,34 @@ export default function Navbar() {
 
           {/* Logo */}
           <div
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/30">
-              CA
-            </div>
-            <span className="font-bold text-xl tracking-tight text-slate-900">
-              ComplyWith<span className="text-blue-600">CA</span>
-            </span>
+<img
+  src={logo}
+  alt="ComplyWithCA Logo"
+  className="
+  h-[150px]
+  ml-[-20px]
+
+  sm:h-[180px]
+  sm:ml-[-30px]
+
+  md:h-[210px]
+  md:ml-[-35px]
+
+  lg:h-[320px]
+  lg:ml-[-90px]
+
+  xl:h-[350px]
+  xl:ml-[-120px]
+
+  w-auto
+  object-contain
+  mt-7
+  mb-2
+  "
+/>
           </div>
 
           {/* Desktop Menu */}
@@ -50,7 +70,9 @@ export default function Navbar() {
             <button
               onClick={() => navigate("/")}
               className={`px-4 py-2 rounded-lg transition ${
-                isActive("/") ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"
+                isActive("/")
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-700 hover:text-blue-600"
               }`}
             >
               Home
@@ -59,7 +81,9 @@ export default function Navbar() {
             <button
               onClick={() => navigate("/about")}
               className={`px-4 py-2 rounded-lg transition ${
-                isActive("/about") ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"
+                isActive("/about")
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-700 hover:text-blue-600"
               }`}
             >
               About
@@ -68,26 +92,21 @@ export default function Navbar() {
             <button
               onClick={() => navigate("/services")}
               className={`px-4 py-2 rounded-lg flex items-center gap-1 transition ${
-                isActive("/services") ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"
+                isActive("/services")
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-700 hover:text-blue-600"
               }`}
             >
               Services
               <ChevronRight className="w-4 h-4" />
             </button>
 
-            {/* <button
-              onClick={() => navigate("/pricing")}
-              className={`px-4 py-2 rounded-lg transition ${
-                isActive("/pricing") ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"
-              }`}
-            >
-              Pricing
-            </button> */} 
-
             <button
               onClick={() => navigate("/contact")}
               className={`px-4 py-2 rounded-lg transition ${
-                isActive("/contact") ? "text-blue-600 font-semibold" : "text-slate-700 hover:text-blue-600"
+                isActive("/contact")
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-700 hover:text-blue-600"
               }`}
             >
               Contact
@@ -100,7 +119,6 @@ export default function Navbar() {
             >
               Get Started
             </button>
-
           </div>
 
           {/* Mobile Toggle */}
@@ -110,6 +128,7 @@ export default function Navbar() {
           >
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
+
         </div>
       </div>
 
@@ -122,7 +141,10 @@ export default function Navbar() {
         <div className="flex flex-col gap-2 px-6 text-sm">
 
           <button
-            onClick={() => { setIsOpen(false); navigate("/"); }}
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/");
+            }}
             className={`py-2 text-left ${
               isActive("/") ? "text-blue-600 font-semibold" : "text-slate-700"
             }`}
@@ -131,43 +153,52 @@ export default function Navbar() {
           </button>
 
           <button
-            onClick={() => { setIsOpen(false); navigate("/about"); }}
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/about");
+            }}
             className={`py-2 text-left ${
-              isActive("/about") ? "text-blue-600 font-semibold" : "text-slate-700"
+              isActive("/about")
+                ? "text-blue-600 font-semibold"
+                : "text-slate-700"
             }`}
           >
             About
           </button>
 
           <button
-            onClick={() => { setIsOpen(false); navigate("/services"); }}
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/services");
+            }}
             className={`py-2 text-left ${
-              isActive("/services") ? "text-blue-600 font-semibold" : "text-slate-700"
+              isActive("/services")
+                ? "text-blue-600 font-semibold"
+                : "text-slate-700"
             }`}
           >
             Services
           </button>
 
-          {/* <button
-            onClick={() => { setIsOpen(false); navigate("/pricing"); }}
-            className={`py-2 text-left ${
-              isActive("/pricing") ? "text-blue-600 font-semibold" : "text-slate-700"
-            }`}
-          >
-            Pricing
-          </button> */}
-
           <button
-            onClick={() => { setIsOpen(false); navigate("/contact"); }}
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/contact");
+            }}
             className={`py-2 text-left ${
-              isActive("/contact") ? "text-blue-600 font-semibold" : "text-slate-700"
+              isActive("/contact")
+                ? "text-blue-600 font-semibold"
+                : "text-slate-700"
             }`}
           >
             Contact
           </button>
 
           <button
-            onClick={() => { setIsOpen(false); navigate("/services"); }}
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/services");
+            }}
             className="mt-3 bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold"
           >
             Get Started

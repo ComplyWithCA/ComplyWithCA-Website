@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import expertImage from "../assets/image5.png"; // Imported your image
 import Footer from '../components/footer';
+import { FaWhatsapp } from "react-icons/fa";
 // Animation Variants
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -333,14 +334,15 @@ export default function ServicesPage() {
           <p className="text-slate-300 text-lg mb-10 font-medium">
             Speak with our senior partners for a personalized roadmap of your business's legal and financial requirements.
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => handleWhatsAppChat(e)}
-            className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-bold text-lg transition-colors shadow-lg shadow-blue-600/30"
-          >
-            Book Free Consultation
-          </motion.button>
+         <motion.button
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={(e) => handleWhatsAppChat(e)}
+  className="bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-green-500/30 flex items-center gap-3 mx-auto"
+>
+  <FaWhatsapp className="text-2xl" />
+  Free WhatsApp Consultation
+</motion.button>
         </div>
       </section>
 

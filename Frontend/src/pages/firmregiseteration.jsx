@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -62,7 +62,6 @@ const pricingTiers = [
     price: "₹2,499",
     features: ["Custom Partnership Deed", "PAN & TAN Application", "MSME Registration", "Bank Account Resolution"],
     popular: false,
-    buttonStyle: "bg-slate-50 text-slate-900 border border-slate-200 hover:bg-slate-100"
   },
   {
     name: "LLP Incorporation",
@@ -70,14 +69,12 @@ const pricingTiers = [
     price: "₹7,999",
     features: ["2 DIN & 2 DSC Included", "Name Approval (RUN-LLP)", "LLP Agreement Drafting", "Complete MCA Filing"],
     popular: true,
-    buttonStyle: "bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 hover:bg-indigo-700 hover:-translate-y-1"
   },
   {
     name: "Registered Partnership",
     price: "₹4,999",
     features: ["Everything in Unregistered", "Notary & Stamp Paper Management", "ROF Filing & Follow-up", "Official Registration Certificate"],
     popular: false,
-    buttonStyle: "bg-slate-50 text-slate-900 border border-slate-200 hover:bg-slate-100"
   }
 ];
 
@@ -133,7 +130,7 @@ export default function FirmRegistration() {
     name: "",
     email: "",
     phone: "",
-    contactMode: "",   // ✅ ADD THIS
+    contactMode: "",
     firmType: "",
     partners: "",
     capital: "",
@@ -166,14 +163,23 @@ export default function FirmRegistration() {
 
   const calculateLeadScore = () => {
     let score = 20;
-
     if (firmForm.firmType === "LLP") score += 25;
     if (firmForm.partners && Number(firmForm.partners) >= 3) score += 15;
     if (firmForm.needGST === "Yes") score += 15;
     if (firmForm.capital && Number(firmForm.capital) > 500000) score += 25;
-
     return score;
   };
+
+  useEffect(() => {
+    if (isPanelOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isPanelOpen]);
 
   const handleSubmit = async () => {
     if (!validateStep()) {
@@ -197,43 +203,29 @@ GST Required: ${firmForm.needGST || "-"}
 
       const templateParams = {
         serviceName: "Firm / LLP Registration",
-
-        // Common Fields
         name: firmForm.name,
         email: firmForm.email,
         phone: firmForm.phone,
-        contactMode: firmForm.contactMode || "-", // ✅ ADD THIS
-
+        contactMode: firmForm.contactMode || "-",
         timeline: firmForm.timeline || "-",
         message: firmForm.message || "-",
-
         dynamicFields,
-
         leadScore,
         priority
       };
 
       await emailjs.send(
-        "service_ghj2doe",     // Your Service ID
-        "template_qkg4m4s",    // Your Template ID
+        "service_ghj2doe",     
+        "template_qkg4m4s",    
         templateParams,
-        "KJ9IR47xK9gNAOEYd"     // Your Public Key
+        "KJ9IR47xK9gNAOEYd"     
       );
 
       alert("Firm registration request submitted successfully!");
 
-      // Reset form
       setFirmForm({
-        name: "",
-        email: "",
-        phone: "",
-        firmType: "",
-        partners: "",
-        capital: "",
-        registeredState: "",
-        needGST: "",
-        timeline: "",
-        message: ""
+        name: "", email: "", phone: "", contactMode: "", firmType: "", partners: "",
+        capital: "", registeredState: "", needGST: "", timeline: "", message: ""
       });
 
       setStep(1);
@@ -257,7 +249,6 @@ GST Required: ${firmForm.needGST || "-"}
             HERO SECTION 
             ========================================== */}
         <section className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 md:pt-20 pb-20 md:pb-32 grid lg:grid-cols-2 gap-16 items-center min-h-[85vh]">
-          {/* Ambient Partnership Glow */}
           <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-gradient-to-br from-blue-100/50 via-indigo-100/40 to-purple-100/30 rounded-full blur-[120px] pointer-events-none -z-10 translate-x-1/4 -translate-y-1/4" />
 
           {/* Left Content Area */}
@@ -267,7 +258,7 @@ GST Required: ${firmForm.needGST || "-"}
             variants={staggerContainer}
             className="w-full lg:pr-8 xl:pr-12 z-10"
           >
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-indigo-700 text-xs font-bold tracking-wider uppercase mb-8 mt-8 lg:mt-0">
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-indigo-100 shadow-sm text-indigo-700 text-xs font-bold tracking-wider uppercase mb-8 mt-8 lg:mt-0">
               <Handshake className="w-4 h-4 text-indigo-600" /> Co-Founder Legal Frameworks
             </motion.div>
 
@@ -307,25 +298,15 @@ GST Required: ${firmForm.needGST || "-"}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full lg:w-1/2 mt-16 lg:mt-0 relative flex items-center justify-center z-20 overflow-visible perspective-[1200px]"
           >
-
-            {/* Premium Rotating Indigo Glow */}
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-              className="absolute w-[100%] h-[100%] 
-               max-w-[850px] max-h-[850px]
-               bg-gradient-to-tr 
-               from-indigo-600 via-purple-500 to-blue-400
-               rounded-full blur-[140px] opacity-40 -z-10"
+              className="absolute w-[100%] h-[100%] max-w-[850px] max-h-[850px] bg-gradient-to-tr from-indigo-600 via-purple-500 to-blue-400 rounded-full blur-[140px] opacity-40 -z-10"
             />
-
-            {/* Soft Background Blend Mask */}
-            <div className="absolute inset-0 w-full h-full flex justify-center items-center pointer-events-none -z-10 
-                  [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
+            <div className="absolute inset-0 w-full h-full flex justify-center items-center pointer-events-none -z-10 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
               <div className="w-[90%] h-[90%] bg-white/30 blur-[120px] rounded-full" />
             </div>
 
-            {/* Floating Image Wrapper */}
             <motion.div
               animate={{ y: [-20, 20, -20] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -334,23 +315,14 @@ GST Required: ${firmForm.needGST || "-"}
               <img
                 src={expertImage}
                 alt="ComplyWithCA Firm Expert"
-                className="ml-30 relative z-30 
-                 w-[110%] 
-                 lg:w-[185%] 
-                 xl:w-[255%]
-                 max-w-none
-                 h-auto object-contain
-                 drop-shadow-[0_40px_80px_rgba(15,23,42,0.3)]
-                 transition-all duration-700 ease-out
-                 hover:scale-[1.08] hover:-rotate-1 origin-bottom"
+                className="ml-30 relative z-30 w-[110%] lg:w-[185%] xl:w-[255%] max-w-none h-auto object-contain drop-shadow-[0_40px_80px_rgba(15,23,42,0.3)] transition-all duration-700 ease-out hover:scale-[1.08] hover:-rotate-1 origin-bottom"
               />
             </motion.div>
-
           </motion.div>
         </section>
 
         {/* ==========================================
-            THE DECISION MATRIX (Partnership vs LLP)
+            THE DECISION MATRIX
             ========================================== */}
         <section className="py-24 bg-white border-t border-slate-100 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -361,7 +333,6 @@ GST Required: ${firmForm.needGST || "-"}
             </div>
 
             <div className="relative max-w-5xl mx-auto">
-              {/* VS Badge in Center (Desktop) */}
               <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-slate-900 text-white rounded-full items-center justify-center font-black text-xl z-20 shadow-2xl border-4 border-white">
                 VS
               </div>
@@ -380,7 +351,7 @@ GST Required: ${firmForm.needGST || "-"}
                     </div>
                     <h3 className={`text-3xl font-black mb-4 ${idx === 0 ? 'text-slate-900' : 'text-white'}`}>{firm.type}</h3>
                     <p className={`mb-8 leading-relaxed ${idx === 0 ? 'text-slate-600' : 'text-indigo-100'}`}>{firm.desc}</p>
-
+                    
                     <div className="space-y-6">
                       <div>
                         <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 ${idx === 0 ? 'text-green-600' : 'text-emerald-300'}`}>Advantages</h4>
@@ -393,7 +364,7 @@ GST Required: ${firmForm.needGST || "-"}
                           ))}
                         </ul>
                       </div>
-
+                      
                       <div className={`pt-6 border-t ${idx === 0 ? 'border-slate-200' : 'border-indigo-500/50'}`}>
                         <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 ${idx === 0 ? 'text-red-500' : 'text-rose-300'}`}>Limitations</h4>
                         <ul className="space-y-3">
@@ -419,7 +390,7 @@ GST Required: ${firmForm.needGST || "-"}
         <section className="py-24 bg-slate-50 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
-
+              
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="lg:w-1/3">
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-[1.1] tracking-tight">
                   Beyond <br />Paperwork.
@@ -449,7 +420,7 @@ GST Required: ${firmForm.needGST || "-"}
         </section>
 
         {/* ==========================================
-            PRICING TIER CARDS
+            PRICING TIER CARDS (WHATSAPP INTEGRATED)
             ========================================== */}
         <section className="py-32 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -465,10 +436,10 @@ GST Required: ${firmForm.needGST || "-"}
               {pricingTiers.map((tier, idx) => (
                 <motion.div
                   key={idx} variants={fadeUp}
-                  className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-indigo-500 shadow-[0_20px_60px_-15px_rgba(79,70,229,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-indigo-200'}`}
+                  className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-[#25D366] shadow-[0_20px_60px_-15px_rgba(37,211,102,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-[#25D366]/50'}`}
                 >
                   {tier.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
                       {tier.badge}
                     </div>
                   )}
@@ -482,17 +453,23 @@ GST Required: ${firmForm.needGST || "-"}
                   <ul className="space-y-4 mb-10">
                     {tier.features.map((feat, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className={tier.popular ? "text-indigo-500 shrink-0 mt-0.5" : "text-slate-400 shrink-0 mt-0.5"} />
+                        <CheckCircle2 size={18} className={tier.popular ? "text-[#25D366] shrink-0 mt-0.5" : "text-slate-400 shrink-0 mt-0.5"} />
                         {feat}
                       </li>
                     ))}
                   </ul>
 
+                  {/* GREEN WHATSAPP BUTTONS */}
                   <button
                     onClick={(e) => handleWhatsAppChat(e, `${tier.name} Package`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all ${tier.buttonStyle}`}
+                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 
+                      ${tier.popular 
+                        ? 'bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1' 
+                        : 'bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20'
+                      }`}
                   >
-                    Get Started
+                    <MessageCircle size={20} />
+                    {tier.popular ? "Start on WhatsApp" : "Get Quote via WhatsApp"}
                   </button>
                   <div className="text-center mt-4 text-[10px] text-slate-400 uppercase font-semibold">Govt/Stamp Duty Extra</div>
                 </motion.div>
@@ -512,7 +489,6 @@ GST Required: ${firmForm.needGST || "-"}
             </div>
 
             <div className="relative">
-              {/* Connecting Line */}
               <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-slate-200 -translate-x-1/2" />
 
               <div className="flex flex-col gap-12 md:gap-16">
@@ -520,23 +496,17 @@ GST Required: ${firmForm.needGST || "-"}
                   const isEven = index % 2 === 0;
                   return (
                     <div key={step.id} className={`relative flex flex-col md:flex-row items-center w-full group ${isEven ? 'md:flex-row-reverse' : ''}`}>
-
                       <div className="hidden md:block md:w-1/2" />
-
-                      {/* Animated Center Dot */}
                       <div className="absolute left-6 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-20">
                         <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
                           <step.icon size={20} />
                         </div>
                       </div>
-
-                      {/* Content Card */}
-                      <motion.div
+                      <motion.div 
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
                         className={`w-full md:w-1/2 pl-20 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}
                       >
                         <div className="relative bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                          {/* Background Graphic */}
                           <div className={`absolute top-1/2 -translate-y-1/2 text-[100px] font-black text-slate-50 select-none pointer-events-none -z-10 ${isEven ? '-right-4' : '-left-4'}`}>
                             {step.id}
                           </div>
@@ -544,7 +514,6 @@ GST Required: ${firmForm.needGST || "-"}
                           <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
                         </div>
                       </motion.div>
-
                     </div>
                   );
                 })}
@@ -559,11 +528,11 @@ GST Required: ${firmForm.needGST || "-"}
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-
+            
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-                  <button
+                  <button 
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                   >
@@ -572,7 +541,7 @@ GST Required: ${firmForm.needGST || "-"}
                   </button>
                   <AnimatePresence>
                     {openFaq === idx && (
-                      <motion.div
+                      <motion.div 
                         initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
                         <div className="p-6 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-50">
@@ -588,12 +557,11 @@ GST Required: ${firmForm.needGST || "-"}
         </section>
 
         {/* ==========================================
-            BOTTOM CTA (Premium Slate & Indigo)
+            BOTTOM CTA (Premium WhatsApp Green Action)
             ========================================== */}
         <section className="py-28 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
-          {/* Subtle Ambient Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none" />
-
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#25D366]/20 blur-[120px] rounded-full pointer-events-none" />
+          
           <div className="max-w-3xl mx-auto relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Solidify Your Partnership.</h2>
@@ -601,11 +569,12 @@ GST Required: ${firmForm.needGST || "-"}
                 Connect with our senior legal and CA team to structure an agreement that protects your interests and enables scalable growth.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button
+                <button 
                   onClick={(e) => handleWhatsAppChat(e, "Firm/LLP Registration Consultation")}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-600/30 hover:-translate-y-1"
+                  className="bg-[#25D366] hover:bg-[#128C7E] text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-1 text-lg"
                 >
-                  Book Free Consultation
+                  <MessageCircle size={22} />
+                  Chat on WhatsApp
                 </button>
               </div>
             </motion.div>
@@ -614,10 +583,12 @@ GST Required: ${firmForm.needGST || "-"}
 
       </main>
 
+      {/* ==========================================
+          FORM SLIDE PANEL
+          ========================================== */}
       <AnimatePresence>
         {isPanelOpen && (
           <>
-            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -626,7 +597,6 @@ GST Required: ${firmForm.needGST || "-"}
               onClick={() => setIsPanelOpen(false)}
             />
 
-            {/* Slide Panel */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -654,7 +624,6 @@ GST Required: ${firmForm.needGST || "-"}
                   </button>
                 </div>
 
-                {/* Progress */}
                 <div className="flex gap-2 mt-6">
                   {[1, 2, 3].map((s) => (
                     <div
@@ -668,7 +637,6 @@ GST Required: ${firmForm.needGST || "-"}
 
               {/* BODY */}
               <div className="flex-1 overflow-y-auto px-8 py-8 space-y-5">
-
                 {step === 1 && (
                   <>
                     <h3 className="text-lg font-semibold">Contact Details</h3>
@@ -707,22 +675,18 @@ GST Required: ${firmForm.needGST || "-"}
                 {step === 3 && (
                   <>
                     <h3 className="text-lg font-semibold">Registration Preferences</h3>
-
                     <input name="registeredState" placeholder="Registered State" value={firmForm.registeredState} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
-
                     <select name="needGST" value={firmForm.needGST} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
                       <option value="">Need GST?</option>
                       <option>Yes</option>
                       <option>No</option>
                     </select>
-
                     <select name="timeline" value={firmForm.timeline} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition">
                       <option value="">Expected Timeline</option>
                       <option>Immediate</option>
                       <option>Within 7 Days</option>
                       <option>This Month</option>
                     </select>
-
                     <textarea name="message" placeholder="Additional Notes" value={firmForm.message} onChange={handleChange} className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition" />
                   </>
                 )}
@@ -758,9 +722,6 @@ GST Required: ${firmForm.needGST || "-"}
         )}
       </AnimatePresence>
 
-      {/* ==========================================
-          FOOTER
-          ========================================== */}
       <Footer />
     </div>
   );

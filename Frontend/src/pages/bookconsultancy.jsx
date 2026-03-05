@@ -64,7 +64,6 @@ const pricingTiers = [
     price: "Contact",
     features: ["Monthly ledger updates", "Bank reconciliation (1 bank)", "Basic P&L generation"],
     popular: false,
-    buttonStyle: "bg-slate-900 text-white hover:bg-slate-800"
   },
   {
     tier: "Growth Advisory Package",
@@ -73,7 +72,6 @@ const pricingTiers = [
     price: "Contact",
     features: ["Bi-weekly book updates", "GST & TDS compliance readiness", "Cashflow forecasting", "Dedicated account manager"],
     popular: true,
-    buttonStyle: "bg-blue-600 text-white shadow-lg shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1"
   },
   {
     tier: "Complete Financial Management",
@@ -81,7 +79,6 @@ const pricingTiers = [
     price: "Contact",
     features: ["Real-time bookkeeping", "Complex audit support", "Board-level reporting", "Custom KPI dashboards"],
     popular: false,
-    buttonStyle: "bg-slate-900 text-white hover:bg-slate-800"
   }
 ];
 
@@ -117,55 +114,6 @@ const fadeUp = {
 export default function BookConsultancy() {
   const [openFaq, setOpenFaq] = useState(0);
   const navigate = useNavigate();
-
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    business: "",
-    message: ""
-  });
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    emailjs
-      .send(
-        "service_ghj2doe",      // from EmailJS dashboard
-        "template_uwkmjxr",     // your template id
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          phone: formData.phone,
-          business: formData.business,
-          message: formData.message,
-        },
-        "KJ9IR47xK9gNAOEYd"       // EmailJS public key
-      )
-      .then(
-        (result) => {
-          console.log("SUCCESS!", result.text);
-          alert("Consultation request submitted successfully!");
-          setFormData({
-            name: "",
-            email: "",
-            phone: "",
-            business: "",
-            message: "",
-          });
-        },
-        (error) => {
-          console.log("FAILED...", error.text);
-          alert("Something went wrong. Please try again.");
-        }
-      );
-  };
-
 
   const handleWhatsAppChat = (e, context = "Book Consultancy & Financial Advisory") => {
     if (e) e.stopPropagation();
@@ -338,8 +286,8 @@ export default function BookConsultancy() {
         </section>
 
         {/* ==========================================
-    FREE CONSULTATION FORM
-========================================== */}
+            FREE CONSULTATION FORM
+            ========================================== */}
         <section id="consultation-form" className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-6xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-start">
 
@@ -372,7 +320,7 @@ export default function BookConsultancy() {
               </div>
             </motion.div>
 
-            {/* Form */}
+            {/* Form Component */}
             <ConsultationForm defaultService="Book Consultancy" />
           </div>
         </section>
@@ -381,7 +329,7 @@ export default function BookConsultancy() {
         {/* ==========================================
             BEYOND BOOKKEEPING (Bento Grid)
             ========================================== */}
-        <section className="py-24 bg-white border-t border-slate-100">
+        <section className="py-24 bg-slate-50 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
 
@@ -398,7 +346,7 @@ export default function BookConsultancy() {
 
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="lg:w-2/3 grid sm:grid-cols-2 gap-6">
                 {beyondBenefits.map((b, idx) => (
-                  <motion.div key={idx} variants={fadeUp} className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                  <motion.div key={idx} variants={fadeUp} className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center shrink-0">
                         <b.icon size={20} strokeWidth={2} />
@@ -415,9 +363,9 @@ export default function BookConsultancy() {
         </section>
 
         {/* ==========================================
-            MONTHLY PACKAGES
+            MONTHLY PACKAGES (WHATSAPP INTEGRATED)
             ========================================== */}
-        <section className="py-32 bg-[#fafcff] border-t border-slate-100">
+        <section className="py-32 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-20">
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Monthly Consultancy Packages</h2>
@@ -431,10 +379,10 @@ export default function BookConsultancy() {
               {pricingTiers.map((tier, idx) => (
                 <motion.div
                   key={idx} variants={fadeUp}
-                  className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-blue-500 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-blue-200'}`}
+                  className={`relative bg-slate-50 rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-[#25D366] shadow-[0_20px_60px_-15px_rgba(37,211,102,0.2)] md:scale-105 z-10 bg-white' : 'border-slate-200 shadow-sm hover:border-[#25D366]/50'}`}
                 >
                   {tier.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
                       {tier.badge}
                     </div>
                   )}
@@ -442,24 +390,30 @@ export default function BookConsultancy() {
                   <h3 className="text-lg font-bold text-slate-900 mb-2 text-center">{tier.tier}</h3>
                   <p className="text-sm text-slate-500 text-center mb-6">{tier.desc}</p>
 
-                  <div className="flex justify-center items-center mb-8 border-y border-slate-100 py-6">
+                  <div className="flex justify-center items-center mb-8 border-y border-slate-200/60 py-6">
                     <span className="text-3xl font-black text-slate-900 tracking-tight">{tier.price}</span>
                   </div>
 
                   <ul className="space-y-4 mb-10">
                     {tier.features.map((feat, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className={tier.popular ? "text-blue-500 shrink-0 mt-0.5" : "text-slate-400 shrink-0 mt-0.5"} />
+                        <CheckCircle2 size={18} className={tier.popular ? "text-[#25D366] shrink-0 mt-0.5" : "text-slate-400 shrink-0 mt-0.5"} />
                         {feat}
                       </li>
                     ))}
                   </ul>
 
+                  {/* GREEN WHATSAPP BUTTONS */}
                   <button
                     onClick={(e) => handleWhatsAppChat(e, `${tier.tier} Pricing Inquiry`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all ${tier.buttonStyle}`}
+                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 
+                      ${tier.popular 
+                        ? 'bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1' 
+                        : 'bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20'
+                      }`}
                   >
-                    Get a Quote
+                    <MessageCircle size={20} />
+                    {tier.popular ? "Start on WhatsApp" : "Get Quote via WhatsApp"}
                   </button>
                 </motion.div>
               ))}
@@ -470,7 +424,7 @@ export default function BookConsultancy() {
         {/* ==========================================
             ROADMAP TIMELINE
             ========================================== */}
-        <section className="py-24 bg-white border-t border-slate-100 relative overflow-hidden">
+        <section className="py-24 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
             <div className="text-center mb-20">
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">The Consultancy Roadmap</h2>
@@ -503,7 +457,7 @@ export default function BookConsultancy() {
                       >
                         {/* Huge faded background number */}
                         <div className="relative">
-                          <div className={`absolute top-1/2 -translate-y-1/2 text-[100px] font-black text-slate-50 pointer-events-none -z-10 ${isEven ? 'right-0' : 'left-0'}`}>
+                          <div className={`absolute top-1/2 -translate-y-1/2 text-[100px] font-black text-slate-200/50 pointer-events-none -z-10 ${isEven ? 'right-0' : 'left-0'}`}>
                             {step.id}
                           </div>
                           <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
@@ -522,16 +476,16 @@ export default function BookConsultancy() {
         {/* ==========================================
             FAQ SECTION
             ========================================== */}
-        <section className="py-24 bg-slate-50 border-t border-slate-100">
+        <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-
+            
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
-                <div key={idx} className="border border-slate-200 rounded-[1.5rem] overflow-hidden bg-white shadow-sm">
+                <div key={idx} className="border border-slate-200 rounded-[1.5rem] overflow-hidden bg-slate-50 shadow-sm">
                   <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                    className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
+                    className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-100 transition-colors"
                   >
                     <span className="font-bold text-slate-900 pr-8 text-lg">{faq.q}</span>
                     <ChevronDown className={`w-5 h-5 shrink-0 text-slate-400 transition-transform duration-300 ${openFaq === idx ? 'rotate-180 text-blue-600' : ''}`} />
@@ -541,7 +495,7 @@ export default function BookConsultancy() {
                       <motion.div
                         initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
-                        <div className="p-6 pt-0 text-slate-600 text-base leading-relaxed border-t border-slate-50 font-medium">
+                        <div className="p-6 pt-0 text-slate-600 text-base leading-relaxed border-t border-slate-200 font-medium">
                           {faq.a}
                         </div>
                       </motion.div>
@@ -554,32 +508,31 @@ export default function BookConsultancy() {
         </section>
 
         {/* ==========================================
-            BOTTOM CTA (Dark Slate Architecture)
+            BOTTOM CTA (Single WhatsApp Button)
             ========================================== */}
         <section className="py-28 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
-          {/* Subtle Ambient Glow */}
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-slate-800 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
+          {/* Subtle Green Ambient Glow */}
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#25D366]/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#25D366]/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2" />
 
           <div className="max-w-3xl mx-auto relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Build Strong Financial Foundations.</h2>
               <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
-                Join high-growth startups and established enterprises that trust ComplyWithCA with their day-to-day financial operations.
+                Join high-growth startups and established enterprises that trust ComplyWithCA with their day-to-day financial operations. Connect with our advisors directly.
               </p>
+              
+              {/* Single, High-Converting WhatsApp CTA */}
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <button
-                  onClick={(e) => handleWhatsAppChat(e, "Advisory Consultation")}
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/30"
+                  onClick={(e) => handleWhatsAppChat(e, "Book Consultancy & Financial Advisory")}
+                  className="bg-[#25D366] hover:bg-[#128C7E] text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3 text-lg hover:-translate-y-1"
                 >
-                  Consult Advisory Services
-                </button>
-                <button
-                  onClick={(e) => handleWhatsAppChat(e, "Pricing and Packages")}
-                  className="bg-transparent border border-slate-600 hover:bg-slate-800 text-white px-10 py-4 rounded-xl font-bold transition-all"
-                >
-                  Contact on WhatsApp
+                  <MessageCircle size={24} />
+                  Chat on WhatsApp
                 </button>
               </div>
+
             </motion.div>
           </div>
         </section>

@@ -25,6 +25,7 @@ import Navbar from '../components/Navbar';
 import expertImage from "../assets/image11.png"; // Imported your 3D image
 import Footer from '../components/footer';
 import emailjs from '@emailjs/browser';
+
 // ==========================================
 // 1. DATA ARRAYS (CA CONTEXTUALIZED)
 // ==========================================
@@ -567,13 +568,13 @@ export default function CertificatesAndRegistrations() {
         </section>
 
         {/* ==========================================
-            BOTTOM CTA (Angular Deep Gradient)
+            BOTTOM CTA (Premium WhatsApp Green Action)
             ========================================== */}
         <section className="relative py-32 bg-slate-900 text-center overflow-hidden">
-          {/* Angular Geometric Cuts */}
+          {/* Angular Geometric Cuts with subtle WhatsApp green tint */}
           <div className="absolute inset-0 z-0">
             <div className="absolute top-0 right-0 w-[50vw] h-[100%] bg-slate-800/50 skew-x-[-20deg] translate-x-20" />
-            <div className="absolute bottom-0 left-0 w-[50vw] h-[50%] bg-blue-900/20 skew-x-[20deg] -translate-x-20 blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-[50vw] h-[50%] bg-[#25D366]/10 skew-x-[20deg] -translate-x-20 blur-3xl" />
           </div>
 
           <div className="max-w-3xl mx-auto relative z-10 px-6 lg:px-8">
@@ -582,20 +583,15 @@ export default function CertificatesAndRegistrations() {
                 Get Your Registrations Done the Right Way.
               </h2>
               <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
-                Join 500+ businesses who rely on ComplyWithCA for precise, fast, and 100% compliant licensing and legal validation.
+                Join 500+ businesses who rely on ComplyWithCA for precise, fast, and 100% compliant licensing and legal validation. Connect directly with our experts.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-5">
                 <button
-                  onClick={(e) => handleWhatsAppChat(e, "Starting a new Application")}
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/30 hover:-translate-y-1"
+                  onClick={(e) => handleWhatsAppChat(e, "Certificate/Registration Assistance")}
+                  className="bg-[#25D366] hover:bg-[#128C7E] text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3 text-lg hover:-translate-y-1"
                 >
-                  Start Application
-                </button>
-                <button
-                  onClick={(e) => handleWhatsAppChat(e, "Speaking to an Expert")}
-                  className="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white px-10 py-4 rounded-xl font-bold transition-all"
-                >
-                  Speak to an Expert
+                  <MessageCircle size={24} />
+                  Chat on WhatsApp
                 </button>
               </div>
             </motion.div>
