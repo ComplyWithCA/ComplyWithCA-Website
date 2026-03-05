@@ -2,9 +2,8 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Contact from "../pages/contact";
 
-// Lazy Imports
 const Home = lazy(() => import("../pages/Home"));
-const About = lazy(() => import("../pages/About.jsx"));
+const About = lazy(() => import("../pages/About"));
 const ServicesPage = lazy(() => import("../pages/Services"));
 const BusinessRegistration = lazy(() => import("../pages/Businessreg"));
 const GstServices = lazy(() => import("../pages/gstservices"));
@@ -26,7 +25,7 @@ const AppRoutes = () => {
         <Route path="/services/certificates" element={<CertificatesAndRegistrations />} />
         <Route path="/services/book-consultancy" element={<BookConsultancy />} />
         <Route path="/services/firm-registration" element={<FirmRegistration />} />
-        <Route path="/contact" element={<Contact/>} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Suspense>
   );
