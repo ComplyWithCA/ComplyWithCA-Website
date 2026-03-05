@@ -4,7 +4,7 @@ import Contact from "../pages/contact";
 
 // Lazy Imports
 const Home = lazy(() => import("../pages/Home"));
-const About = lazy(() => import("../pages/aBOUT.JSX"));
+const About = lazy(() => import("../pages/About.jsx"));
 const ServicesPage = lazy(() => import("../pages/Services"));
 const BusinessRegistration = lazy(() => import("../pages/Businessreg"));
 const GstServices = lazy(() => import("../pages/gstservices"));
