@@ -1,52 +1,76 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Phone } from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import logo from "../assets/logo.png";
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-[#fafcff] border-t border-slate-200 pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        {/* Top Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 mb-16">
 
           {/* Company Info */}
-          <div className="lg:col-span-2 pr-8">
-            <div className="flex items-center gap-3 mb-8 cursor-pointer group">
-              <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-bold text-xs group-hover:bg-blue-600 transition-colors">
-                CA
-              </div>
-              <span className="font-bold text-2xl text-slate-900 tracking-tight">
-                ComplyWith<span className="text-blue-600">CA</span>
-              </span>
+          <div className="lg:col-span-2 flex flex-col justify-start">
+
+            {/* Logo */}
+            <div
+              onClick={() => navigate("/")}
+              className="cursor-pointer mb-8"
+            >
+              <img
+                src={logo}
+                alt="ComplyWithCA Logo"
+                className="w-full max-w-[280px] h-auto"
+              />
             </div>
 
-            <p className="text-slate-500 text-base leading-relaxed max-w-sm mb-8 font-medium">
-              Leading chartered accountancy firm specializing in modern startup compliance, ROC filings, and strategic financial advisory in Delhi NCR.
+            {/* Description */}
+            <p className="text-slate-500 text-base leading-relaxed max-w-lg font-medium">
+  We provide professional compliance and business advisory services for startups and enterprises in Delhi NCR. We are not a chartered accountancy firm, and all certification-related services are handled through qualified professionals where applicable.
             </p>
+
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="font-bold text-slate-900 mb-6 text-lg">Services</h4>
+            <h4 className="font-bold text-slate-900 mb-6 text-lg">
+              Services
+            </h4>
             <ul className="space-y-4 text-sm font-semibold text-slate-500">
               <li>
-                <Link to="/services/income-tax-filing" className="hover:text-blue-600 transition-colors">
+                <Link
+                  to="/services/income-tax-filing"
+                  className="hover:text-blue-600 transition-colors"
+                >
                   Income Tax Filing
                 </Link>
               </li>
               <li>
-                <Link to="/services/business-registration" className="hover:text-blue-600 transition-colors">
+                <Link
+                  to="/services/business-registration"
+                  className="hover:text-blue-600 transition-colors"
+                >
                   Business Registration
                 </Link>
               </li>
               <li>
-                <Link to="/services/certificates" className="hover:text-blue-600 transition-colors">
+                <Link
+                  to="/services/certificates"
+                  className="hover:text-blue-600 transition-colors"
+                >
                   Certificates
                 </Link>
               </li>
               <li>
-                <Link to="/services/book-consultancy" className="hover:text-blue-600 transition-colors">
+                <Link
+                  to="/services/book-consultancy"
+                  className="hover:text-blue-600 transition-colors"
+                >
                   Book Consultancy
                 </Link>
               </li>
@@ -55,29 +79,26 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="font-bold text-slate-900 mb-6 text-lg">Company</h4>
+            <h4 className="font-bold text-slate-900 mb-6 text-lg">
+              Company
+            </h4>
             <ul className="space-y-4 text-sm font-semibold text-slate-500">
               <li>
-                <Link to="/about" className="hover:text-blue-600 transition-colors">
+                <Link
+                  to="/about"
+                  className="hover:text-blue-600 transition-colors"
+                >
                   About Us
                 </Link>
               </li>
-              {/* <li>
-                <Link to="/privacy-policy" className="hover:text-blue-600 transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hover:text-blue-600 transition-colors">
-                  Terms
-                </Link>
-              </li> */}
             </ul>
-          </div>    
+          </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-slate-900 mb-6 text-lg">Contact</h4>
+            <h4 className="font-bold text-slate-900 mb-6 text-lg">
+              Contact
+            </h4>
             <ul className="space-y-4 text-sm font-semibold text-slate-500">
 
               <li>
@@ -106,15 +127,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-slate-200/80 pt-8 flex flex-col md:flex-row items-center justify-between text-sm font-semibold text-slate-400">
-          
-          <p>
+        <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between text-sm font-semibold text-slate-400">
+
+          <p className="text-center md:text-left">
             © {new Date().getFullYear()} ComplyWithCA. Designed for modern enterprises.
           </p>
 
           <div className="flex gap-4 mt-6 md:mt-0">
 
-            {/* Facebook */}
             <a
               href="https://www.facebook.com/share/14YRGPq14DK/?mibextid=wwXIfr"
               target="_blank"
@@ -124,7 +144,6 @@ export default function Footer() {
               <FaFacebookF size={16} />
             </a>
 
-            {/* Instagram */}
             <a
               href="https://www.instagram.com/complywithca?igsh=MTU1dWd2NWQxYnVueA=="
               target="_blank"
