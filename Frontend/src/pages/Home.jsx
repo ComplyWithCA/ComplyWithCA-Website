@@ -125,7 +125,7 @@ export default function Home() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-sm font-bold text-slate-700 mb-8 mt-8 lg:mt-0">
-              <Sparkles className="w-4 h-4 text-blue-500" /> Premium CA Advisory in Delhi
+              <Sparkles className="w-4 h-4 text-blue-500" /> Premium Professionals in Delhi
             </motion.div>
             
             <motion.h1 variants={fadeInUp} className="text-5xl sm:text-6xl xl:text-7xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tight">
@@ -136,7 +136,7 @@ export default function Home() {
             </motion.h1>
             
             <motion.p variants={fadeInUp} className="text-lg xl:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
-              We engineer precision-driven GST, Tax, and Corporate compliance architectures for ambitious startups and growing enterprises.
+Your Trusted Partner for Business Registration, Compliance, and Corporate Advisory in India
             </motion.p>
             
            <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-4">
