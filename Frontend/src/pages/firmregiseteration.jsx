@@ -65,23 +65,38 @@ const pricingTiers = [
   },
   {
     name: "LLP Incorporation",
-    badge: "MOST SECURE",
+    // badge: "MOST SECURE",
     price: "₹7,999",
     features: ["2 DIN & 2 DSC Included", "Name Approval (RUN-LLP)", "LLP Agreement Drafting", "Complete MCA Filing"],
     popular: true,
   },
-  {
-    name: "Registered Partnership",
-    price: "₹4,999",
-    features: ["Everything in Unregistered", "Notary & Stamp Paper Management", "ROF Filing & Follow-up", "Official Registration Certificate"],
-    popular: false,
-  }
+  // {
+  //   name: "Registered Partnership",
+  //   price: "₹4,999",
+  //   features: ["Everything in Unregistered", "Notary & Stamp Paper Management", "ROF Filing & Follow-up", "Official Registration Certificate"],
+  //   popular: false,
+  // }
 ];
 
 const processSteps = [
-  { id: "01", title: "Strategy & Drafting", desc: "We consult with all partners to understand terms, then draft a legally binding Partnership Deed or LLP Agreement.", icon: ScrollText },
-  { id: "02", title: "Execution & Notarization", desc: "Partners sign the documents. We handle the franking, stamp duty payment, and official notarization.", icon: Gavel },
-  { id: "03", title: "Filing & Registration", desc: "Submission to the Registrar of Firms (ROF) or Ministry of Corporate Affairs (MCA) for official legal status.", icon: Landmark }
+  {
+    id: "01",
+    title: "Strategy & Drafting",
+    desc: "We consult with all partners to understand terms and draft a legally structured Partnership Deed or LLP Agreement aligned with regulatory requirements.",
+    icon: ScrollText
+  },
+  {
+    id: "02",
+    title: "Client Execution & Stamp Duty",
+    desc: "Clients are responsible for executing the documents, payment of applicable stamp duty, franking, and notarization. We provide complete guidance and document support throughout this process.",
+    icon: Gavel
+  },
+  {
+    id: "03",
+    title: "Filing & Registration",
+    desc: "Once executed, we handle submission to the Registrar of Firms (ROF) or Ministry of Corporate Affairs (MCA) for official registration and legal recognition.",
+    icon: Landmark
+  }
 ];
 
 const faqs = [
@@ -215,10 +230,10 @@ GST Required: ${firmForm.needGST || "-"}
       };
 
       await emailjs.send(
-        "service_ghj2doe",     
-        "template_qkg4m4s",    
+        "service_ghj2doe",
+        "template_qkg4m4s",
         templateParams,
-        "KJ9IR47xK9gNAOEYd"     
+        "KJ9IR47xK9gNAOEYd"
       );
 
       alert("Firm registration request submitted successfully!");
@@ -238,6 +253,8 @@ GST Required: ${firmForm.needGST || "-"}
       setIsSubmitting(false);
     }
   };
+
+  const [activeIndex, setActiveIndex] = useState(1);
 
   return (
     <div className="min-h-screen bg-[#fafcff] font-sans text-slate-800 selection:bg-indigo-200 selection:text-indigo-900 overflow-x-hidden">
@@ -351,7 +368,7 @@ GST Required: ${firmForm.needGST || "-"}
                     </div>
                     <h3 className={`text-3xl font-black mb-4 ${idx === 0 ? 'text-slate-900' : 'text-white'}`}>{firm.type}</h3>
                     <p className={`mb-8 leading-relaxed ${idx === 0 ? 'text-slate-600' : 'text-indigo-100'}`}>{firm.desc}</p>
-                    
+
                     <div className="space-y-6">
                       <div>
                         <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 ${idx === 0 ? 'text-green-600' : 'text-emerald-300'}`}>Advantages</h4>
@@ -364,7 +381,7 @@ GST Required: ${firmForm.needGST || "-"}
                           ))}
                         </ul>
                       </div>
-                      
+
                       <div className={`pt-6 border-t ${idx === 0 ? 'border-slate-200' : 'border-indigo-500/50'}`}>
                         <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 ${idx === 0 ? 'text-red-500' : 'text-rose-300'}`}>Limitations</h4>
                         <ul className="space-y-3">
@@ -385,12 +402,129 @@ GST Required: ${firmForm.needGST || "-"}
         </section>
 
         {/* ==========================================
+            PRICING TIER CARDS (WHATSAPP INTEGRATED)
+            ========================================== */}
+        <section className="py-32 bg-white border-t border-slate-100">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+            {/* Heading */}
+            <div className="text-center mb-20">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+                Formation Packages
+              </h2>
+              <p className="text-slate-500 text-lg font-medium">
+                Transparent pricing for premium legal structuring.
+              </p>
+            </div>
+
+            {/* Centered Cards */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="flex justify-center"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl w-full">
+
+                {pricingTiers.map((tier, idx) => {
+                  const isActive = activeIndex === idx;
+
+                  return (
+                    <motion.div
+                      key={idx}
+                      onMouseEnter={() => setActiveIndex(idx)}
+                      onMouseLeave={() => setActiveIndex(null)}
+                      initial={false}
+                      animate={{
+                        y: isActive ? -18 : 0,
+                        scale: isActive ? 1.04 : 1,
+                      }}
+                      transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                      className={`
+                relative rounded-[2rem] p-10 bg-white transition-all duration-300
+                ${isActive
+                          ? "border-2 border-[#25D366] shadow-2xl shadow-[#25D366]/20"
+                          : "border border-slate-200 shadow-lg"}
+              `}
+                    >
+
+                      {/* Green Glow Effect */}
+                      {isActive && (
+                        <div className="absolute -inset-4 bg-[#25D366]/15 blur-3xl rounded-[2rem] -z-10" />
+                      )}
+
+                      {/* Popular Badge
+              {tier.popular && (
+                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-xs font-bold tracking-widest px-5 py-2 rounded-full shadow-md whitespace-nowrap">
+                  {tier.badge || "RECOMMENDED"}
+                </div>
+              )} */}
+
+                      {/* Package Title */}
+                      <h3 className="text-sm font-bold tracking-widest text-slate-500 uppercase mb-6 text-center">
+                        {tier.name}
+                      </h3>
+
+                      {/* Price */}
+                      <div className="flex justify-center items-baseline gap-2 mb-8 pb-8 border-b border-slate-100">
+                        <span className="text-5xl font-black text-slate-900">
+                          {tier.price}
+                        </span>
+                        <span className="text-slate-400 text-sm font-medium">
+                          / Govt. Fees Extra
+                        </span>
+                      </div>
+
+                      {/* Features */}
+                      <ul className="space-y-4 mb-10">
+                        {tier.features.map((feat, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                            <CheckCircle2
+                              size={18}
+                              className={`shrink-0 mt-0.5 transition-colors ${isActive ? "text-[#25D366]" : "text-slate-400"
+                                }`}
+                            />
+                            {feat}
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* WhatsApp Button */}
+                      <button
+                        onClick={(e) => handleWhatsAppChat(e, `${tier.name} Package`)}
+                        className={`
+                  w-full py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2
+                  ${isActive
+                            ? "bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E]"
+                            : "bg-slate-100 text-slate-900 hover:bg-[#25D366]/10 hover:text-[#128C7E]"}
+                `}
+                      >
+                        <MessageCircle size={20} />
+                        {tier.popular ? "Start Plan" : "Get Quote"}
+                      </button>
+
+                      <div className="text-center mt-6 text-xs text-slate-400 tracking-widest font-semibold">
+                        GOVT / STAMP DUTY EXTRA
+                      </div>
+
+                    </motion.div>
+                  );
+                })}
+
+              </div>
+            </motion.div>
+
+          </div>
+        </section>
+
+        {/* ==========================================
             EXPERT FEATURES (Bento Grid)
             ========================================== */}
         <section className="py-24 bg-slate-50 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
-              
+
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="lg:w-1/3">
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-[1.1] tracking-tight">
                   Beyond <br />Paperwork.
@@ -419,64 +553,6 @@ GST Required: ${firmForm.needGST || "-"}
           </div>
         </section>
 
-        {/* ==========================================
-            PRICING TIER CARDS (WHATSAPP INTEGRATED)
-            ========================================== */}
-        <section className="py-32 bg-white border-t border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Formation Packages</h2>
-              <p className="text-slate-500">Transparent pricing for premium legal structuring.</p>
-            </div>
-
-            <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center relative"
-            >
-              {pricingTiers.map((tier, idx) => (
-                <motion.div
-                  key={idx} variants={fadeUp}
-                  className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-[#25D366] shadow-[0_20px_60px_-15px_rgba(37,211,102,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-[#25D366]/50'}`}
-                >
-                  {tier.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
-                      {tier.badge}
-                    </div>
-                  )}
-
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 text-center">{tier.name}</h3>
-                  <div className="flex justify-center items-baseline gap-1 mb-8 border-b border-slate-100 pb-8">
-                    <span className="text-sm font-medium text-slate-400">Starting from</span>
-                    <span className="text-4xl font-black text-slate-900">{tier.price}</span>
-                  </div>
-
-                  <ul className="space-y-4 mb-10">
-                    {tier.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className={tier.popular ? "text-[#25D366] shrink-0 mt-0.5" : "text-slate-400 shrink-0 mt-0.5"} />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* GREEN WHATSAPP BUTTONS */}
-                  <button
-                    onClick={(e) => handleWhatsAppChat(e, `${tier.name} Package`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 
-                      ${tier.popular 
-                        ? 'bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1' 
-                        : 'bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20'
-                      }`}
-                  >
-                    <MessageCircle size={20} />
-                    {tier.popular ? "Start on WhatsApp" : "Get Quote via WhatsApp"}
-                  </button>
-                  <div className="text-center mt-4 text-[10px] text-slate-400 uppercase font-semibold">Govt/Stamp Duty Extra</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
 
         {/* ==========================================
             REGISTRATION PROCESS TIMELINE
@@ -502,7 +578,7 @@ GST Required: ${firmForm.needGST || "-"}
                           <step.icon size={20} />
                         </div>
                       </div>
-                      <motion.div 
+                      <motion.div
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
                         className={`w-full md:w-1/2 pl-20 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}
                       >
@@ -528,11 +604,11 @@ GST Required: ${firmForm.needGST || "-"}
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-                  <button 
+                  <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                   >
@@ -541,7 +617,7 @@ GST Required: ${firmForm.needGST || "-"}
                   </button>
                   <AnimatePresence>
                     {openFaq === idx && (
-                      <motion.div 
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
                         <div className="p-6 pt-0 text-slate-600 text-sm leading-relaxed border-t border-slate-50">
@@ -561,7 +637,7 @@ GST Required: ${firmForm.needGST || "-"}
             ========================================== */}
         <section className="py-28 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#25D366]/20 blur-[120px] rounded-full pointer-events-none" />
-          
+
           <div className="max-w-3xl mx-auto relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Solidify Your Partnership.</h2>
@@ -569,7 +645,7 @@ GST Required: ${firmForm.needGST || "-"}
                 Connect with our senior legal and CA team to structure an agreement that protects your interests and enables scalable growth.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button 
+                <button
                   onClick={(e) => handleWhatsAppChat(e, "Firm/LLP Registration Consultation")}
                   className="bg-[#25D366] hover:bg-[#128C7E] text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-1 text-lg"
                 >
