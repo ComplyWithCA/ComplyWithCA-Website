@@ -21,7 +21,9 @@ import {
   Search,
   Phone,
   Mail,
-  Sparkles
+  Sparkles,
+  Rocket,
+  FileCheck
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import expertImage from "../assets/image10.png"; // Imported your 3D image
@@ -36,25 +38,77 @@ const Building2CustomIcon = ({ className }) => <svg xmlns="http://www.w3.org/200
 // 1. DATA ARRAYS
 // ==========================================
 const whatIsCards = [
-  { icon: FileSpreadsheet, title: "Comprehensive Bookkeeping", desc: "Digital, end-to-end recording of all financial transactions." },
-  { icon: LineChart, title: "Financial Clarity", desc: "Actionable reporting that translates raw data into business intelligence." },
-  { icon: ShieldCheck, title: "Tax-Ready Books", desc: "Continuous reconciliation ensures you are always audit and tax-ready." }
+  {
+    icon: Landmark,
+    title: "GST Compliance Services",
+    desc: "Complete GST registration, return filing, reconciliation, and notice handling for businesses of all sizes."
+  },
+  {
+    icon: Calculator,
+    title: "Income Tax Filing (ITR)",
+    desc: "Accurate filing for salaried individuals, business owners, traders, NRIs, and capital gains cases."
+  },
+  {
+    icon: Building2CustomIcon,
+    title: "Business Registration",
+    desc: "Private Limited, LLP, OPC and other structures with end-to-end incorporation support."
+  }
 ];
 
 const servicesIncluded = [
-  { icon: BookOpen, title: "Bookkeeping & Accounting", desc: "Meticulous day-to-day recording of your accounts payable, receivable, and ledger management." },
-  { icon: PieChart, title: "Financial Statement Preparation", desc: "Accurate generation of P&L statements, balance sheets, and cash flow analysis." },
-  { icon: Landmark, title: "Bank Reconciliation", desc: "Seamless matching of your internal books with bank records to prevent discrepancies." },
-  { icon: Target, title: "Budgeting & Forecasting", desc: "Strategic financial modeling to help you plan capital allocation and future growth." },
-  { icon: Wallet, title: "Cashflow Management", desc: "Monitoring liquidity, optimizing working capital, and projecting future cash needs." },
-  { icon: Calculator, title: "Tax Compliance Planning", desc: "Structuring your books to align perfectly with GST and Income Tax frameworks." }
+  {
+    icon: Landmark,
+    title: "GST Registration & Filing",
+    desc: "New GST registration, monthly/quarterly return filing, ITC reconciliation, and compliance monitoring."
+  },
+  {
+    icon: Calculator,
+    title: "Income Tax Return (ITR) Filing",
+    desc: "Accurate ITR filing for salaried individuals, businesses, traders, NRIs, and capital gains cases."
+  },
+  {
+    icon: Building2CustomIcon,
+    title: "Business Incorporation",
+    desc: "Private Limited, LLP, OPC registration with complete MCA documentation and compliance support."
+  },
+  {
+    icon: Rocket,
+    title: "Startup India & MSME Registration",
+    desc: "DPIIT recognition, Startup India benefits, MSME/Udyam registration, and funding-ready structuring."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Ongoing Compliance Support",
+    desc: "ROC filings, annual returns, GST annual filing, and structured advisory for long-term compliance."
+  },
+  {
+    icon: FileCheck,
+    title: "Notice & Advisory Support",
+    desc: "Professional assistance for GST notices, income tax queries, and departmental clarifications."
+  }
 ];
 
 const beyondBenefits = [
-  { icon: Search, title: "Accurate Financial Records", desc: "Eliminate human error with our multi-tier verification process." },
-  { icon: TrendingUp, title: "Strategic Decision Making", desc: "Base your pivots and expansions on hard, verified financial data." },
-  { icon: Building2CustomIcon, title: "Investor Readiness", desc: "Present institutional-grade financial reporting during due diligence." },
-  { icon: ShieldCheck, title: "Peace of Mind", desc: "Focus entirely on operations while we handle the regulatory and financial backend." }
+  {
+    icon: ShieldCheck,
+    title: "Complete Regulatory Compliance",
+    desc: "Stay fully compliant with GST, Income Tax, ROC, and MCA regulations without last-minute stress or penalties."
+  },
+  {
+    icon: Landmark,
+    title: "Structured Legal Foundation",
+    desc: "Build your business on the right legal structure — Private Limited, LLP, OPC, or Startup India recognition."
+  },
+  {
+    icon: TrendingUp,
+    title: "Growth-Ready Compliance Systems",
+    desc: "From GST filings to annual returns, we set up scalable compliance frameworks for long-term business growth."
+  },
+  {
+    icon: Search,
+    title: "Notice & Risk Management",
+    desc: "Professional handling of GST notices, income tax queries, and departmental communications with clarity and precision."
+  }
 ];
 
 const pricingTiers = [
@@ -222,16 +276,26 @@ export default function BookConsultancy() {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 tracking-tight">What is Book Consultancy?</h2>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+              >
+                <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 tracking-tight">
+                  Complete Compliance & Registration Solutions
+                </h2>
+
                 <p className="text-slate-600 text-lg leading-relaxed mb-6 font-medium">
-                  Our Book Consultancy goes beyond data entry. We act as your external financial department, ensuring every transaction is structured, compliant, and mapped to strategic financial goals.
+                  We provide structured GST, Income Tax, and business registration services designed to keep your enterprise legally secure and growth-ready. From new registrations to ongoing filings, we ensure clarity at every step.
                 </p>
+
                 <p className="text-slate-600 text-lg leading-relaxed mb-8 font-medium">
-                  From reconciling micro-transactions to preparing your enterprise for Series-A audits, we establish the financial truth of your business.
+                  Whether you are launching a startup, filing your ITR, or managing monthly GST compliance, our team builds systems that protect your business and support long-term expansion.
                 </p>
+
                 <button className="text-blue-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                  Learn about our methodology <ArrowRight size={18} />
+                  Explore our services <ArrowRight size={18} />
                 </button>
               </motion.div>
 
@@ -256,32 +320,59 @@ export default function BookConsultancy() {
         {/* ==========================================
             SERVICES INCLUDED GRID
             ========================================== */}
-        <section className="py-24 bg-slate-50 border-t border-slate-100">
+        <section className="py-32 bg-gradient-to-b from-white to-slate-50 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Services Included</h2>
-              <div className="w-16 h-1 bg-blue-600 mx-auto rounded-full" />
+
+            {/* Section Heading */}
+            <div className="text-center mb-20">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                Our Core Services
+              </h2>
+              <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto">
+                End-to-end compliance, registration, and tax solutions structured for individuals, startups, and growing businesses.
+              </p>
             </div>
 
+            {/* Services Grid */}
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
             >
-              {servicesIncluded.map((service, idx) => (
-                <motion.div
-                  key={idx} variants={fadeUp}
-                  className="group relative bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.06)] hover:-translate-y-1 transition-all duration-300 overflow-hidden"
-                >
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              {servicesIncluded.map((service, idx) => {
+                const Icon = service.icon;
 
-                  <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                    <service.icon size={24} strokeWidth={1.5} />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-3">{service.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed font-medium">{service.desc}</p>
-                </motion.div>
-              ))}
+                return (
+                  <motion.div
+                    key={idx}
+                    variants={fadeUp}
+                    className="group relative bg-white rounded-3xl p-10 border border-slate-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                  >
+                    {/* Soft Hover Glow */}
+                    <div className="absolute -inset-1 bg-blue-600/0 group-hover:bg-blue-600/5 blur-xl rounded-3xl transition-all duration-500 -z-10" />
+
+                    {/* Icon */}
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white">
+                      <Icon size={26} strokeWidth={1.8} />
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">
+                      {service.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-slate-500 text-sm leading-relaxed font-medium">
+                      {service.desc}
+                    </p>
+
+                  </motion.div>
+                );
+              })}
             </motion.div>
+
           </div>
         </section>
 
@@ -335,12 +426,11 @@ export default function BookConsultancy() {
 
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="lg:w-1/3">
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-[1.1] tracking-tight">
-                  Beyond <br className="hidden lg:block" />Bookkeeping.<br />
-                  <span className="text-blue-600">Toward Structure.</span>
+                  Your <br className="hidden lg:block" />Trust.<br />
+                  <span className="text-blue-600">Partners.</span>
                 </h2>
                 <p className="text-slate-600 text-lg leading-relaxed mb-8 font-medium">
-                  We don't just balance ledgers. We architecture your financial operations so you have total strategic visibility and absolute regulatory confidence.
-                </p>
+                  We don’t just handle compliance. We design scalable legal and tax frameworks that support sustainable business growth.                </p>
                 <div className="w-12 h-1.5 bg-blue-600 rounded-full" />
               </motion.div>
 
@@ -357,67 +447,82 @@ export default function BookConsultancy() {
                   </motion.div>
                 ))}
               </motion.div>
-
             </div>
           </div>
         </section>
 
         {/* ==========================================
-            MONTHLY PACKAGES (WHATSAPP INTEGRATED)
-            ========================================== */}
-        <section className="py-32 bg-white border-t border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    BOOK CONSULTATION PACKAGE
+========================================== */}
+        <section className="py-32 bg-gradient-to-b from-white to-slate-50 border-t border-slate-100">
+          <div className="max-w-5xl mx-auto px-6 lg:px-8">
+
+            {/* Heading */}
             <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Monthly Consultancy Packages</h2>
-              <p className="text-slate-500 text-lg font-medium">Premium financial management scaled to your operations.</p>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                Expert Consultation
+              </h2>
+              <p className="text-slate-500 text-lg font-medium">
+                Structured guidance for GST, ITR & Business Registration.
+              </p>
             </div>
 
+            {/* Single Premium Card */}
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center relative"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 80 }}
+              className="relative bg-white rounded-[2.5rem] p-12 border-2 border-[#25D366] shadow-2xl shadow-[#25D366]/20 text-center"
             >
-              {pricingTiers.map((tier, idx) => (
-                <motion.div
-                  key={idx} variants={fadeUp}
-                  className={`relative bg-slate-50 rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-[#25D366] shadow-[0_20px_60px_-15px_rgba(37,211,102,0.2)] md:scale-105 z-10 bg-white' : 'border-slate-200 shadow-sm hover:border-[#25D366]/50'}`}
-                >
-                  {tier.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
-                      {tier.badge}
-                    </div>
-                  )}
 
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 text-center">{tier.tier}</h3>
-                  <p className="text-sm text-slate-500 text-center mb-6">{tier.desc}</p>
+              {/* Soft Green Glow */}
+              <div className="absolute -inset-3 bg-[#25D366]/10 blur-3xl rounded-[2.5rem] -z-10" />
 
-                  <div className="flex justify-center items-center mb-8 border-y border-slate-200/60 py-6">
-                    <span className="text-3xl font-black text-slate-900 tracking-tight">{tier.price}</span>
-                  </div>
+              {/* Badge */}
+              <div className="inline-block mb-6 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-xs font-bold tracking-widest px-6 py-2 rounded-full shadow-md">
+                LIMITED TIME OFFER
+              </div>
 
-                  <ul className="space-y-4 mb-10">
-                    {tier.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className={tier.popular ? "text-[#25D366] shrink-0 mt-0.5" : "text-slate-400 shrink-0 mt-0.5"} />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
+              {/* Price */}
+              <div className="mb-8">
+                <span className="text-6xl font-black text-slate-900">₹299</span>
+                <p className="text-slate-400 text-sm mt-2">
+                  One-Time Professional Consultation
+                </p>
+              </div>
 
-                  {/* GREEN WHATSAPP BUTTONS */}
-                  <button
-                    onClick={(e) => handleWhatsAppChat(e, `${tier.tier} Pricing Inquiry`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 
-                      ${tier.popular 
-                        ? 'bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1' 
-                        : 'bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20'
-                      }`}
-                  >
-                    <MessageCircle size={20} />
-                    {tier.popular ? "Start on WhatsApp" : "Get Quote via WhatsApp"}
-                  </button>
-                </motion.div>
-              ))}
+              {/* Features */}
+              <ul className="space-y-4 mb-12 max-w-md mx-auto text-left">
+                {[
+                  "Personalized GST / ITR Guidance",
+                  "Business Structure Recommendation",
+                  "Compliance & Risk Assessment",
+                  "Startup & Registration Advisory",
+                  "Direct Expert Support"
+                ].map((feat, i) => (
+                  <li key={i} className="flex items-start gap-3 text-slate-600 font-medium">
+                    <CheckCircle2 size={20} className="text-[#25D366] shrink-0 mt-0.5" />
+                    {feat}
+                  </li>
+                ))}
+              </ul>
+
+              {/* WhatsApp Button */}
+              <button
+                onClick={(e) => handleWhatsAppChat(e, "₹299 Consultation Package")}
+                className="bg-[#25D366] hover:bg-[#128C7E] text-white px-12 py-5 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3 mx-auto hover:-translate-y-1"
+              >
+                <MessageCircle size={22} />
+                Book Consultation Now
+              </button>
+
+              <div className="text-center mt-6 text-xs text-slate-400 tracking-widest font-semibold">
+                NO HIDDEN CHARGES
+              </div>
+
             </motion.div>
+
           </div>
         </section>
 
@@ -479,7 +584,7 @@ export default function BookConsultancy() {
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-[1.5rem] overflow-hidden bg-slate-50 shadow-sm">
@@ -521,7 +626,7 @@ export default function BookConsultancy() {
               <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
                 Join high-growth startups and established enterprises that trust ComplyWithCA with their day-to-day financial operations. Connect with our advisors directly.
               </p>
-              
+
               {/* Single, High-Converting WhatsApp CTA */}
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <button
