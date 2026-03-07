@@ -19,7 +19,9 @@ import {
   Sparkles,
   Stamp,
   Mail,
-  Phone
+  Phone,
+  Globe,
+  CreditCard
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import expertImage from "../assets/image11.png"; // Imported your 3D image
@@ -35,7 +37,7 @@ const registrations = [
     badge: "MANDATORY FOR FILING",
     title: "Digital Signature (DSC)",
     desc: "Class 3 DSC with secure USB token, legally mandated for MCA filings, GST, and Income Tax returns.",
-    price: "₹1,499",
+    price: "₹1,799",
     color: "blue"
   },
   {
@@ -43,24 +45,32 @@ const registrations = [
     badge: "GOVT BENEFITS",
     title: "MSME / Udyam Registration",
     desc: "Unlock collateral-free loans, tender eligibility, and significant government subsidies for your enterprise.",
-    price: "₹999",
+    price: "₹499",
     color: "indigo"
-  },
-  {
-    icon: Award,
-    badge: "GLOBAL TRUST",
-    title: "ISO 9001:2015 Certification",
-    desc: "Establish international quality management standards to win corporate clients and government tenders.",
-    price: "₹4,999",
-    color: "emerald"
   },
   {
     icon: Landmark,
     badge: "FOOD COMPLIANCE",
-    title: "FSSAI Registration",
+    title: "FSSAI Registration (Basic)",
     desc: "Mandatory safety licensing for restaurants, cloud kitchens, FMCG manufacturers, and food distributors.",
-    price: "₹2,499",
+    price: "₹1,000",
     color: "orange"
+  },
+  {
+    icon: Globe, // Make sure to import from lucide-react
+    badge: "GLOBAL TRADE",
+    title: "Import Export Code (IEC)",
+    desc: "DGFT-issued Import Export Code required for businesses engaged in international trade and cross-border transactions.",
+    price: "₹999",
+    color: "teal"
+  },
+  {
+    icon: CreditCard, // Make sure to import from lucide-react
+    badge: "ESSENTIAL ID",
+    title: "PAN Card Application",
+    desc: "New PAN application or correction service for individuals, proprietors, and businesses with fast processing.",
+    price: "₹399",
+    color: "green"
   },
   {
     icon: Stamp,
@@ -90,6 +100,13 @@ const faqs = [
   { q: "How long does MSME/Udyam registration take?", a: "Once all accurate documents are submitted, MSME certificates are typically generated and issued within 1-2 working days." },
   { q: "Is Trademark registration permanent?", a: "A trademark is valid for 10 years from the date of application. It can be renewed indefinitely for subsequent 10-year periods." },
   { q: "Do I need FSSAI if I only sell packaged food?", a: "Yes. Any entity involved in the manufacturing, processing, storage, distribution, or sale of food products requires an active FSSAI license/registration." }
+];
+
+const startupBenefits = [
+  { title: "80IAC Tax Exemption", desc: "Enjoy a tax holiday for 3 consecutive years." },
+  { title: "Angel Tax Exemption", desc: "Issue shares at a premium without tax hurdles." },
+  { title: "Self-Certification", desc: "Easier compliance for labor and environmental laws." },
+  { title: "Seed Fund Access", desc: "Priority matching via the Startup India portal." }
 ];
 
 // ==========================================
@@ -436,7 +453,7 @@ export default function CertificatesAndRegistrations() {
                     >
                       Apply Now <ArrowRight size={16} />
                     </button>
-                    <div className="text-center mt-3 text-[10px] text-slate-400 uppercase font-semibold">Govt fees applicable extra</div>
+                    <div className="text-center mt-3 text-[10px] text-slate-400 uppercase font-semibold">Govt fees included</div>
                   </div>
                 </motion.div>
               ))}
@@ -461,6 +478,93 @@ export default function CertificatesAndRegistrations() {
                 </div>
               </motion.div>
             </motion.div>
+          </div>
+        </section>
+
+{/* ==========================================
+            SPECIALIZED STARTUP SECTION
+            ========================================== */}
+        <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-200/30 rounded-full blur-[100px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
+
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center relative z-10">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 border border-blue-200/50 text-blue-700 text-xs font-bold tracking-wider uppercase mb-6">
+                Exclusive Recognition
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                Specialized Startup India Registration
+              </h2>
+              <p className="text-slate-600 text-lg mb-10 leading-relaxed max-w-md">
+                Unlock government benefits and investor trust through official DPIIT recognition. Position your startup for rapid scaling with elite compliance status.
+              </p>
+              
+              {/* CHANGED TO OPEN MODAL */}
+              <button
+                onClick={() => setSelectedDetail(structures[3])}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20"
+              >
+                Check Eligibility <ArrowRight className="inline w-4 h-4 ml-2" />
+              </button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
+              className="bg-white p-10 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)] border border-white relative"
+            >
+              <div className="absolute -top-6 -right-6 w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-slate-50">
+                <Award className="w-8 h-8 text-orange-500" />
+              </div>
+
+              <h3 className="text-xl font-bold text-slate-900 mb-8">Key Program Benefits</h3>
+              <div className="grid sm:grid-cols-2 gap-8">
+                {startupBenefits.map((sb, idx) => (
+                  <div key={idx}>
+                    <div className="w-10 h-10 bg-blue-50/80 text-blue-600 rounded-xl flex items-center justify-center mb-4">
+                      <CheckCircle2 size={20} />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-sm mb-2">{sb.title}</h4>
+                    <p className="text-slate-500 text-xs leading-relaxed">{sb.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+{/* ==========================================
+            STREAMLINED PROCESS (Glowing Timeline)
+            ========================================== */}
+        <section className="py-32 bg-white border-t border-slate-100">
+          <div className="max-w-4xl mx-auto px-6 lg:px-8">
+            <div className="text-center mb-20">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Streamlined Process</h2>
+              <p className="text-slate-500">Rapid processing with zero administrative headaches.</p>
+            </div>
+
+            <div className="relative">
+              {/* Timeline Track */}
+              <div className="absolute left-8 md:left-12 top-0 bottom-0 w-1 bg-slate-100 rounded-full" />
+
+              <div className="flex flex-col gap-16 relative z-10">
+                {processSteps.map((step, index) => (
+                  <motion.div
+                    initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
+                    key={step.id} className="relative flex items-start gap-8 md:gap-12 group"
+                  >
+                    {/* Animated Node */}
+                    <div className="w-16 h-16 shrink-0 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center border-2 border-white shadow-lg shadow-blue-500/10 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 relative z-20">
+                      <span className="font-bold text-xl">{step.id}</span>
+                    </div>
+
+                    <div className="pt-2">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
+                      <p className="text-slate-600 text-base leading-relaxed">{step.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -497,41 +601,7 @@ export default function CertificatesAndRegistrations() {
           </div>
         </section>
 
-        {/* ==========================================
-            STREAMLINED PROCESS (Glowing Timeline)
-            ========================================== */}
-        <section className="py-32 bg-white border-t border-slate-100">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Our Streamlined Process</h2>
-              <p className="text-slate-500">Rapid processing with zero administrative headaches.</p>
-            </div>
-
-            <div className="relative">
-              {/* Timeline Track */}
-              <div className="absolute left-8 md:left-12 top-0 bottom-0 w-1 bg-slate-100 rounded-full" />
-
-              <div className="flex flex-col gap-16 relative z-10">
-                {processSteps.map((step, index) => (
-                  <motion.div
-                    initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
-                    key={step.id} className="relative flex items-start gap-8 md:gap-12 group"
-                  >
-                    {/* Animated Node */}
-                    <div className="w-16 h-16 shrink-0 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center border-2 border-white shadow-lg shadow-blue-500/10 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 relative z-20">
-                      <span className="font-bold text-xl">{step.id}</span>
-                    </div>
-
-                    <div className="pt-2">
-                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                      <p className="text-slate-600 text-base leading-relaxed">{step.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        
 
         {/* ==========================================
             FAQ SECTION
