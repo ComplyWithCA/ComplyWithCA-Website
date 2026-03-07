@@ -61,7 +61,7 @@ export default function ServicesPage() {
       slug: "gst-services",
       title: "GST Services",
       desc: "End-to-end GST filing, reconciliation, and audit representation for scaling startups.",
-      price: "₹2,999",
+      price: "₹499",
       icon: Calculator,
     },
     {
@@ -69,7 +69,7 @@ export default function ServicesPage() {
       slug: "business-registration",
       title: "Business Registration",
       desc: "Get your Private Limited Company or One Person Company (OPC) registered in as little as 10 days.",
-      price: "₹4,999",
+      price: "₹1,999",
       icon: Briefcase,
     },
     {
@@ -77,7 +77,7 @@ export default function ServicesPage() {
       slug: "firm-registration",
       title: "Firm Registration",
       desc: "Structured LLP and Partnership registrations with comprehensive agreement drafting.",
-      price: "₹3,499",
+      price: "₹1,999",
       icon: Building2,
     },
     {
@@ -93,7 +93,7 @@ export default function ServicesPage() {
       slug: "book-consultancy",
       title: "Book Consultancy",
       desc: "Full-stack bookkeeping and virtual CFO services for data-driven business decisions.",
-      price: "₹1,499",
+      price: "₹299",
       icon: BookOpen,
     },
     {
@@ -101,7 +101,7 @@ export default function ServicesPage() {
       slug: "certificates",
       title: "Certificates",
       desc: "Quick processing of digital signature (DSC), MSME, and Startup India certificates.",
-      price: "₹1,999",
+      price: "₹399",
       icon: ShieldCheck,
     }
   ];
