@@ -32,7 +32,7 @@ import emailjs from "@emailjs/browser";
 // 1. DATA ARRAYS (Enhanced with Details)
 // ==========================================
 const structures = [
-  { 
+  {
     tag: "HIGH GROWTH", title: "Private Limited", desc: "Ideal for startups planning VC funding and equity scaling.", price: "₹6,499", icon: Building2,
     details: {
       who: "Tech startups, businesses seeking venture capital, and founders wanting a completely separate legal identity.",
@@ -40,7 +40,7 @@ const structures = [
       features: ["Minimum 2 Directors required", "No minimum paid-up capital", "Distinct legal entity status", "Easy transfer of ownership"]
     }
   },
-  { 
+  {
     tag: "PROFESSIONAL FIRMS", title: "LLP Registration", desc: "Low compliance burden for service and professional firms.", price: "₹4,999", icon: Briefcase,
     details: {
       who: "Consultants, creative agencies, real estate professionals, and family-owned or closely-held businesses.",
@@ -48,7 +48,7 @@ const structures = [
       features: ["Minimum 2 Partners required", "Lower registration cost", "No dividend distribution tax", "No requirement for mandatory board meetings"]
     }
   },
-  { 
+  {
     tag: "SOLO FOUNDERS", title: "One Person (OPC)", desc: "Full control with limited liability protection for solo ventures.", price: "₹5,999", icon: User,
     details: {
       who: "Solo entrepreneurs, freelancers, e-commerce sellers, and independent consultants looking to scale securely.",
@@ -56,7 +56,7 @@ const structures = [
       features: ["Only 1 Director/Shareholder needed", "Requires a nominee designation", "Limited liability protection", "Seamless conversion to Pvt Ltd later"]
     }
   },
-  { 
+  {
     tag: "GOVT BENEFITS", title: "Startup India", desc: "Unlock tax exemptions and DPIIT recognition for innovators.", price: "₹2,999", icon: Rocket,
     details: {
       who: "Innovative startups working towards development, improvement of products/services with high potential for wealth and employment generation.",
@@ -71,13 +71,6 @@ const benefits = [
   { title: "Investor Readiness", desc: "Structure your corporate governance to seamlessly receive funding.", icon: TrendingUp },
   { title: "Liability Protection", desc: "Separate personal assets from business obligations effectively.", icon: ShieldCheck },
   { title: "Compliance Confidence", desc: "Automated reminders and expert oversight for all MCA filings.", icon: FileCheck }
-];
-
-const startupBenefits = [
-  { title: "80IAC Tax Exemption", desc: "Enjoy a tax holiday for 3 consecutive years." },
-  { title: "Angel Tax Exemption", desc: "Issue shares at a premium without tax hurdles." },
-  { title: "Self-Certification", desc: "Easier compliance for labor and environmental laws." },
-  { title: "Seed Fund Access", desc: "Priority matching via the Startup India portal." }
 ];
 
 const packages = [
@@ -108,7 +101,6 @@ const processSteps = [
 ];
 
 const faqs = [
-  { q: "How long does the registration process take?", a: "Typically, Private Limited Company registration takes around 7–10 working days, provided all required documents are accurate and submitted on time." },
   { q: "What documents are required for directors?", a: "Each director needs a PAN card, Aadhar card, passport-size photograph, and address proof such as a bank statement or utility bill." },
   { q: "Can I register if I am a solo founder?", a: "Yes. You can register as a One Person Company (OPC), which allows a single founder to enjoy the benefits of limited liability and corporate status." },
   { q: "Is GST registration mandatory for my business?", a: "GST registration is mandatory if your annual turnover exceeds ₹40 lakh for goods or ₹20 lakh for services (limits may vary by state and category). It is also required for certain businesses like e-commerce sellers." },
@@ -138,7 +130,9 @@ export default function BusinessRegistration() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
+  const [activeIndex, setActiveIndex] = useState(1);
+
   // New State for Details Modal
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -170,7 +164,7 @@ export default function BusinessRegistration() {
   });
 
   const validateStep = () => {
-    if (step === 1) return regForm.name && regForm.email && regForm.phone && regForm.contactMode; 
+    if (step === 1) return regForm.name && regForm.email && regForm.phone && regForm.contactMode;
     if (step === 2) return regForm.structure && regForm.proposedName && regForm.state;
     if (step === 3) return regForm.directors && regForm.capital;
     if (step === 4) return regForm.timeline;
@@ -263,6 +257,8 @@ Business Activity: ${regForm.businessActivity || "-"}
     }
   ];
 
+  const serviceName = "Business Registration";
+  
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden">
       <Navbar />
@@ -354,7 +350,7 @@ Business Activity: ${regForm.businessActivity || "-"}
                   <div className="pt-6 border-t border-slate-200/80 mt-auto">
                     <div className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">Starting from</div>
                     <div className="text-lg font-bold text-slate-900 mb-4">{s.price}</div>
-                    
+
                     {/* CHANGED TO OPEN MODAL INSTEAD OF WHATSAPP */}
                     <button
                       onClick={() => setSelectedDetail(s)}
@@ -365,26 +361,134 @@ Business Activity: ${regForm.businessActivity || "-"}
                   </div>
                 </motion.div>
               ))}
-              
+
               {/* Keeping the 4th one (Startup India) consistent with the loop logic */}
               <motion.div variants={fadeUp} className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 flex flex-col h-full group">
-                  <div className="text-[10px] font-bold text-orange-500 tracking-wider uppercase mb-4">{structures[3].tag}</div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{structures[3].title}</h3>
-                  <p className="text-slate-500 text-sm mb-8 leading-relaxed flex-grow">{structures[3].desc}</p>
-                  
-                  <div className="pt-6 border-t border-slate-200/80 mt-auto">
-                    <div className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">Starting from</div>
-                    <div className="text-lg font-bold text-slate-900 mb-4">{structures[3].price}</div>
-                    <button
-                      onClick={() => setSelectedDetail(structures[3])}
-                      className="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors"
-                    >
-                      View Details
-                    </button>
-                  </div>
+                <div className="text-[10px] font-bold text-orange-500 tracking-wider uppercase mb-4">{structures[3].tag}</div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{structures[3].title}</h3>
+                <p className="text-slate-500 text-sm mb-8 leading-relaxed flex-grow">{structures[3].desc}</p>
+
+                <div className="pt-6 border-t border-slate-200/80 mt-auto">
+                  <div className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">Starting from</div>
+                  <div className="text-lg font-bold text-slate-900 mb-4">{structures[3].price}</div>
+                  <button
+                    onClick={() => setSelectedDetail(structures[3])}
+                    className="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors"
+                  >
+                    View Details
+                  </button>
+                </div>
               </motion.div>
 
             </motion.div>
+          </div>
+        </section>
+
+        {/* ==========================================
+            REGISTRATION PACKAGES (PREMIUM CLEAN THEME)
+            ========================================== */}
+        <section className="py-32 bg-gradient-to-b from-white to-slate-50 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+            {/* Heading */}
+            <div className="text-center mb-20">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                Registration Packages
+              </h2>
+              <p className="text-slate-500 text-lg font-medium">
+                Transparent pricing. Structured execution.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+
+              {packages.map((pkg, idx) => {
+                const isActive = activeIndex === idx;
+
+                return (
+                  <motion.div
+                    key={idx}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    onMouseLeave={() => setActiveIndex(1)} // return to middle card
+                    initial={false}
+                    animate={{
+                      y: isActive ? -16 : 0,
+                      scale: isActive ? 1.04 : 1,
+                    }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                    className={`
+              relative rounded-[2rem] p-10 bg-white transition-all duration-300
+              ${isActive
+                        ? "border-2 border-[#25D366] shadow-2xl shadow-[#25D366]/20"
+                        : "border border-slate-200 shadow-lg"}
+            `}
+                  >
+
+                    {/* GREEN GLOW BACKGROUND */}
+                    {isActive && (
+                      <div className="absolute -inset-3 bg-[#25D366]/15 blur-2xl rounded-[2rem] -z-10 transition-all duration-500" />
+                    )}
+
+                    {/* Badge
+                    {pkg.isPopular && (
+                      <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#25D366] text-white text-[11px] font-bold tracking-widest px-5 py-2 rounded-full shadow-md">
+                        MOST POPULAR
+                      </div>
+                    )} */}
+
+                    {/* Title */}
+                    <h3 className="text-xs font-bold tracking-widest text-slate-500 uppercase mb-6">
+                      {pkg.tier}
+                    </h3>
+
+                    {/* Price */}
+                    <div className="flex items-baseline gap-2 mb-8 pb-8 border-b border-slate-100">
+                      <span className="text-5xl font-black text-slate-900">
+                        {pkg.price}
+                      </span>
+                      <span className="text-slate-400 text-sm font-medium">
+                        / Govt. Fees Extra
+                      </span>
+                    </div>
+
+                    {/* Features */}
+                    <ul className="space-y-4 mb-10">
+                      {pkg.features.map((feat, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                          <CheckCircle2
+                            size={18}
+                            className={`shrink-0 mt-0.5 transition-colors ${isActive ? "text-[#25D366]" : "text-slate-400"
+                              }`}
+                          />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Button */}
+                    <button
+                      onClick={(e) => handleWhatsAppChat(e, `${pkg.tier} Package`)}
+                      className={`
+                w-full py-4 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2
+                ${isActive
+                          ? "bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1"
+                          : "bg-slate-100 text-slate-900 hover:bg-green-50 hover:text-[#25D366]"
+                        }
+              `}
+                    >
+                      <MessageCircle size={18} />
+                      {pkg.isPopular ? "Start Plan" : "Get Quote"}
+                    </button>
+
+                    <div className="text-center mt-6 text-[11px] text-slate-400 tracking-widest font-semibold">
+                      NO HIDDEN CHARGES
+                    </div>
+
+                  </motion.div>
+                );
+              })}
+
+            </div>
           </div>
         </section>
 
@@ -421,115 +525,7 @@ Business Activity: ${regForm.businessActivity || "-"}
           </div>
         </section>
 
-        {/* ==========================================
-            SPECIALIZED STARTUP SECTION
-            ========================================== */}
-        <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-200/30 rounded-full blur-[100px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
 
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center relative z-10">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 border border-blue-200/50 text-blue-700 text-xs font-bold tracking-wider uppercase mb-6">
-                Exclusive Recognition
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
-                Specialized Startup India Registration
-              </h2>
-              <p className="text-slate-600 text-lg mb-10 leading-relaxed max-w-md">
-                Unlock government benefits and investor trust through official DPIIT recognition. Position your startup for rapid scaling with elite compliance status.
-              </p>
-              
-              {/* CHANGED TO OPEN MODAL */}
-              <button
-                onClick={() => setSelectedDetail(structures[3])}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20"
-              >
-                Check Eligibility <ArrowRight className="inline w-4 h-4 ml-2" />
-              </button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-              className="bg-white p-10 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)] border border-white relative"
-            >
-              <div className="absolute -top-6 -right-6 w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-slate-50">
-                <Award className="w-8 h-8 text-orange-500" />
-              </div>
-
-              <h3 className="text-xl font-bold text-slate-900 mb-8">Key Program Benefits</h3>
-              <div className="grid sm:grid-cols-2 gap-8">
-                {startupBenefits.map((sb, idx) => (
-                  <div key={idx}>
-                    <div className="w-10 h-10 bg-blue-50/80 text-blue-600 rounded-xl flex items-center justify-center mb-4">
-                      <CheckCircle2 size={20} />
-                    </div>
-                    <h4 className="font-bold text-slate-900 text-sm mb-2">{sb.title}</h4>
-                    <p className="text-slate-500 text-xs leading-relaxed">{sb.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ==========================================
-            PRICING PACKAGES (WHATSAPP GREEN UPGRADE)
-            ========================================== */}
-        <section className="py-24 bg-white border-t border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Registration Packages</h2>
-              <div className="w-12 h-1 bg-[#25D366] mx-auto rounded-full" />
-            </div>
-
-            <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center"
-            >
-              {packages.map((pkg, idx) => (
-                <motion.div
-                  key={idx} variants={fadeUp}
-                  className={`relative bg-white rounded-3xl p-8 border transition-all duration-300 ${pkg.isPopular ? 'border-[#25D366] shadow-[0_20px_60px_-15px_rgba(37,211,102,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm'}`}
-                >
-                  {pkg.isPopular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md">
-                      Recommended
-                    </div>
-                  )}
-
-                  <h3 className="text-lg font-bold text-slate-900 mb-4">{pkg.tier}</h3>
-                  <div className="flex items-baseline gap-1 mb-8">
-                    <span className="text-4xl font-black text-slate-900">{pkg.price}</span>
-                    <span className="text-slate-500 text-sm font-medium">/ Govt. Fees Extra</span>
-                  </div>
-
-                  <ul className="space-y-4 mb-10">
-                    {pkg.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className={pkg.isPopular ? "text-[#25D366] shrink-0" : "text-slate-400 shrink-0"} />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* GREEN WHATSAPP BUTTONS */}
-                  <button
-                    onClick={(e) => handleWhatsAppChat(e, `${pkg.tier} Package`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 
-                      ${pkg.isPopular 
-                        ? 'bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1' 
-                        : 'bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20'
-                      }`}
-                  >
-                    <MessageCircle size={20} />
-                    {pkg.isPopular ? "Start on WhatsApp" : "Get Quote via WhatsApp"}
-                  </button>
-                  <div className="text-center mt-4 text-[10px] text-slate-400 uppercase tracking-widest font-semibold">No Hidden Charges</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
 
         {/* ==========================================
             PROCESS TIMELINE
@@ -554,7 +550,7 @@ Business Activity: ${regForm.businessActivity || "-"}
                           <step.icon size={20} className="text-blue-600" />
                         </div>
                       </div>
-                      <motion.div 
+                      <motion.div
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
                         className={`w-full md:w-1/2 pl-20 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}
                       >
@@ -585,7 +581,7 @@ Business Activity: ${regForm.businessActivity || "-"}
             >
               {/* WhatsApp background accent */}
               <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-[#25D366]/20 blur-[100px] pointer-events-none rounded-full" />
-              
+
               <div className="text-center md:text-left max-w-xl relative z-10">
                 <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Start Your Business the Right Way.</h2>
                 <p className="text-slate-400 text-lg">Connect with our senior partners via WhatsApp for a zero-cost initial consultation.</p>
@@ -630,7 +626,7 @@ Business Activity: ${regForm.businessActivity || "-"}
               <div className="bg-slate-50 px-8 py-6 border-b border-slate-100 flex justify-between items-start shrink-0 relative">
                 {/* Subtle top color bar based on type */}
                 <div className={`absolute top-0 left-0 w-full h-1 ${selectedDetail.title === 'Startup India' ? 'bg-orange-500' : 'bg-blue-600'}`} />
-                
+
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white ${selectedDetail.title === 'Startup India' ? 'bg-orange-500' : 'bg-blue-600'}`}>
                     <selectedDetail.icon size={24} />
@@ -708,39 +704,175 @@ Business Activity: ${regForm.businessActivity || "-"}
       <AnimatePresence>
         {isPanelOpen && (
           <>
+            {/* Overlay */}
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998]"
               onClick={() => setIsPanelOpen(false)}
             />
+
+            {/* Slide Panel */}
             <motion.div
-              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 100, damping: 22 }}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 100, damping: 22 }}
               className="fixed inset-y-0 right-0 w-full sm:w-[520px] bg-white z-[9999] shadow-2xl border-l border-slate-200 flex flex-col"
             >
+
+              {/* Sticky Header */}
               <div className="sticky top-0 bg-white z-20 px-8 pt-8 pb-6 border-b border-slate-100">
+
                 <div className="flex justify-between items-start">
                   <div>
-                    <h2 className="text-2xl font-bold text-slate-900">Business Registration Intake</h2>
-                    <p className="text-sm text-slate-500 mt-1">Structured onboarding</p>
+                    <h2 className="text-2xl font-bold text-slate-900">
+                      {serviceName} Intake
+                    </h2>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Structured onboarding for {serviceName}
+                    </p>
                   </div>
-                  <button onClick={() => setIsPanelOpen(false)} className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center text-slate-600">✕</button>
+
+                  <button
+                    onClick={() => setIsPanelOpen(false)}
+                    className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center text-slate-600"
+                  >
+                    ✕
+                  </button>
                 </div>
+
+                {/* Dynamic Progress Bar */}
                 <div className="flex gap-2 mt-6">
-                  {/* Kept progress bar logic */}
-                  {[1,2,3,4].map((_, index) => (
-                    <div key={index} className={`h-2 flex-1 rounded-full transition-all duration-300 ${step >= index + 1 ? "bg-blue-600" : "bg-slate-200"}`} />
+                  {stepsConfig.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`h-2 flex-1 rounded-full transition-all duration-300 ${step >= index + 1 ? "bg-orange-500" : "bg-slate-200"
+                        }`}
+                    />
                   ))}
                 </div>
+
               </div>
-              {/* Note: I truncated the form internals here to save space, but you can paste your existing form inputs here exactly as they were */}
-              <div className="flex-1 overflow-y-auto px-8 py-8 flex items-center justify-center text-slate-400">
-                 {/* Re-insert your form fields mapping logic here if you want to keep the slide panel */}
-                 <p>Slide panel form logic remains intact here.</p>
+
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-8 py-8">
+
+                <div className="space-y-5">
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    {stepsConfig[step - 1].title}
+                  </h3>
+
+                  {stepsConfig[step - 1].fields.map((field) => {
+
+                    // Select Field
+                    if (field.type === "select") {
+                      return (
+                        <select
+                          key={field.name}
+                          name={field.name}
+                          value={regForm[field.name] || ""}
+                          onChange={(e) =>
+                            setRegForm(prev => ({
+                              ...prev,
+                              [field.name]: e.target.value
+                            }))
+                          }
+                          className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none bg-white"
+                        >
+                          <option value="">{field.placeholder}</option>
+                          {field.options.map((opt, i) => (
+                            <option key={i} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      );
+                    }
+
+                    // Textarea Field
+                    if (field.type === "textarea") {
+                      return (
+                        <textarea
+                          key={field.name}
+                          name={field.name}
+                          placeholder={field.placeholder}
+                          rows="4"
+                          value={regForm[field.name] || ""}
+                          onChange={(e) =>
+                            setRegForm(prev => ({
+                              ...prev,
+                              [field.name]: e.target.value
+                            }))
+                          }
+                          className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                        />
+                      );
+                    }
+
+                    // Default Input Field
+                    return (
+                      <input
+                        key={field.name}
+                        name={field.name}
+                        type="text"
+                        placeholder={field.placeholder}
+                        value={regForm[field.name] || ""}
+                        onChange={(e) =>
+                          setRegForm(prev => ({
+                            ...prev,
+                            [field.name]: e.target.value
+                          }))
+                        }
+                        className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                      />
+                    );
+                  })}
+
+                </div>
               </div>
+
+              {/* Footer Navigation */}
+              <div className="px-8 py-6 border-t border-slate-100 bg-white flex justify-between items-center">
+
+                {step > 1 ? (
+                  <button
+                    onClick={() => setStep(step - 1)}
+                    className="px-5 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition"
+                  >
+                    Back
+                  </button>
+                ) : (
+                  <div />
+                )}
+
+                {step < stepsConfig.length ? (
+                  <button
+                    onClick={() => {
+                      if (validateStep()) setStep(step + 1);
+                      else alert("Please complete required fields.");
+                    }}
+                    className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold transition shadow-md"
+                  >
+                    Next →
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold transition shadow-md disabled:opacity-60"
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
+                  </button>
+                )}
+
+              </div>
+
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
 
       {/* ==========================================
           FOOTER
