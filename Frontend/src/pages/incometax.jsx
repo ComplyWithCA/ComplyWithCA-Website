@@ -64,34 +64,64 @@ const knowledgeCards = [
 const splitFeatures = [
   { title: "Tax Optimization", desc: "We don't just file; we analyze your investments to ensure you claim every legal deduction available under Chapter VI-A." },
   { title: "Capital Gains Handling", desc: "Intelligent offset of short-term and long-term capital losses to minimize your overall tax burden." },
-  { title: "Error-Free Execution", desc: "Multi-tier CA verification process ensures your return is flawless, avoiding departmental notices." }
+  { title: "Error-Free Execution", desc: "Multi-tier professional verification process ensures your return is flawless, avoiding departmental notices." }
 ];
 
 const pricingTiers = [
   {
-    name: "Salaried ITR",
+    name: "ITR 1",
     price: "₹999",
-    features: ["Form 16 Parsing", "House Rent Allowance (HRA)", "Basic Deductions (80C, 80D)"],
+    subtitle: "Basic Salary & Other Income",
+    features: [
+      "Salary Income (Form 16)",
+      "One House Property",
+      "Other Income (Interest etc.)",
+      "Basic Deductions (80C, 80D)"
+    ],
     popular: false,
   },
   {
-    name: "Business ITR",
-    price: "₹2,999",
-    badge: "MOST POPULAR",
-    features: ["Presumptive Taxation (44AD/ADA)", "Capital Gains Calculation", "GST Data Reconciliation", "Priority CA Support"],
-    popular: true,
+    name: "ITR 2",
+    price: "₹1,999",
+    subtitle: "Salary + Stock + Mutual Fund Gain",
+    features: [
+      "Capital Gains (Shares & Mutual Funds)",
+      "Multiple House Properties",
+      "Foreign Assets (if applicable)",
+      "Comprehensive Tax Computation"
+    ],
+    popular: false,
   },
   {
-    name: "NRI & Crypto",
-    price: "₹4,999",
-    features: ["DTAA Benefits Application", "VDA (Crypto) Tax Calculation", "Foreign Asset Reporting", "Dedicated Tax Advisor"],
+    name: "ITR 3",
+    price: "₹2,999",
+    subtitle: "Salary + F&O + Intraday Income",
+    features: [
+      "F&O / Intraday Trading",
+      "Business & Professional Income",
+      "Balance Sheet & P&L Preparation",
+      "Advance Tax Computation"
+    ],
+    popular: true,
+    badge: "MOST POPULAR"
+  },
+  {
+    name: "ITR 4",
+    price: "₹999",
+    subtitle: "Only Business Income (Presumptive)",
+    features: [
+      "Presumptive Taxation (44AD/44ADA)",
+      "Small Business Filing",
+      "Turnover Declaration",
+      "Basic Compliance Review"
+    ],
     popular: false,
   }
 ];
 
 const processSteps = [
   { id: "01", title: "Document Upload", desc: "Securely upload your Form 16, bank statements, and investment proofs via our encrypted portal.", icon: FileCheck },
-  { id: "02", title: "Tax Computation", desc: "Our CA team calculates your liabilities, optimizes deductions, and shares a detailed draft.", icon: Calculator },
+  { id: "02", title: "Tax Computation", desc: "Our team calculates your liabilities, optimizes deductions, and shares a detailed draft.", icon: Calculator },
   { id: "03", title: "Filing & Confirmation", desc: "Upon your approval, we file the ITR securely and share the official acknowledgement (ITR-V).", icon: CheckCircle2 }
 ];
 
@@ -141,7 +171,7 @@ export default function IncomeTaxFiling() {
     const { name, value } = e.target;
     setItrForm((prev) => ({ ...prev, [name]: value }));
   };
-  
+
   const handleWhatsAppChat = (e, context = "Income Tax Filing") => {
     if (e) e.stopPropagation();
     const phoneNumber = "9311702025";
@@ -171,6 +201,8 @@ export default function IncomeTaxFiling() {
   const getDynamicFields = () => {
     return `ITR Type: ${itrForm.itrType || "-"} \nIncome Source: ${itrForm.incomeSource || "-"} \nIncome Range: ${itrForm.incomeRange || "-"} \nCapital Gains: ${itrForm.capitalGains || "-"} \nForeign Assets: ${itrForm.foreignAssets || "-"} \nNotice Received: ${itrForm.noticeReceived || "-"}`;
   };
+
+  const [activeIndex, setActiveIndex] = useState(1); // middle active by default
 
   const handleSubmit = async () => {
     if (!validateStep()) {
@@ -233,7 +265,7 @@ export default function IncomeTaxFiling() {
             </motion.h1>
 
             <motion.p variants={fadeUp} className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
-              Accurate, optimized, and stress-free ITR filing guided by senior Chartered Accountants. We protect your wealth while ensuring 100% compliance.
+              Accurate, optimized, and stress-free ITR filing guided by senior Professionals. We protect your wealth while ensuring 100% compliance.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
@@ -248,7 +280,7 @@ export default function IncomeTaxFiling() {
                   <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </button>
-              
+
               {/* WhatsApp Action */}
               <button
                 onClick={(e) => handleWhatsAppChat(e, "ITR Services")}
@@ -301,7 +333,7 @@ export default function IncomeTaxFiling() {
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">Who We Help</h2>
             </div>
 
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
             >
@@ -319,6 +351,114 @@ export default function IncomeTaxFiling() {
         </section>
 
         {/* ==========================================
+            PRICING TIER CARDS (WHATSAPP INTEGRATED)
+            ========================================== */}
+        <section className="py-36 bg-gradient-to-b from-white to-slate-50 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+            {/* Heading */}
+            <div className="text-center mb-24">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-5">
+                Income Tax Filing (ITR)
+              </h2>
+              <p className="text-slate-500 text-lg font-medium">
+                Transparent filing solutions based on your income profile.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-12">
+
+              {pricingTiers.map((tier, idx) => {
+                const isActive = activeIndex === idx;
+
+                return (
+                  <motion.div
+                    key={idx}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    onMouseLeave={() => setActiveIndex(1)}
+                    initial={false}
+                    animate={{
+                      y: isActive ? -18 : 0,
+                      scale: isActive ? 1.05 : 1,
+                    }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                    className={`
+              relative rounded-3xl p-10 bg-white
+              transition-all duration-300
+              ${isActive
+                        ? "border-2 border-[#25D366] shadow-2xl shadow-[#25D366]/15"
+                        : "border border-slate-200 shadow-md hover:shadow-lg"}
+            `}
+                  >
+
+                    {/* Soft Glow (Reduced) */}
+                    {isActive && (
+                      <div className="absolute -inset-2 bg-[#25D366]/10 blur-xl rounded-3xl -z-10" />
+                    )}
+
+                    {/* Title */}
+                    <h3 className="text-xs font-bold tracking-widest text-slate-500 uppercase mb-4">
+                      {tier.name}
+                    </h3>
+
+                    {/* Subtitle */}
+                    {tier.subtitle && (
+                      <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+                        {tier.subtitle}
+                      </p>
+                    )}
+
+                    {/* Price */}
+                    <div className="mb-10">
+                      <span className="text-5xl font-black text-slate-900">
+                        {tier.price}
+                      </span>
+                    </div>
+
+                    <div className="h-px bg-slate-100 mb-10" />
+
+                    {/* Features */}
+                    <ul className="space-y-4 mb-12">
+                      {tier.features.map((feat, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                          <CheckCircle2
+                            size={18}
+                            className={`mt-0.5 shrink-0 transition-colors ${isActive ? "text-[#25D366]" : "text-slate-400"
+                              }`}
+                          />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Button */}
+                    <button
+                      onClick={(e) => handleWhatsAppChat(e, tier.name)}
+                      className={`
+                w-full py-4 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2
+                ${isActive
+                          ? "bg-[#25D366] text-white shadow-lg shadow-[#25D366]/25 hover:bg-[#1ebe5d]"
+                          : "bg-slate-100 text-slate-800 hover:bg-green-50 hover:text-[#25D366]"
+                        }
+              `}
+                    >
+                      <MessageCircle size={18} />
+                      Start Filing
+                    </button>
+
+                    <div className="text-center mt-6 text-xs text-slate-400 tracking-widest">
+                      TAXES AS PER APPLICABLE LAW
+                    </div>
+
+                  </motion.div>
+                );
+              })}
+
+            </div>
+          </div>
+        </section>
+
+        {/* ==========================================
             WHAT'S INCLUDED
             ========================================== */}
         <section className="py-24 bg-slate-50 border-t border-slate-100">
@@ -328,13 +468,13 @@ export default function IncomeTaxFiling() {
               <p className="text-slate-500 text-lg">Comprehensive advisory wrapped into every filing.</p>
             </div>
 
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
               className="grid md:grid-cols-2 gap-6"
             >
               {includedServices.map((service, idx) => (
-                <motion.div 
-                  key={idx} variants={fadeUp} 
+                <motion.div
+                  key={idx} variants={fadeUp}
                   className="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] hover:shadow-xl hover:-translate-y-1 hover:border-blue-100 transition-all duration-300 flex items-start gap-6"
                 >
                   <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 text-blue-600">
@@ -356,7 +496,7 @@ export default function IncomeTaxFiling() {
         <section className="py-28 bg-[#0b1120] text-white border-y border-slate-800 relative overflow-hidden">
           {/* Subtle Ambient Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none" />
-          
+
           <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="max-w-2xl">
@@ -369,16 +509,16 @@ export default function IncomeTaxFiling() {
                 <p className="text-slate-400 text-lg leading-relaxed">
                   Filing your Income Tax Return isn't just about avoiding penalties. It is the ultimate financial document that acts as a passport to capital, global travel, and reclaiming your own money.
                 </p>
-              </motion.div>
+              </motion.div> 
             </div>
 
-            <motion.div 
+            <motion.div
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
               className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
             >
               {knowledgeCards.map((card, idx) => (
-                <motion.div 
-                  key={idx} variants={fadeUp} 
+                <motion.div
+                  key={idx} variants={fadeUp}
                   className="bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors duration-300"
                 >
                   <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center mb-6">
@@ -389,7 +529,7 @@ export default function IncomeTaxFiling() {
                 </motion.div>
               ))}
             </motion.div>
-            
+
             {/* Warning Note */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mt-12 bg-rose-500/10 border border-rose-500/20 rounded-2xl p-6 flex items-start sm:items-center gap-4 max-w-4xl mx-auto">
               <div className="text-rose-400 shrink-0"><AlertTriangle size={24} /></div>
@@ -407,9 +547,9 @@ export default function IncomeTaxFiling() {
         <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-20 items-start">
-              
+
               {/* Sticky Left Content */}
-              <motion.div 
+              <motion.div
                 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
                 className="lg:w-5/12 lg:sticky lg:top-32"
               >
@@ -418,22 +558,22 @@ export default function IncomeTaxFiling() {
                   File Accurate.<br />
                   <span className="text-blue-600">Stay Compliant.</span>
                 </h2>
-                
+
                 <ul className="space-y-6 mb-10">
-                  <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><CheckCircle2 className="text-green-500"/> 100% Secure Data Encryption</li>
-                  <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><ShieldCheck className="text-blue-500"/> CA Representation Guarantee</li>
-                  <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><Lock className="text-indigo-500"/> No Hidden Fee Architecture</li>
+                  <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><CheckCircle2 className="text-green-500" /> 100% Secure Data Encryption</li>
+                  <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><ShieldCheck className="text-blue-500" /> Professional Representation Guarantee</li>
+                  <li className="flex items-center gap-4 text-slate-700 font-bold text-lg"><Lock className="text-indigo-500" /> No Hidden Fee Architecture</li>
                 </ul>
               </motion.div>
 
               {/* Right List Content */}
-              <motion.div 
+              <motion.div
                 initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}
                 className="lg:w-7/12 flex flex-col gap-6"
               >
                 {splitFeatures.map((feature, idx) => (
-                  <motion.div 
-                    key={idx} variants={fadeUp} 
+                  <motion.div
+                    key={idx} variants={fadeUp}
                     className="bg-slate-50 p-8 rounded-3xl border border-slate-100 border-l-4 hover:border-l-blue-600 transition-colors"
                   >
                     <h4 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h4>
@@ -446,63 +586,6 @@ export default function IncomeTaxFiling() {
           </div>
         </section>
 
-        {/* ==========================================
-            PRICING TIER CARDS (WHATSAPP INTEGRATED)
-            ========================================== */}
-        <section className="py-32 bg-[#fafcff] border-t border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">ITR Pricing & Packages</h2>
-              <p className="text-slate-500">Transparent filing solutions based on your income profile.</p>
-            </div>
-
-            <motion.div 
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center relative"
-            >
-              {pricingTiers.map((tier, idx) => (
-                <motion.div 
-                  key={idx} variants={fadeUp}
-                  className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${tier.popular ? 'border-[#25D366] shadow-[0_20px_60px_-15px_rgba(37,211,102,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-[#25D366]/50'}`}
-                >
-                  {tier.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#25D366] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md whitespace-nowrap">
-                      {tier.badge}
-                    </div>
-                  )}
-                  
-                  <h3 className="text-lg font-bold text-slate-900 mb-2 text-center">{tier.name}</h3>
-                  <div className="flex justify-center items-baseline gap-1 mb-8 pb-8 border-b border-slate-100">
-                    <span className="text-sm font-medium text-slate-400">Starting from</span>
-                    <span className="text-4xl font-black text-slate-900">{tier.price}</span>
-                  </div>
-
-                  <ul className="space-y-4 mb-10">
-                    {tier.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className={tier.popular ? "text-[#25D366] shrink-0" : "text-slate-400 shrink-0"} />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* GREEN WHATSAPP BUTTONS */}
-                  <button
-                    onClick={(e) => handleWhatsAppChat(e, `${tier.name} ITR Package`)}
-                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 
-                      ${tier.popular 
-                        ? 'bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 hover:bg-[#128C7E] hover:-translate-y-1' 
-                        : 'bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20'
-                      }`}
-                  >
-                    <MessageCircle size={20} />
-                    {tier.popular ? "Start on WhatsApp" : "Get Quote via WhatsApp"}
-                  </button>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
 
         {/* ==========================================
             HOW IT WORKS (Vertical Timeline)
@@ -528,7 +611,7 @@ export default function IncomeTaxFiling() {
                           <step.icon size={24} className="text-blue-600" />
                         </div>
                       </div>
-                      <motion.div 
+                      <motion.div
                         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeUp}
                         className={`w-full md:w-1/2 pl-24 md:pl-0 ${isEven ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}
                       >
@@ -549,11 +632,11 @@ export default function IncomeTaxFiling() {
         <section className="py-24 bg-slate-50 border-t border-slate-100">
           <div className="max-w-3xl mx-auto px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-[1.5rem] overflow-hidden bg-white shadow-sm">
-                  <button 
+                  <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                   >
@@ -562,7 +645,7 @@ export default function IncomeTaxFiling() {
                   </button>
                   <AnimatePresence>
                     {openFaq === idx && (
-                      <motion.div 
+                      <motion.div
                         initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
                         <div className="p-6 pt-0 text-slate-600 text-base leading-relaxed border-t border-slate-50 font-medium">
@@ -583,15 +666,15 @@ export default function IncomeTaxFiling() {
         <section className="py-24 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
           {/* Subtle Green Ambient Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#25D366]/20 blur-[120px] rounded-full pointer-events-none" />
-          
+
           <div className="max-w-3xl mx-auto relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Stay Tax Compliant the Right Way.</h2>
               <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
-                Connect with our dedicated Chartered Accountants via WhatsApp to file your income tax returns efficiently and accurately.
+                Connect with our dedicated Professionals via WhatsApp to file your income tax returns efficiently and accurately.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button 
+                <button
                   onClick={(e) => handleWhatsAppChat(e, "Tax Filing Package")}
                   className="bg-[#25D366] hover:bg-[#128C7E] text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-3 text-lg hover:-translate-y-1"
                 >
