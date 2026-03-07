@@ -41,48 +41,61 @@ const ecosystemServices = [
   { title: "Return Filing", desc: "Automated management of GSTR-1, GSTR-3B, and GSTR-9 with 100% accurate reconciliation.", icon: RefreshCw },
   { title: "Amendment", desc: "Modify your core or non-core fields in registration seamlessly when business operations change.", icon: Edit },
   { title: "Cancellation", desc: "Proper closing procedures when winding up operations to prevent future liabilities and ensure clean exits.", icon: XCircle },
-  { title: "Notice Handling", desc: "Expert responses to ASMT-10, show cause notices, and departmental audits drafted by senior CAs.", icon: AlertCircle },
+  // { title: "Notice Handling", desc: "Expert responses to ASMT-10, show cause notices, and departmental audits drafted by senior CAs.", icon: AlertCircle },
   { title: "GST Advisory", desc: "Strategic tax planning, classification guidance, and optimization of Input Tax Credit (ITC).", icon: MessageSquare }
 ];
 
 const pricingPackages = [
   {
-    tier: "GST Registration",
-    price: "₹2,499",
+    tier: "GST Certificate",
+    price: "₹499",
+    subtitle: "/ one-time",
     features: [
-      "Professional Document & Form Assistance",
-      "Government Fee Charged Separately",
-      "Trackable GST Application Status"
+      "GST Certificate Download",
+      "GSTIN Verification",
+      "Business Name Validation"
     ],
-    buttonText: "Register via WhatsApp",
-    isPopular: false
+    buttonText: "Get Certificate",
+    isRecommended: false
   },
   {
-    tier: "Monthly GST Filing",
-    badge: "MOST POPULAR",
-    price: "₹4,999",
-    period: "/ month",
+    tier: "GST Filing – Monthly",
+    price: "₹499",
+    subtitle: "/ month",
     features: [
-      "GSTR-1 & GSTR-3B Filing",
-      "Accurate ITC Reconciliation",
-      "Priority CA Support on WhatsApp"
+      "GSTR-1 Filing",
+      "GSTR-3B Filing",
+      "Basic ITC Reconciliation"
     ],
-    buttonText: "Start Plan on WhatsApp",
-    isPopular: true
+    buttonText: "Start Monthly Plan",
+    isRecommended: true
   },
   {
-    tier: "Corporate Compliance",
-    price: "₹9,999",
-    period: "/ month",
+    tier: "GST Filing – Quarterly",
+    price: "₹1399",
+    subtitle: "/ quarter",
     features: [
-      "Full GST Audit & Representation",
-      "Dedicated Tax Consultant",
-      "Quarterly Business Compliance Review"
+      "Quarterly Return Filing",
+      "ITC Reconciliation",
+      "Compliance Monitoring"
     ],
-    buttonText: "Discuss Corporate Plan",
-    isPopular: false
+    buttonText: "Start Quarterly Plan",
+    isRecommended: false
+  },
+  {
+    tier: "GST Filing – Yearly",
+    price: "₹5699",
+    subtitle: "/ year",
+    features: [
+      "Full Year Filing Support",
+      "Annual Return Assistance",
+      "Priority WhatsApp Support"
+    ],
+    buttonText: "Start Yearly Plan",
+    isRecommended: false
   }
 ];
+
 const processSteps = [
   { id: "01", title: "Consultation", desc: "Evaluation of your business model, turnover, and ITC requirements.", icon: Search },
   { id: "02", title: "Documentation", desc: "Seamless digital collection of KYC and verification of all legal documents.", icon: FileCheck },
@@ -90,9 +103,30 @@ const processSteps = [
 ];
 
 const faqs = [
-  { q: "How long does a new GST registration take?", a: "Typically, a new GST registration takes 3-7 working days from the date of submission, provided all documents are accurate and no departmental queries are raised." },
-  { q: "What files need to be submitted?", a: "Standard requirements include the PAN of the business/applicant, Aadhaar of promoters, proof of business registration, identity/address proofs, and a canceled cheque or bank statement." },
-  { q: "Can you help with GST notices from previous years?", a: "Yes, our senior advisory team specializes in historical notice handling, preparing robust replies to ASMT-10 or show-cause notices for previous financial years." }
+  {
+    q: "How long does GST registration take?",
+    a: "GST registration usually takes 3–7 working days after submitting complete and accurate documents, subject to government approval."
+  },
+  {
+    q: "What documents are required for GST registration?",
+    a: "You typically need PAN card, Aadhaar card, business address proof, bank details, and passport-size photographs of the promoters."
+  },
+  {
+    q: "Do you provide monthly GST filing services?",
+    a: "Yes, we provide monthly, quarterly, and yearly GST filing services including return filing and basic ITC reconciliation."
+  },
+  {
+    q: "What happens if I miss GST filing?",
+    a: "Late filing can result in penalties and interest charges. We help you file pending returns and minimize penalties wherever possible."
+  },
+  {
+    q: "Can you help with GST cancellation?",
+    a: "Yes, we assist with proper GST cancellation to ensure there are no future liabilities or compliance issues."
+  },
+  {
+    q: "Are government fees included in your pricing?",
+    a: "Our service charges are separate. Government fees, if applicable, are charged additionally as per official rates."
+  }
 ];
 
 // ==========================================
@@ -122,169 +156,169 @@ export default function GstServices() {
 
   const serviceName = "GST Services";
 
-const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  phone: "",
-  contactMode: "",
-  businessName: "",
-  entityType: "",
-  state: "",
-  serviceType: "",
-  dynamicData: {},
-  timeline: "",
-  message: ""
-});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    contactMode: "",
+    businessName: "",
+    entityType: "",
+    state: "",
+    serviceType: "",
+    dynamicData: {},
+    timeline: "",
+    message: ""
+  });
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prev) => ({ ...prev, [name]: value }));
-};
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-const handleDynamicChange = (field, value) => {
-  setFormData((prev) => ({
-    ...prev,
-    dynamicData: {
-      ...prev.dynamicData,
-      [field]: value
+  const handleDynamicChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      dynamicData: {
+        ...prev.dynamicData,
+        [field]: value
+      }
+    }));
+  };
+  const getDynamicFields = () => {
+    switch (formData.serviceType) {
+      case "Registration":
+        return (
+          <>
+            <select
+              className={inputStyle}
+              onChange={(e) => handleDynamicChange("Turnover", e.target.value)}
+            >
+              <option value="">Annual Turnover</option>
+              <option>&lt; 20L</option>
+              <option>20L–1Cr</option>
+              <option>1Cr–5Cr</option>
+              <option>5Cr+</option>
+            </select>
+          </>
+        );
+
+      // case "Notice Handling":
+      //   return (
+      //     <>
+      //       <select
+      //         className={inputStyle}
+      //         onChange={(e) => handleDynamicChange("Notice Type", e.target.value)}
+      //       >
+      //         <option value="">Notice Type</option>
+      //         <option>ASMT-10</option>
+      //         <option>DRC-01</option>
+      //         <option>Show Cause</option>
+      //         <option>Audit</option>
+      //       </select>
+      //     </>
+      //   );
+
+      case "Monthly Filing":
+        return (
+          <>
+            <select
+              className={inputStyle}
+              onChange={(e) => handleDynamicChange("Invoice Volume", e.target.value)}
+            >
+              <option value="">Monthly Invoice Volume</option>
+              <option>0–50</option>
+              <option>50–200</option>
+              <option>200–1000</option>
+              <option>1000+</option>
+            </select>
+          </>
+        );
+
+      default:
+        return null;
     }
-  }));
-};
-const getDynamicFields = () => {
-  switch (formData.serviceType) {
-    case "Registration":
-      return (
-        <>
-          <select
-            className={inputStyle}
-            onChange={(e) => handleDynamicChange("Turnover", e.target.value)}
-          >
-            <option value="">Annual Turnover</option>
-            <option>&lt; 20L</option>
-            <option>20L–1Cr</option>
-            <option>1Cr–5Cr</option>
-            <option>5Cr+</option>
-          </select>
-        </>
-      );
-
-    case "Notice Handling":
-      return (
-        <>
-          <select
-            className={inputStyle}
-            onChange={(e) => handleDynamicChange("Notice Type", e.target.value)}
-          >
-            <option value="">Notice Type</option>
-            <option>ASMT-10</option>
-            <option>DRC-01</option>
-            <option>Show Cause</option>
-            <option>Audit</option>
-          </select>
-        </>
-      );
-
-    case "Monthly Filing":
-      return (
-        <>
-          <select
-            className={inputStyle}
-            onChange={(e) => handleDynamicChange("Invoice Volume", e.target.value)}
-          >
-            <option value="">Monthly Invoice Volume</option>
-            <option>0–50</option>
-            <option>50–200</option>
-            <option>200–1000</option>
-            <option>1000+</option>
-          </select>
-        </>
-      );
-
-    default:
-      return null;
-  }
-};
+  };
 
   const Input = ({ name, placeholder }) => (
-  <input
-    name={name}
-    placeholder={placeholder}
-    value={formData[name]}   // ✅ FIXED
-    onChange={handleChange}
-    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition"
-  />
-);
+    <input
+      name={name}
+      placeholder={placeholder}
+      value={formData[name]}   // ✅ FIXED
+      onChange={handleChange}
+      className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition"
+    />
+  );
 
-const Select = ({ name, children }) => (
-  <select
-    name={name}
-    value={formData[name]}   // ✅ FIXED
-    onChange={handleChange}
-    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition bg-white"
-  >
-    {children}
-  </select>
-);
+  const Select = ({ name, children }) => (
+    <select
+      name={name}
+      value={formData[name]}   // ✅ FIXED
+      onChange={handleChange}
+      className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition bg-white"
+    >
+      {children}
+    </select>
+  );
 
   const calculateLeadScore = () => {
-  let score = 30;
+    let score = 30;
 
-  if (formData.serviceType === "Notice Handling") score += 30;
-  if (formData.serviceType === "Monthly Filing") score += 20;
-  if (formData.timeline === "Immediate") score += 20;
+    // if (formData.serviceType === "Notice Handling") score += 30;
+    if (formData.serviceType === "Monthly Filing") score += 20;
+    if (formData.timeline === "Immediate") score += 20;
 
-  return score;
-};
+    return score;
+  };
 
-const getDynamicFieldsString = () => {
-  return Object.entries(formData.dynamicData)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join("\n");
-};
+  const getDynamicFieldsString = () => {
+    return Object.entries(formData.dynamicData)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join("\n");
+  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
-  try {
-    setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-    const leadScore = calculateLeadScore();
-    const priority = leadScore >= 70 ? "HIGH PRIORITY" : "STANDARD";
+      const leadScore = calculateLeadScore();
+      const priority = leadScore >= 70 ? "HIGH PRIORITY" : "STANDARD";
 
-    const templateParams = {
-      serviceName,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      contactMode: formData.contactMode,
-      businessName: formData.businessName,
-      entityType: formData.entityType,
-      state: formData.state,
-      serviceType: formData.serviceType,
-      timeline: formData.timeline,
-      message: formData.message || "-",
-      dynamicFields: getDynamicFieldsString(),
-      leadScore,
-      priority
-    };
+      const templateParams = {
+        serviceName,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        contactMode: formData.contactMode,
+        businessName: formData.businessName,
+        entityType: formData.entityType,
+        state: formData.state,
+        serviceType: formData.serviceType,
+        timeline: formData.timeline,
+        message: formData.message || "-",
+        dynamicFields: getDynamicFieldsString(),
+        leadScore,
+        priority
+      };
 
-    await emailjs.send(
-      "service_ghj2doe",
-      "template_qkg4m4s",
-      templateParams,
-      "KJ9IR47xK9gNAOEYd"
-    );
+      await emailjs.send(
+        "service_ghj2doe",
+        "template_qkg4m4s",
+        templateParams,
+        "KJ9IR47xK9gNAOEYd"
+      );
 
-    alert("Consultation submitted successfully!");
+      alert("Consultation submitted successfully!");
 
-    setIsPanelOpen(false);
-    setStep(1);
+      setIsPanelOpen(false);
+      setStep(1);
 
-  } catch (error) {
-    alert("Something went wrong.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    } catch (error) {
+      alert("Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleWhatsAppChat = (e, context = "GST Services") => {
     if (e) e.stopPropagation();
@@ -295,25 +329,27 @@ const getDynamicFieldsString = () => {
   };
 
   const validateStep = () => {
-  if (step === 1) {
-    return formData.name && formData.email && formData.phone && formData.contactMode;
-  }
+    if (step === 1) {
+      return formData.name && formData.email && formData.phone && formData.contactMode;
+    }
 
-  if (step === 2) {
-    return formData.businessName && formData.entityType && formData.state;
-  }
+    if (step === 2) {
+      return formData.businessName && formData.entityType && formData.state;
+    }
 
-  if (step === 3) {
-    return formData.serviceType;
-  }
+    if (step === 3) {
+      return formData.serviceType;
+    }
 
-  if (step === 4) {
-    return formData.timeline;
-  }
+    if (step === 4) {
+      return formData.timeline;
+    }
 
-  return true;
-};
+    return true;
+  };
 
+  const [activeIndex, setActiveIndex] = useState(1); // Monthly default
+  
   return (
     <div className="min-h-screen bg-[#fafcff] font-sans text-slate-800 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden">
       <Navbar />
@@ -342,9 +378,8 @@ const getDynamicFieldsString = () => {
               GST <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Services</span>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="text-lg xl:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
-              Impact-driven tax strategy, reconciliation, and 100% compliant filings tailored for complex business architectures to ensure you retain your competitive advantage.
-            </motion.p>
+            <motion.p variants={fadeUp} className="text-lg xl:text-xxl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
+              The Goods and Services Tax (GST) is a unified indirect tax system implemented by the Government of India to simplify the taxation structure and create a single national market. Introduced on 1 July 2017, GST replaced multiple indirect taxes such as VAT, service tax, and excise duty, making tax compliance easier for businesses.            </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4">
               <button
@@ -409,6 +444,8 @@ const getDynamicFieldsString = () => {
           </motion.div>
         </section>
 
+
+
         {/* ==========================================
             CORNERSTONE SECTION (ASYMMETRIC)
             ========================================== */}
@@ -445,9 +482,107 @@ const getDynamicFieldsString = () => {
         </section>
 
         {/* ==========================================
+            PRICING & PACKAGES
+            ========================================== */}
+        <section className="py-32 bg-gradient-to-b from-white to-slate-50 border-t border-slate-100">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+    {/* Heading */}
+    <div className="text-center mb-20">
+      <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+        GST Packages
+      </h2>
+      <p className="text-slate-500 text-lg font-medium">
+        Simple pricing. Transparent compliance.
+      </p>
+    </div>
+
+    {/* Cards Wrapper */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+  {pricingPackages.map((pkg, idx) => {
+    const isActive = activeIndex === idx;
+
+    return (
+      <motion.div
+        key={idx}
+        onMouseEnter={() => setActiveIndex(idx)}
+        initial={false}
+        animate={{
+          y: isActive ? -12 : 0,
+          scale: isActive ? 1.03 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 250, damping: 18 }}
+        className={`
+          relative rounded-3xl p-8 bg-white
+          transition-all duration-300
+          ${isActive
+            ? "border-2 border-green-500 shadow-2xl shadow-green-500/10"
+            : "border border-slate-200 shadow-lg"}
+        `}
+      >
+
+        {/* Subtle Glow */}
+        {isActive && (
+          <div className="absolute -inset-2 bg-green-500/10 blur-2xl rounded-3xl -z-10" />
+        )}
+
+        {/* Title */}
+        <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-5">
+          {pkg.tier}
+        </h3>
+
+        {/* Price */}
+        <div className="flex items-baseline gap-2 mb-8">
+          <span className="text-5xl font-black text-slate-900">
+            {pkg.price}
+          </span>
+          <span className="text-sm text-slate-400">
+            {pkg.subtitle}
+          </span>
+        </div>
+
+        <div className="h-px bg-slate-100 mb-8" />
+
+        {/* Features */}
+        <ul className="space-y-4 mb-10">
+          {pkg.features.map((feat, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+              <CheckCircle2 size={18} className="text-green-500 mt-0.5" />
+              {feat}
+            </li>
+          ))}
+        </ul>
+
+        {/* Button */}
+        <button
+          onClick={(e) => handleWhatsAppChat(e, pkg.tier)}
+          className={`
+            w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all
+            ${isActive
+              ? "bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600"
+              : "bg-slate-100 text-slate-800 hover:bg-green-50 hover:text-green-600"}
+          `}
+        >
+          <FaWhatsapp />
+          {pkg.buttonText}
+        </button>
+
+        <div className="text-center mt-5 text-xs text-slate-400 uppercase tracking-widest">
+          Taxes Applicable Extra
+        </div>
+
+      </motion.div>
+    );
+  })}
+
+</div>
+  </div>
+</section>
+        {/* ==========================================
             COMPREHENSIVE ECOSYSTEM GRID
             ========================================== */}
-        <section className="py-24 bg-slate-50 border-t border-slate-100">
+        <section className="py-24 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Comprehensive Service Ecosystem</h2>
@@ -455,7 +590,7 @@ const getDynamicFieldsString = () => {
             </div>
 
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
+              initial="hidden" whileInView="visible" variants={staggerContainer}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {ecosystemServices.map((service, idx) => (
@@ -474,63 +609,7 @@ const getDynamicFieldsString = () => {
           </div>
         </section>
 
-        {/* ==========================================
-            PRICING & PACKAGES
-            ========================================== */}
-        <section className="py-32 bg-white border-t border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">GST Pricing & Packages</h2>
-              <p className="text-slate-500 text-lg font-medium">Transparent billing logic tailored to your operational scale.</p>
-            </div>
 
-            <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center"
-            >
-              {pricingPackages.map((pkg, idx) => (
-                <motion.div
-                  key={idx} variants={fadeUp}
-                  className={`relative bg-white rounded-[2rem] p-10 border transition-all duration-300 ${pkg.isPopular ? 'border-blue-500 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.2)] md:scale-105 z-10' : 'border-slate-200 shadow-sm hover:border-blue-200'}`}
-                >
-                  {pkg.isPopular && (
-                    <div className="absolute -top-4 right-8 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-md">
-                      {pkg.badge}
-                    </div>
-                  )}
-
-                  <h3 className="text-[11px] font-bold text-blue-600 uppercase tracking-widest mb-4">{pkg.tier}</h3>
-                  <div className="flex items-baseline gap-1 mb-8 pb-8 border-b border-slate-100">
-                    <span className="text-4xl font-black text-slate-900">{pkg.price}</span>
-                    {pkg.period && <span className="text-slate-500 text-sm font-medium">{pkg.period}</span>}
-                  </div>
-
-                  <ul className="space-y-4 mb-10">
-                    {pkg.features.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
-                        <CheckCircle2 size={18} className="text-blue-500 shrink-0 mt-0.5" />
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-
-                 <button
-  onClick={(e) => handleWhatsAppChat(e, `${pkg.tier} Package`)}
-  className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
-    pkg.isPopular
-      ? "bg-green-500 text-white shadow-lg shadow-green-500/30 hover:bg-green-600 hover:-translate-y-1"
-      : "bg-green-50 text-green-600 hover:bg-green-100"
-  }`}
->
-  <FaWhatsapp className="text-lg" />
-  {pkg.buttonText}
-</button>
-                  <div className="text-center mt-4 text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Taxes Applicable Extra</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
 
         {/* ==========================================
             METHODICAL PROCESS (TIMELINE)
@@ -624,42 +703,42 @@ const getDynamicFieldsString = () => {
         {/* ==========================================
             BOTTOM CTA
             ========================================== */}
-       <section className="py-24 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
+        <section className="py-24 px-6 lg:px-8 bg-slate-900 text-center relative overflow-hidden">
 
-  {/* Ambient Glow */}
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+          {/* Ambient Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
 
-  <div className="max-w-3xl mx-auto relative z-10">
+          <div className="max-w-3xl mx-auto relative z-10">
 
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={fadeUp}
-    >
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+            >
 
-      <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-        Stay GST Compliant the Right Way.
-      </h2>
+              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+                Stay GST Compliant the Right Way.
+              </h2>
 
-      <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
-        Join 500+ Delhi NCR startups who trust ComplyWithCA for their high-stakes
-        tax compliance and advisory needs.
-      </p>
+              <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto font-medium">
+                Join 500+ Delhi NCR startups who trust ComplyWithCA for their high-stakes
+                tax compliance and advisory needs.
+              </p>
 
-      {/* WhatsApp CTA Button */}
-      <button
-        onClick={(e) => handleWhatsAppChat(e, "GST Corporate Packages")}
-        className="group bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-green-500/30 hover:-translate-y-1 text-lg flex items-center gap-3 mx-auto"
-      >
-        <FaWhatsapp className="text-2xl group-hover:scale-110 transition-transform" />
-        Book GST Consultation on WhatsApp
-      </button>
+              {/* WhatsApp CTA Button */}
+              <button
+                onClick={(e) => handleWhatsAppChat(e, "GST Corporate Packages")}
+                className="group bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-green-500/30 hover:-translate-y-1 text-lg flex items-center gap-3 mx-auto"
+              >
+                <FaWhatsapp className="text-2xl group-hover:scale-110 transition-transform" />
+                Book GST Consultation on WhatsApp
+              </button>
 
-    </motion.div>
+            </motion.div>
 
-  </div>
-</section>
+          </div>
+        </section>
 
       </main>
 
@@ -668,188 +747,187 @@ const getDynamicFieldsString = () => {
 ================================ */}
 
       <AnimatePresence>
-  {isPanelOpen && (
-    <>
-      {/* Overlay */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
-        className="fixed inset-0 bg-black/60 backdrop-blur-md z-[9998]"
-        onClick={() => setIsPanelOpen(false)}
-      />
-
-      {/* Slide Panel */}
-      <motion.div
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ type: "spring", stiffness: 90, damping: 20 }}
-        className="fixed inset-y-0 right-0 w-full sm:w-[520px] bg-gradient-to-b from-white to-slate-50 z-[9999] shadow-[0_20px_80px_rgba(0,0,0,0.25)] border-l border-slate-200 flex flex-col"
-      >
-        {/* ================= HEADER ================= */}
-        <div className="sticky top-0 bg-white/80 backdrop-blur-md z-20 px-8 pt-8 pb-6 border-b border-slate-200">
-          <div className="flex justify-between items-start">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900">
-                {serviceName} Intake
-              </h2>
-              <p className="text-sm text-slate-500 mt-1">
-                Secure • Structured • Priority Scored
-              </p>
-            </div>
-
-            <button
+        {isPanelOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[9998]"
               onClick={() => setIsPanelOpen(false)}
-              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition text-slate-600"
+            />
+
+            {/* Slide Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 90, damping: 20 }}
+              className="fixed inset-y-0 right-0 w-full sm:w-[520px] bg-gradient-to-b from-white to-slate-50 z-[9999] shadow-[0_20px_80px_rgba(0,0,0,0.25)] border-l border-slate-200 flex flex-col"
             >
-              ✕
-            </button>
-          </div>
+              {/* ================= HEADER ================= */}
+              <div className="sticky top-0 bg-white/80 backdrop-blur-md z-20 px-8 pt-8 pb-6 border-b border-slate-200">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">
+                      {serviceName} Intake
+                    </h2>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Secure • Structured • Priority Scored
+                    </p>
+                  </div>
 
-          {/* Progress */}
-          <div className="flex gap-2 mt-6">
-            {[1, 2, 3, 4].map((s) => (
-              <div
-                key={s}
-                className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                  step >= s
-                    ? "bg-gradient-to-r from-blue-600 to-indigo-600"
-                    : "bg-slate-200"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+                  <button
+                    onClick={() => setIsPanelOpen(false)}
+                    className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition text-slate-600"
+                  >
+                    ✕
+                  </button>
+                </div>
 
-        {/* ================= BODY ================= */}
-        <div className="flex-1 overflow-y-auto px-8 py-8 space-y-6">
+                {/* Progress */}
+                <div className="flex gap-2 mt-6">
+                  {[1, 2, 3, 4].map((s) => (
+                    <div
+                      key={s}
+                      className={`h-2 flex-1 rounded-full transition-all duration-300 ${step >= s
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600"
+                        : "bg-slate-200"
+                        }`}
+                    />
+                  ))}
+                </div>
+              </div>
 
-          {/* Step Title */}
-          <div>
-            <h3 className="text-lg font-semibold text-slate-900">
-              {step === 1 && "Contact Information"}
-              {step === 2 && "Business Details"}
-              {step === 3 && "Service Requirement"}
-              {step === 4 && "Final Confirmation"}
-            </h3>
-            <p className="text-sm text-slate-500 mt-1">
-              Step {step} of 4
-            </p>
-          </div>
+              {/* ================= BODY ================= */}
+              <div className="flex-1 overflow-y-auto px-8 py-8 space-y-6">
 
-          {/* ================= STEP 1 ================= */}
-          {step === 1 && (
-            <div className="space-y-4">
-              <Input name="name" placeholder="Full Name" />
-              <Input name="email" placeholder="Work Email" />
-              <Input name="phone" placeholder="Phone Number" />
+                {/* Step Title */}
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    {step === 1 && "Contact Information"}
+                    {step === 2 && "Business Details"}
+                    {step === 3 && "Service Requirement"}
+                    {step === 4 && "Final Confirmation"}
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-1">
+                    Step {step} of 4
+                  </p>
+                </div>
 
-              <Select name="contactMode">
-                <option value="">Preferred Contact Mode</option>
-                <option>Call</option>
-                <option>WhatsApp</option>
-                <option>Email</option>
-              </Select>
-            </div>
-          )}
+                {/* ================= STEP 1 ================= */}
+                {step === 1 && (
+                  <div className="space-y-4">
+                    <Input name="name" placeholder="Full Name" />
+                    <Input name="email" placeholder="Work Email" />
+                    <Input name="phone" placeholder="Phone Number" />
 
-          {/* ================= STEP 2 ================= */}
-          {step === 2 && (
-            <div className="space-y-4">
-              <Input name="businessName" placeholder="Business Name" />
+                    <Select name="contactMode">
+                      <option value="">Preferred Contact Mode</option>
+                      <option>Call</option>
+                      <option>WhatsApp</option>
+                      <option>Email</option>
+                    </Select>
+                  </div>
+                )}
 
-              <Select name="entityType">
-                <option value="">Business Structure</option>
-                <option>Proprietorship</option>
-                <option>Partnership</option>
-                <option>LLP</option>
-                <option>Pvt Ltd</option>
-                <option>OPC</option>
-              </Select>
+                {/* ================= STEP 2 ================= */}
+                {step === 2 && (
+                  <div className="space-y-4">
+                    <Input name="businessName" placeholder="Business Name" />
 
-              <Input name="state" placeholder="State of Registration" />
-            </div>
-          )}
+                    <Select name="entityType">
+                      <option value="">Business Structure</option>
+                      <option>Proprietorship</option>
+                      <option>Partnership</option>
+                      <option>LLP</option>
+                      <option>Pvt Ltd</option>
+                      <option>OPC</option>
+                    </Select>
 
-          {/* ================= STEP 3 ================= */}
-          {step === 3 && (
-            <div className="space-y-4">
-              <Select name="serviceType">
-                <option value="">GST Service Required</option>
-                <option>Registration</option>
-                <option>Monthly Filing</option>
-                <option>Notice Handling</option>
-                <option>Advisory</option>
-                <option>Cancellation</option>
-              </Select>
+                    <Input name="state" placeholder="State of Registration" />
+                  </div>
+                )}
 
-              {/* Dynamic Fields Based On Service */}
-              {getDynamicFields()}
-            </div>
-          )}
+                {/* ================= STEP 3 ================= */}
+                {step === 3 && (
+                  <div className="space-y-4">
+                    <Select name="serviceType">
+                      <option value="">GST Service Required</option>
+                      <option>Registration</option>
+                      <option>Monthly Filing</option>
+                      {/* <option>Notice Handling</option> */}
+                      <option>Advisory</option>
+                      <option>Cancellation</option>
+                    </Select>
 
-          {/* ================= STEP 4 ================= */}
-          {step === 4 && (
-            <div className="space-y-4">
-              <Select name="timeline">
-                <option value="">Expected Timeline</option>
-                <option>Immediate</option>
-                <option>This Week</option>
-                <option>This Month</option>
-              </Select>
+                    {/* Dynamic Fields Based On Service */}
+                    {getDynamicFields()}
+                  </div>
+                )}
 
-              <textarea
-                name="message"
-                placeholder="Describe your requirement"
-                rows="4"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition resize-none"
-              />
-            </div>
-          )}
-        </div>
+                {/* ================= STEP 4 ================= */}
+                {step === 4 && (
+                  <div className="space-y-4">
+                    <Select name="timeline">
+                      <option value="">Expected Timeline</option>
+                      <option>Immediate</option>
+                      <option>This Week</option>
+                      <option>This Month</option>
+                    </Select>
 
-        {/* ================= FOOTER ================= */}
-        <div className="px-8 py-6 border-t border-slate-200 bg-white sticky bottom-0">
-          <div className="flex justify-between items-center">
+                    <textarea
+                      name="message"
+                      placeholder="Describe your requirement"
+                      rows="4"
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition resize-none"
+                    />
+                  </div>
+                )}
+              </div>
 
-            {step > 1 ? (
-              <button
-                onClick={() => setStep(step - 1)}
-                className="px-5 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
-              >
-                Back
-              </button>
-            ) : (
-              <div />
-            )}
+              {/* ================= FOOTER ================= */}
+              <div className="px-8 py-6 border-t border-slate-200 bg-white sticky bottom-0">
+                <div className="flex justify-between items-center">
 
-            {step < 4 ? (
-              <button
-                onClick={() => setStep(step + 1)}
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg transition"
-              >
-                Next →
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg disabled:opacity-60 transition"
-              >
-                {isSubmitting ? "Submitting..." : "Submit Consultation"}
-              </button>
-            )}
+                  {step > 1 ? (
+                    <button
+                      onClick={() => setStep(step - 1)}
+                      className="px-5 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
+                    >
+                      Back
+                    </button>
+                  ) : (
+                    <div />
+                  )}
 
-          </div>
-        </div>
-      </motion.div>
-    </>
-  )}
-</AnimatePresence>
+                  {step < 4 ? (
+                    <button
+                      onClick={() => setStep(step + 1)}
+                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg transition"
+                    >
+                      Next →
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSubmit}
+                      disabled={isSubmitting}
+                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg disabled:opacity-60 transition"
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit Consultation"}
+                    </button>
+                  )}
+
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       {/* ==========================================
           FOOTER
           ========================================== */}
