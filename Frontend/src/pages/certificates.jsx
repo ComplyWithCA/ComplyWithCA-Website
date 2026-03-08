@@ -77,7 +77,7 @@ const registrations = [
     badge: "BRAND PROTECTION",
     title: "Trademark Registration",
     desc: "Legally secure your brand name, logo, or slogan from intellectual property theft and competitors.",
-    price: "₹6,999",
+    price: "₹1,499",
     color: "violet"
   }
 ];
@@ -478,10 +478,18 @@ export default function CertificatesAndRegistrations() {
                 </div>
               </motion.div>
             </motion.div>
+            {/* Disclaimer */}
+            <div className="mt-12 pt-6 border-t border-slate-200 text-center">
+              <p className="text-xs text-slate-400 leading-relaxed max-w-3xl mx-auto">
+                *Approval timelines and final certification are subject to verification and approval by the respective Government authorities.
+                We act strictly as a professional service provider facilitating documentation and filing processes and are not responsible for
+                decisions made by regulatory bodies.
+              </p>
+            </div>
           </div>
         </section>
 
-{/* ==========================================
+        {/* ==========================================
             SPECIALIZED STARTUP SECTION
             ========================================== */}
         <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white relative overflow-hidden">
@@ -498,7 +506,7 @@ export default function CertificatesAndRegistrations() {
               <p className="text-slate-600 text-lg mb-10 leading-relaxed max-w-md">
                 Unlock government benefits and investor trust through official DPIIT recognition. Position your startup for rapid scaling with elite compliance status.
               </p>
-              
+
               {/* CHANGED TO OPEN MODAL */}
               <button
                 onClick={() => setSelectedDetail(structures[3])}
@@ -532,7 +540,7 @@ export default function CertificatesAndRegistrations() {
           </div>
         </section>
 
-{/* ==========================================
+        {/* ==========================================
             STREAMLINED PROCESS (Glowing Timeline)
             ========================================== */}
         <section className="py-32 bg-white border-t border-slate-100">
@@ -601,7 +609,7 @@ export default function CertificatesAndRegistrations() {
           </div>
         </section>
 
-        
+
 
         {/* ==========================================
             FAQ SECTION
