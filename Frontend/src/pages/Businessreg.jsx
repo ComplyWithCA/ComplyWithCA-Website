@@ -33,35 +33,87 @@ import emailjs from "@emailjs/browser";
 // ==========================================
 const structures = [
   {
-    tag: "HIGH GROWTH", title: "Private Limited", desc: "Ideal for startups planning VC funding and equity scaling.", price: "₹6,499", icon: Building2,
+    tag: "HIGH GROWTH",
+    title: "Private Limited",
+    desc: "Best for scalable startups planning investor funding.",
+    icon: Building2,
+    quick: [
+      "Min. 2 Directors",
+      "Easy Equity Funding",
+      "Higher Compliance"
+    ],
     details: {
-      who: "Tech startups, businesses seeking venture capital, and founders wanting a completely separate legal identity.",
-      why: "It offers the highest level of limited liability protection, makes fundraising significantly easier by issuing shares, and provides unmatched credibility among suppliers and institutional clients.",
-      features: ["Minimum 2 Directors required", "No minimum paid-up capital", "Distinct legal entity status", "Easy transfer of ownership"]
+      who: "Tech startups, funded businesses, and growth-focused founders.",
+      why: "Ideal for raising venture capital and scaling aggressively.",
+      features: [
+        "Separate Legal Entity",
+        "Limited Liability Protection",
+        "Share Transferability",
+        "Investor-Friendly Structure"
+      ]
     }
   },
   {
-    tag: "PROFESSIONAL FIRMS", title: "LLP Registration", desc: "Low compliance burden for service and professional firms.", price: "₹4,999", icon: Briefcase,
+    tag: "LOW COMPLIANCE",
+    title: "LLP Registration",
+    desc: "Perfect for consultants & service businesses.",
+    icon: Briefcase,
+    quick: [
+      "Min. 2 Partners",
+      "Lower ROC Compliance",
+      "Flexible Profit Sharing"
+    ],
     details: {
-      who: "Consultants, creative agencies, real estate professionals, and family-owned or closely-held businesses.",
-      why: "Combines the limited liability protection of a corporate company with the operational flexibility of a traditional partnership. It has significantly lower annual compliance requirements compared to a Private Limited company.",
-      features: ["Minimum 2 Partners required", "Lower registration cost", "No dividend distribution tax", "No requirement for mandatory board meetings"]
+      who: "Agencies, consultants, and professional firms.",
+      why: "Balanced structure with lower compliance than Pvt Ltd.",
+      features: [
+        "Limited Liability",
+        "Cost Effective",
+        "No Dividend Tax",
+        "Operational Flexibility"
+      ]
     }
   },
   {
-    tag: "SOLO FOUNDERS", title: "One Person (OPC)", desc: "Full control with limited liability protection for solo ventures.", price: "₹5,999", icon: User,
+    tag: "SOLO CONTROL",
+    title: "One Person (OPC)",
+    desc: "Single founder with full ownership & protection.",
+    icon: User,
+    quick: [
+      "Only 1 Director",
+      "Limited Liability",
+      "Easy Upgrade to Pvt Ltd"
+    ],
     details: {
-      who: "Solo entrepreneurs, freelancers, e-commerce sellers, and independent consultants looking to scale securely.",
-      why: "Provides the exact same legal protection as a Private Limited company, but allows a single individual to own 100% of the business without needing a co-founder.",
-      features: ["Only 1 Director/Shareholder needed", "Requires a nominee designation", "Limited liability protection", "Seamless conversion to Pvt Ltd later"]
+      who: "Freelancers and solo entrepreneurs.",
+      why: "Corporate benefits without needing a partner.",
+      features: [
+        "Single Ownership",
+        "Nominee Required",
+        "Corporate Legal Status",
+        "Seamless Conversion Later"
+      ]
     }
   },
   {
-    tag: "GOVT BENEFITS", title: "Startup India", desc: "Unlock tax exemptions and DPIIT recognition for innovators.", price: "₹2,999", icon: Rocket,
+    tag: "GOVT BENEFITS",
+    title: "Startup India",
+    desc: "DPIIT recognition with tax advantages.",
+    icon: Rocket,
+    quick: [
+      "80IAC Tax Benefit",
+      "Angel Tax Exemption",
+      "Govt Recognition"
+    ],
     details: {
-      who: "Innovative startups working towards development, improvement of products/services with high potential for wealth and employment generation.",
-      why: "Unlocks massive government benefits and positions your company for accelerated growth through official state backing.",
-      features: ["DPIIT Official Recognition", "80IAC Tax Holiday for 3 years", "Angel Tax Exemption (Section 56)", "Priority patent and trademark filing"]
+      who: "Innovative startups seeking government support.",
+      why: "Unlock tax holidays and startup ecosystem benefits.",
+      features: [
+        "DPIIT Certificate",
+        "3-Year Tax Holiday",
+        "Faster Patent Processing",
+        "Access to Govt Schemes"
+      ]
     }
   }
 ];
@@ -75,23 +127,41 @@ const benefits = [
 
 const packages = [
   {
-    tier: "Basic Incorporation",
-    price: "₹4,999",
-    features: ["2 DIN & 1 DSC (Class-3)", "Name Reservation (RUN)", "Drafting of MOA & AOA"],
-    isPopular: false
-  },
-  {
-    tier: "Standard Compliance",
-    price: "₹12,499",
-    features: ["Everything in Basic", "GST Registration", "MSME/Udyam Certificate", "Bank Account Assistance"],
+    tier: "Private Limited Company",
+    price: "₹1,999",
+    features: [
+      "Name Approval (RUN/SPICe+)",
+      "MOA & AOA Drafting",
+      "Certificate of Incorporation",
+      "Company PAN & TAN",
+      "2 DIN & DSC Assistance"
+    ],
     isPopular: true
   },
   {
-    tier: "Complete Startup",
-    price: "₹24,999",
-    features: ["Everything in Standard", "Startup India Recognition", "Trademark Filing (1 Class)", "1 Year Compliance Calendar"],
+    tier: "One Person Company (OPC)",
+    price: "₹1,999",
+    features: [
+      "Name Approval",
+      "MOA Drafting",
+      "Certificate of Incorporation",
+      "PAN & TAN Allotment",
+      "1 DIN & DSC Assistance"
+    ],
     isPopular: false
-  }
+  },
+  {
+    tier: "LLP Registration",
+    price: "₹1,999",
+    features: [
+      "LLP Name Reservation",
+      "LLP Agreement Drafting",
+      "Certificate of Incorporation",
+      "PAN & TAN Allotment",
+      "2 DPIN & DSC Assistance"
+    ],
+    isPopular: false
+  },
 ];
 
 const processSteps = [
@@ -107,6 +177,17 @@ const faqs = [
   { q: "How often do I need to file GST returns?", a: "Most businesses need to file monthly returns such as GSTR-1 and GSTR-3B. Some small taxpayers can opt for quarterly filing under the QRMP scheme." },
   { q: "What happens if GST returns are filed late?", a: "Late filing attracts penalties and interest charges. The late fee is ₹50 per day (₹25 CGST + ₹25 SGST), subject to maximum limits depending on the return type." },
   { q: "Do you provide ongoing GST compliance support?", a: "Yes. Our monthly compliance plans include GST return filing, ITC reconciliation, compliance monitoring, and expert CA consultation." }
+];
+
+const whatsIncluded = [
+  "Registration in 7–10 Business Days",
+  "Company PAN & TAN",
+  "Company Name Approval",
+  "MOA & AOA Drafting",
+  "Certificate of Incorporation",
+  "Director Identification Number (DIN)",
+  "Digital Signature Certificates (DSC)",
+  "DSC Token Support & Shipping"
 ];
 
 // ==========================================
@@ -258,7 +339,7 @@ Business Activity: ${regForm.businessActivity || "-"}
   ];
 
   const serviceName = "Business Registration";
-  
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden">
       <Navbar />
@@ -330,57 +411,118 @@ Business Activity: ${regForm.businessActivity || "-"}
         {/* ==========================================
             STRUCTURES GRID
             ========================================== */}
-        <section className="py-24 bg-white border-t border-slate-100">
+        <section className="py-28 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Choose the Right Business Structure</h2>
-              <p className="text-slate-500">Expert-led frameworks for every stage of your growth.</p>
+
+            {/* Header */}
+            <div className="text-center mb-20">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                Choose the Right Business Structure
+              </h2>
+              <p className="text-slate-500 text-lg font-medium">
+                Compare structures based on ownership, compliance & funding needs.
+              </p>
             </div>
 
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer}
-              className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerContainer}
+              className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
             >
-              {structures.slice(0, 3).map((s, idx) => (
-                <motion.div key={idx} variants={fadeUp} className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 flex flex-col h-full group">
-                  <div className="text-[10px] font-bold text-orange-500 tracking-wider uppercase mb-4">{s.tag}</div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{s.title}</h3>
-                  <p className="text-slate-500 text-sm mb-8 leading-relaxed flex-grow">{s.desc}</p>
+              {structures.map((s, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  className="group bg-white border border-slate-200 rounded-[2rem] p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+                >
 
-                  <div className="pt-6 border-t border-slate-200/80 mt-auto">
-                    <div className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">Starting from</div>
-                    <div className="text-lg font-bold text-slate-900 mb-4">{s.price}</div>
-
-                    {/* CHANGED TO OPEN MODAL INSTEAD OF WHATSAPP */}
-                    <button
-                      onClick={() => setSelectedDetail(s)}
-                      className="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors"
-                    >
-                      View Details
-                    </button>
+                  {/* Tag */}
+                  <div className="text-[10px] font-bold tracking-widest uppercase mb-4 text-blue-600">
+                    {s.tag}
                   </div>
+
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <s.icon size={22} />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">
+                    {s.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-slate-500 text-sm mb-6 leading-relaxed">
+                    {s.desc}
+                  </p>
+
+                  {/* Quick Comparison Points */}
+                  <div className="space-y-2 mb-8">
+                    {s.quick.map((point, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <CheckCircle2 size={14} className="text-green-500" />
+                        {point}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    onClick={() => setSelectedDetail(s)}
+                    className="w-full py-3 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white font-semibold text-sm transition-all"
+                  >
+                    View Full Details
+                  </button>
+
                 </motion.div>
               ))}
-
-              {/* Keeping the 4th one (Startup India) consistent with the loop logic */}
-              <motion.div variants={fadeUp} className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 flex flex-col h-full group">
-                <div className="text-[10px] font-bold text-orange-500 tracking-wider uppercase mb-4">{structures[3].tag}</div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{structures[3].title}</h3>
-                <p className="text-slate-500 text-sm mb-8 leading-relaxed flex-grow">{structures[3].desc}</p>
-
-                <div className="pt-6 border-t border-slate-200/80 mt-auto">
-                  <div className="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wider">Starting from</div>
-                  <div className="text-lg font-bold text-slate-900 mb-4">{structures[3].price}</div>
-                  <button
-                    onClick={() => setSelectedDetail(structures[3])}
-                    className="w-full bg-white border border-slate-200 text-slate-700 py-3 rounded-xl text-sm font-bold group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 transition-colors"
-                  >
-                    View Details
-                  </button>
-                </div>
-              </motion.div>
-
             </motion.div>
+
+          </div>
+        </section>
+
+        {/* ==========================================
+    WHAT'S INCLUDED SECTION
+========================================== */}
+        <section className="py-28 bg-white border-t border-slate-100">
+          <div className="max-w-6xl mx-auto px-6 lg:px-8">
+
+            {/* Heading */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                What’s Included?
+              </h2>
+              <p className="text-slate-500 text-lg font-medium">
+                Everything required for a legally compliant incorporation.
+              </p>
+            </div>
+
+            {/* Items Grid */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {whatsIncluded.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  className="flex items-center gap-4 bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#25D366]/40 rounded-2xl px-6 py-5 transition-all duration-300 hover:shadow-md"
+                >
+                  <div className="w-8 h-8 rounded-full bg-[#25D366]/10 flex items-center justify-center shrink-0">
+                    <CheckCircle2 size={18} className="text-[#25D366]" />
+                  </div>
+                  <span className="text-slate-800 font-semibold text-sm md:text-base">
+                    {item}
+                  </span>
+                </motion.div>
+              ))}
+            </motion.div>
+
           </div>
         </section>
 
@@ -447,7 +589,9 @@ Business Activity: ${regForm.businessActivity || "-"}
                         {pkg.price}
                       </span>
                       <span className="text-slate-400 text-sm font-medium">
-                        / Govt. Fees Extra
+                        <span className="text-slate-400 text-sm font-medium">
+                          + Govt. Fees
+                        </span>
                       </span>
                     </div>
 
