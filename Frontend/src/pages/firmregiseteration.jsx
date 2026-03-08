@@ -59,14 +59,14 @@ const features = [
 const pricingTiers = [
   {
     name: "Unregistered Partnership",
-    price: "₹2,499",
+    price: "1,999",
     features: ["Custom Partnership Deed", "PAN & TAN Application", "MSME Registration", "Bank Account Resolution"],
     popular: false,
   },
   {
     name: "LLP Incorporation",
     // badge: "MOST SECURE",
-    price: "₹7,999",
+    price: "₹1,999",
     features: ["2 DIN & 2 DSC Included", "Name Approval (RUN-LLP)", "LLP Agreement Drafting", "Complete MCA Filing"],
     popular: true,
   },
@@ -472,7 +472,7 @@ GST Required: ${firmForm.needGST || "-"}
                           {tier.price}
                         </span>
                         <span className="text-slate-400 text-sm font-medium">
-                          / Govt. Fees Extra
+                          + Govt. Fees
                         </span>
                       </div>
 
