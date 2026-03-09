@@ -135,7 +135,7 @@ export default function About() {
 
   // WhatsApp click handler
   const handlePopupWhatsAppClick = () => {
-    const phoneNumber = "919311702025";
+    const phoneNumber = "919289758145";
     const message = "Hi! I would like to chat with an expert regarding compliance and advisory services for my business.";
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
     setShowPopup(false);
