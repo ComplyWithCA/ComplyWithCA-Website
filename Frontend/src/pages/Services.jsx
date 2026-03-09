@@ -44,7 +44,7 @@ export default function ServicesPage() {
     if (e) e.stopPropagation();
 
     // Using 91 (India country code) + the number provided
-    const phoneNumber = "9311702025";
+    const phoneNumber = "919289758145";
 
     // Dynamic message based on where they clicked
     const message = serviceName
