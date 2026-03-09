@@ -127,7 +127,7 @@ export default function FirmRegistration() {
 
   const handleWhatsAppChat = (e, context = "Firm Registration") => {
     if (e) e.stopPropagation();
-    const phoneNumber = "9311702025";
+    const phoneNumber = "919289758145";
     const message = `Hi! I want to consult regarding ${context}.`;
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
