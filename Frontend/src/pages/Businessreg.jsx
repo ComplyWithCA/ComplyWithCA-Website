@@ -301,7 +301,7 @@ Business Activity: ${regForm.businessActivity || "-"}
 
   const handleWhatsAppChat = (e, serviceName = "Business Registration") => {
     if (e) e.stopPropagation();
-    const phoneNumber = "9311702025";
+    const phoneNumber = "919289758145";
     const message = `Hi! I would like to know more about the ${serviceName} process.`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
