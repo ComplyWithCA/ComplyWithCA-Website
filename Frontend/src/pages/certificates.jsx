@@ -297,7 +297,7 @@ export default function CertificatesAndRegistrations() {
 
   const handleWhatsAppChat = (e, context = "Certificates & Registrations") => {
     if (e) e.stopPropagation();
-    const phoneNumber = "9311702025";
+    const phoneNumber = "919289758145";
     const message = `Hi! I need assistance with ${context}.`;
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -453,8 +453,11 @@ export default function CertificatesAndRegistrations() {
                     >
                       Apply Now <ArrowRight size={16} />
                     </button>
-                    <div className="text-center mt-3 text-[10px] text-slate-400 uppercase font-semibold">Govt fees included</div>
-                  </div>
+                    <div className="text-center mt-3 text-[10px] text-slate-400 uppercase font-semibold">
+                      {reg.title === "Trademark Registration"
+                        ? "Govt fees excluded"
+                        : "Govt fees included"}
+                    </div>                  </div>
                 </motion.div>
               ))}
 
