@@ -174,7 +174,7 @@ export default function IncomeTaxFiling() {
 
   const handleWhatsAppChat = (e, context = "Income Tax Filing") => {
     if (e) e.stopPropagation();
-    const phoneNumber = "9311702025";
+    const phoneNumber = "919289758145";
     const message = `Hi! I want to consult regarding ${context}.`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
