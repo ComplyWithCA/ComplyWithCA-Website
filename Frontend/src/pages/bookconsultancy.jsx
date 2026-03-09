@@ -171,7 +171,7 @@ export default function BookConsultancy() {
 
   const handleWhatsAppChat = (e, context = "Book Consultancy & Financial Advisory") => {
     if (e) e.stopPropagation();
-    const phoneNumber = "9311702025";
+    const phoneNumber = "919289758145";
     const message = `Hi! I want to discuss ${context} for my business.`;
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
