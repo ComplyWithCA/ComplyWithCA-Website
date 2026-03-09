@@ -49,7 +49,7 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleWhatsAppChat = () => {
-    const phoneNumber = "919899656142";
+    const phoneNumber = "919289758145";
     const message = "Hi! I would like to schedule a consultation with ComplyWithCA.";
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -129,7 +129,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Call Us</div>
-                      <div className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">+91 93117 02025</div>
+                      <div className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">+91 9289758145</div>
                     </div>
                   </a>
 
@@ -149,15 +149,15 @@ export default function Contact() {
               <motion.div variants={fadeRight} className="bg-slate-900 p-8 rounded-[2rem] shadow-xl text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/20 blur-[50px] rounded-full pointer-events-none" />
                 
-                <div className="w-12 h-12 rounded-2xl bg-white/10 text-blue-400 flex items-center justify-center mb-6 backdrop-blur-md">
+                {/* <div className="w-12 h-12 rounded-2xl bg-white/10 text-blue-400 flex items-center justify-center mb-6 backdrop-blur-md">
                   <MapPin size={20} strokeWidth={2} />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Delhi NCR Headquarters</h3>
+                </div> */}
+                {/* <h3 className="text-xl font-bold mb-2">Delhi NCR Headquarters</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
                   ComplyWithCA Corporate Tower,<br />
                   Connaught Place, Block C,<br />
                   New Delhi, Delhi 110001
-                </p>
+                </p> */}
                 <div className="flex items-center gap-3 text-sm font-bold text-emerald-400 bg-emerald-400/10 w-fit px-4 py-2 rounded-full border border-emerald-400/20">
                   <Clock size={16} /> Mon-Sat: 9:00 AM - 7:00 PM
                 </div>
