@@ -73,10 +73,26 @@ const features = [
 ];
 
 const testimonials = [
-  { quote: "ComplyWithCA streamlined our entire tax filing process seamlessly. Their attention to detail saved us months of paperwork.", name: "Ankit Sharma", role: "Founder, Fintech Startup" },
-  { quote: "Their advisory-driven approach gave us the confidence to scale rapidly. They are not just accountants; they are strategic partners.", name: "Priya Mehta", role: "CEO, Tech Solutions" },
-  { quote: "Professional, structured, and highly reliable. They've managed our complex corporate audits with a rare level of precision.", name: "Vikram Singh", role: "Director, Logistics Corp" },
-  { quote: "The best compliance partners we could ask for. Fast, responsive, and deeply knowledgeable about startup regulations.", name: "Neha Gupta", role: "CFO, E-commerce Plus" }
+  {
+    quote: "ComplyWithCA made our compliance and documentation process extremely smooth. Their team handled everything professionally and saved us significant time.",
+    name: "SetYourWay",
+    role: "Management Team"
+  },
+  {
+    quote: "Very reliable and responsive team. They guided us through registrations and compliance with complete clarity.",
+    name: "Balaji Garments",
+    role: "Operations Team"
+  },
+  {
+    quote: "Professional service and quick turnaround. ComplyWithCA ensured our documentation and filings were handled accurately.",
+    name: "O.P. Goyal Traders",
+    role: "Business Team"
+  },
+  {
+    quote: "Great experience working with their team. Their structured approach made the entire compliance process stress-free.",
+    name: "Satyam Gupta",
+    role: "Verified Client"
+  }
 ];
 
 // ==========================================
@@ -394,7 +410,7 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
         {/* Premium WhatsApp CTA Button */}
         <div className="flex justify-center">
           <a
-            href="https://wa.me/919311702025?text=Hi%20ComplyWithCA,%20I%20would%20like%20to%20book%20a%20consultation."
+            href="https://wa.me/919289758145?text=Hi%20ComplyWithCA,%20I%20would%20like%20to%20book%20a%20consultation."
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#25D366] hover:bg-[#1ebe5d] text-white px-12 py-5 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(37,211,102,0.4)] animate-pulse"
