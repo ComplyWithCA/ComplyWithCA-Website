@@ -1,17 +1,17 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  CheckCircle2, 
-  ArrowRight, 
-  FileText, 
-  Building2, 
-  Briefcase, 
-  Wallet, 
-  BookOpen, 
-  Award, 
-  Rocket, 
-  Eye, 
-  Clock, 
+import {
+  CheckCircle2,
+  ArrowRight,
+  FileText,
+  Building2,
+  Briefcase,
+  Wallet,
+  BookOpen,
+  Award,
+  Rocket,
+  Eye,
+  Clock,
   Shield,
   Mail,
   Phone,
@@ -27,39 +27,39 @@ import Footer from '../components/footer';
 // 1. DATA ARRAYS
 // ==========================================
 const services = [
-  { 
-    icon: FileText, 
-    title: "GST Services", 
+  {
+    icon: FileText,
+    title: "GST Services",
     desc: "Comprehensive GST registration, monthly filing, reconciliation, and audit representation.",
     path: "/services/gst-services"
   },
-  { 
-    icon: Building2, 
-    title: "Business Registration", 
+  {
+    icon: Building2,
+    title: "Business Registration",
     desc: "Fast-track Private Limited, OPC, and LLP incorporation with complete ROC compliance.",
     path: "/services/business-registration"
   },
-  { 
-    icon: Briefcase, 
-    title: "Firm Registration", 
+  {
+    icon: Briefcase,
+    title: "Firm Registration",
     desc: "Partnership deed drafting and registration services tailored for professional firms.",
     path: "/services/firm-registration"
   },
-  { 
-    icon: Wallet, 
-    title: "Income Tax Filing", 
+  {
+    icon: Wallet,
+    title: "Income Tax Filing",
     desc: "Strategic tax planning and timely filing of ITR for individuals, startups, and corporations.",
     path: "/services/income-tax-filing"
   },
-  { 
-    icon: BookOpen, 
-    title: "Book Consultancy", 
+  {
+    icon: BookOpen,
+    title: "Book Consultancy",
     desc: "End-to-end bookkeeping and financial advisory to keep your records audit-ready.",
     path: "/services/book-consultancy"
   },
-  { 
-    icon: Award, 
-    title: "Certificates", 
+  {
+    icon: Award,
+    title: "Certificates",
     desc: "CA Certification services including Net Worth, turnover certificates, and audit reports.",
     path: "/services/certificates"
   }
@@ -113,27 +113,27 @@ const staggerContainer = {
 // ==========================================
 export default function Home() {
   const duplicatedTestimonials = [...testimonials, ...testimonials];
-  
+
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 150]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <div className="min-h-screen bg-[#fafcff] font-sans text-slate-800 overflow-x-hidden selection:bg-blue-200 selection:text-blue-900">
-      
+
       <Navbar />
 
       <main className="pt-24">
-        
+
         {/* ==========================================
             HERO SECTION
             ========================================== */}
         <section id="home" className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 md:pt-20 pb-20 md:pb-32 flex flex-col lg:flex-row items-center min-h-[90vh]">
           {/* Spatial Background Elements */}
           <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-[100px] -z-10 -translate-x-1/3 -translate-y-1/4" />
-          
+
           {/* Left Content Area */}
-          <motion.div 
+          <motion.div
             style={{ y: heroY, opacity: heroOpacity }}
             className="w-full lg:w-1/2 lg:pr-8 xl:pr-12 z-10"
             initial="hidden"
@@ -143,39 +143,39 @@ export default function Home() {
             <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-slate-200/50 shadow-sm text-sm font-bold text-slate-700 mb-8 mt-8 lg:mt-0">
               <Sparkles className="w-4 h-4 text-blue-500" /> Premium Professionals in Delhi
             </motion.div>
-            
+
             <motion.h1 variants={fadeInUp} className="text-5xl sm:text-6xl xl:text-7xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tight">
               Right Compliance.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 Right Way.
               </span>
             </motion.h1>
-            
+
             <motion.p variants={fadeInUp} className="text-lg xl:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-medium">
-Your Trusted Partner for Business Registration, Compliance, and Corporate Advisory in India
+              Your Trusted Partner for Business Registration, Compliance, and Corporate Advisory in India
             </motion.p>
-            
-           <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-4">
 
-  {/* Book Consultation */}
-  <Link
-    to="/services/book-consultancy"
-    className="relative group overflow-hidden bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-[0_8px_30px_rgb(15,23,42,0.2)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.3)] hover:-translate-y-0.5"
-  >
-    <span className="relative z-10">Book Consultation</span>
-    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-  </Link>
+            <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-4">
 
-  {/* View Services */}
-  <Link
-    to="/services"
-    className="bg-white/50 backdrop-blur-sm border border-slate-200 hover:border-slate-300 hover:bg-white text-slate-800 px-8 py-4 rounded-2xl font-bold transition-all shadow-sm inline-flex items-center justify-center"
-  >
-    View Services
-  </Link>
+              {/* Book Consultation */}
+              <Link
+                to="/services/book-consultancy"
+                className="relative group overflow-hidden bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-[0_8px_30px_rgb(15,23,42,0.2)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.3)] hover:-translate-y-0.5"
+              >
+                <span className="relative z-10">Book Consultation</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+              </Link>
 
-</motion.div>
+              {/* View Services */}
+              <Link
+                to="/services"
+                className="bg-white/50 backdrop-blur-sm border border-slate-200 hover:border-slate-300 hover:bg-white text-slate-800 px-8 py-4 rounded-2xl font-bold transition-all shadow-sm inline-flex items-center justify-center"
+              >
+                View Services
+              </Link>
+
+            </motion.div>
 
             <motion.div variants={fadeInUp} className="mt-16 pt-8 border-t border-slate-200/60 flex flex-wrap items-center gap-x-8 gap-y-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
               <div className="flex items-center gap-2"><Building2 className="w-4 h-4" /> Corporate Grade</div>
@@ -187,14 +187,14 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
           {/* ==========================================
               HERO IMAGE
               ========================================== */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.85, rotateY: 10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full lg:w-1/2 mt-16 lg:mt-0 relative flex items-center justify-center perspective-[1200px] z-20"
           >
             {/* Animated Background Aurora */}
-            <motion.div 
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
               className="absolute w-[80%] h-[80%] max-w-[500px] max-h-[500px] bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 rounded-full blur-[80px] opacity-30 -z-10"
@@ -226,8 +226,8 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
             ========================================== */}
         <section id="services" className="relative bg-white py-32 border-t border-slate-100 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-            
-            <motion.div 
+
+            <motion.div
               className="text-center mb-20"
               initial="hidden"
               whileInView="visible"
@@ -240,7 +240,7 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
               </h2>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               initial="hidden"
               whileInView="visible"
@@ -255,17 +255,17 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
                     className="group relative bg-[#fafcff] p-8 lg:p-10 rounded-[2rem] border border-slate-100 hover:border-blue-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(37,99,235,0.06)] overflow-hidden flex flex-col h-full"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    
+
                     <div className="relative z-10 flex flex-col h-full">
                       <div className="w-16 h-16 bg-white shadow-sm border border-slate-100 text-slate-700 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 group-hover:border-blue-500 transition-all duration-500">
                         <service.icon className="w-7 h-7" strokeWidth={1.5} />
                       </div>
                       <h3 className="text-2xl font-bold text-slate-900 mb-4">{service.title}</h3>
                       <p className="text-slate-500 mb-10 text-base leading-relaxed flex-grow">{service.desc}</p>
-                      
+
                       {/* Changed from <a> to <span> since the whole card is the link */}
                       <span className="inline-flex items-center gap-2 text-slate-900 font-bold text-sm uppercase tracking-wide group-hover:text-blue-600 transition-colors mt-auto">
-                        Explore Service 
+                        Explore Service
                         <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       </span>
                     </div>
@@ -282,9 +282,9 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
         <section className="py-32 bg-slate-900 text-white border-t border-slate-800">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-20 items-start">
-              
+
               {/* Sticky Left Content */}
-              <motion.div 
+              <motion.div
                 className="lg:w-5/12 lg:sticky lg:top-32"
                 initial="hidden"
                 whileInView="visible"
@@ -299,7 +299,7 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
                 <p className="text-slate-400 mb-12 text-lg leading-relaxed">
                   We bridge the gap between complex regulatory requirements and your business vision with precision-engineered financial solutions.
                 </p>
-                
+
                 <div className="inline-flex items-center gap-5 bg-white/5 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-2xl">
                   <div className="w-14 h-14 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center">
                     <Shield className="w-7 h-7" />
@@ -312,7 +312,7 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
               </motion.div>
 
               {/* Scrolling Right Content */}
-              <motion.div 
+              <motion.div
                 className="lg:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8"
                 initial="hidden"
                 whileInView="visible"
@@ -320,9 +320,9 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
                 variants={staggerContainer}
               >
                 {features.map((feature, idx) => (
-                  <motion.div 
-                    key={idx} 
-                    variants={fadeInUp} 
+                  <motion.div
+                    key={idx}
+                    variants={fadeInUp}
                     className="bg-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors duration-300"
                   >
                     <div className="text-blue-400 mb-8 bg-blue-500/10 w-16 h-16 rounded-2xl flex items-center justify-center">
@@ -353,14 +353,14 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
             <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none" />
 
             {/* Seamless track */}
-            <motion.div 
+            <motion.div
               className="flex gap-8 w-max px-4"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
             >
               {duplicatedTestimonials.map((t, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className="bg-white p-10 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.02)] w-[360px] md:w-[460px] shrink-0 flex flex-col justify-between hover:shadow-[0_10px_40px_rgb(0,0,0,0.06)] transition-shadow duration-300"
                 >
                   <div className="text-7xl text-blue-100 absolute top-6 left-8 font-serif leading-none select-none">"</div>
@@ -383,53 +383,73 @@ Your Trusted Partner for Business Registration, Compliance, and Corporate Adviso
         {/* ==========================================
             BOTTOM CTA
             ========================================== */}
-<section className="bg-white py-32 px-6 lg:px-8">
-  <div className="max-w-6xl mx-auto">
-    <motion.div 
-      className="relative bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center shadow-2xl overflow-hidden"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={fadeInUp}
-    >
-      {/* Mesh Gradient Overlay */}
-      <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600 rounded-full blur-[120px]" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-600 rounded-full blur-[120px]" />
-      </div>
+        <section className="bg-white py-32 px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              className="relative bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center shadow-2xl overflow-hidden"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              {/* Mesh Gradient Overlay */}
+              <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none">
+                <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600 rounded-full blur-[120px]" />
+                <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-600 rounded-full blur-[120px]" />
+              </div>
 
-      <div className="relative z-10">
-        <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight tracking-tight">
-          Ready to secure your <br className="hidden md:block" /> startup's infrastructure?
-        </h2>
+              <div className="relative z-10">
+                <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight tracking-tight">
+                  Ready to secure your <br className="hidden md:block" /> startup's infrastructure?
+                </h2>
 
-        <p className="text-slate-300 mb-12 max-w-2xl mx-auto text-xl">
-          Join 500+ tech founders who trust ComplyWithCA for their regulatory excellence and strategic financial growth.
-        </p>
+                <p className="text-slate-300 mb-12 max-w-2xl mx-auto text-xl">
+                  Join 500+ tech founders who trust ComplyWithCA for their regulatory excellence and strategic financial growth.
+                </p>
 
-        {/* Premium WhatsApp CTA Button */}
-        <div className="flex justify-center">
-          <a
-            href="https://wa.me/919289758145?text=Hi%20ComplyWithCA,%20I%20would%20like%20to%20book%20a%20consultation."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#25D366] hover:bg-[#1ebe5d] text-white px-12 py-5 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(37,211,102,0.4)] animate-pulse"
-          >
-            <FaWhatsapp className="text-2xl" />
-            Book a Consultation
-          </a>
-        </div>
+                {/* Premium WhatsApp CTA Button */}
+                <div className="flex justify-center">
+                  <a
+                    href="https://wa.me/919289758145?text=Hi%20ComplyWithCA,%20I%20would%20like%20to%20book%20a%20consultation."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#25D366] hover:bg-[#1ebe5d] text-white px-12 py-5 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(37,211,102,0.4)] animate-pulse"
+                  >
+                    <FaWhatsapp className="text-2xl" />
+                    Book a Consultation
+                  </a>
+                </div>
 
-      </div>
-    </motion.div>
-  </div>
-</section>
+              </div>
+            </motion.div>
+          </div>
+        </section>
       </main>
+
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/919289758145?text=Hi%20ComplyWithCA,%20I%20would%20like%20to%20book%20a%20consultation."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 group"
+      >
+        <div className="relative flex items-center justify-center">
+
+          {/* Pulse Ring */}
+          <span className="absolute inline-flex h-16 w-16 rounded-full bg-green-400 opacity-30 animate-ping"></span>
+
+          {/* Button */}
+          <div className="relative bg-[#25D366] hover:bg-[#1ebe5d] text-white p-4 rounded-full shadow-xl transition-all duration-300 group-hover:scale-110">
+            <FaWhatsapp className="text-2xl" />
+          </div>
+
+        </div>
+      </a>
 
       {/* ==========================================
           FOOTER
           ========================================== */}
-   <Footer/>
+      <Footer />
     </div>
   );
 }
