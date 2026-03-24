@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6"; 
 import logo from "../assets/logo-removedbg.png";
 
 export default function Footer() {
@@ -137,34 +138,34 @@ export default function Footer() {
             </p>
 
             {/* ===== AGENCY BADGE ===== */}
-           <a
-  href="https://www.setyourway.com/"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1E3553]/80 border border-[#1E3553] hover:border-[#F28C28] transition-all duration-300"
->
-  <span className="text-xs text-gray-300">
-    Crafted by
-  </span>
+            <a
+              href="https://www.setyourway.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1E3553]/80 border border-[#1E3553] hover:border-[#F28C28] transition-all duration-300"
+            >
+              <span className="text-xs text-gray-300">
+                Crafted by
+              </span>
 
-  {/* BRAND TEXT */}
-  <span className="relative text-xs font-semibold flex items-center">
+              {/* BRAND TEXT */}
+              <span className="relative text-xs font-semibold flex items-center">
 
-    {/* SetYour (WHITE) */}
-    <span className="text-white">
-      SetYour
-    </span>
+                {/* SetYour (WHITE) */}
+                <span className="text-white">
+                  SetYour
+                </span>
 
-    {/* Way (ORANGE) */}
-    <span className="relative text-[#F28C28]">
-      Way
+                {/* Way (ORANGE) */}
+                <span className="relative text-[#F28C28]">
+                  Way
 
-      {/* underline animation */}
-      <span className="absolute left-0 -bottom-0.5 w-0 h-[1px] bg-[#F28C28] transition-all duration-300 group-hover:w-full"></span>
-    </span>
+                  {/* underline animation */}
+                  <span className="absolute left-0 -bottom-0.5 w-0 h-[1px] bg-[#F28C28] transition-all duration-300 group-hover:w-full"></span>
+                </span>
 
-  </span>
-</a>
+              </span>
+            </a>
           </div>
 
           {/* RIGHT SIDE (SOCIALS) */}
@@ -186,6 +187,14 @@ export default function Footer() {
               className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-r from-pink-500 to-yellow-500 text-white hover:scale-110 transition"
             >
               <FaInstagram size={14} />
+            </a>
+            <a
+              href="https://x.com/complywithca?s=21"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-900 text-white border border-slate-800 hover:scale-110 transition"
+            >
+              <FaXTwitter size={14} />
             </a>
 
           </div>
