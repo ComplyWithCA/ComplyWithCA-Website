@@ -49,7 +49,7 @@ const services = [
     desc: "End-to-end GST filing, reconciliation, and audit representation for scaling startups.",
     price: "₹499",
     icon: Calculator,
-    img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80&auto=format&fit=crop"
+    img: "https://plus.unsplash.com/premium_photo-1679784204532-b816d1b26ab2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z3N0JTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D" // GST invoice / taxation theme
   },
   {
     id: 2,
@@ -58,7 +58,7 @@ const services = [
     desc: "Get your Private Limited Company or One Person Company (OPC) registered in as little as 10 days.",
     price: "₹1,999",
     icon: Briefcase,
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80&auto=format&fit=crop"
+    img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=800&auto=format&fit=crop" // office registration / startup team
   },
   {
     id: 3,
@@ -67,7 +67,7 @@ const services = [
     desc: "Structured LLP and Partnership registrations with comprehensive agreement drafting.",
     price: "₹1,999",
     icon: Building2,
-    img: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&q=80&auto=format&fit=crop"
+    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop" 
   },
   {
     id: 4,
@@ -76,7 +76,7 @@ const services = [
     desc: "Proactive tax planning for individuals, professionals, and corporate entities with top optimization.",
     price: "₹999",
     icon: FileText,
-    img: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=400&q=80&auto=format&fit=crop"
+    img: "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?q=80&w=800&auto=format&fit=crop" // tax forms / calculation
   },
   {
     id: 5,
@@ -85,7 +85,7 @@ const services = [
     desc: "Full-stack bookkeeping and virtual CFO services for data-driven business decisions.",
     price: "₹299",
     icon: BookOpen,
-    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&q=80&auto=format&fit=crop"
+    img: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=800&auto=format&fit=crop" // accounting books / ledger
   },
   {
     id: 6,
@@ -94,7 +94,7 @@ const services = [
     desc: "Quick processing of digital signature (DSC), MSME, and Startup India certificates.",
     price: "₹399",
     icon: ShieldCheck,
-    img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=400&q=80&auto=format&fit=crop"
+    img: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=1216&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // ID card / PAN card style visual
   }
 ];
 
